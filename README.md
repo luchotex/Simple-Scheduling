@@ -8,3 +8,5 @@ Methods to implement:
 -- Delete the class sending the code, using the DELETE method. Returning the created Class, with Students with their names (Inherited object).
 -- Searching students by id using the GET Method.
 -- Searching class by code using the GET Method.
+-- For the ids, codes is going to use an set to receive unique elements.
+-- Like is going to be simulated the student and class source, is necessary to store those on a map.
