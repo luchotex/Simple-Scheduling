@@ -6,7 +6,7 @@
 package com.tx.simplescheduling.source;
 
 import com.tx.simplescheduling.model.ClassSaving;
-import java.util.List;
+import com.tx.simplescheduling.model.Student;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -16,40 +16,77 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ClassGlobalInfo {
 
-    private Map<Integer, ClassSaving> classCodeMap
-            = new ConcurrentHashMap<Integer, ClassSaving>();
-    private Map<String, List<ClassSaving>> classTitleMap
-            = new ConcurrentHashMap<String, List<ClassSaving>>();
+    private Map<String, ClassSaving> classCodeMap
+            = new ConcurrentHashMap<String, ClassSaving>();
+    private Map<String, ClassSaving> classTitleMap
+            = new ConcurrentHashMap<String, ClassSaving>();
 
     public ClassGlobalInfo() {
     }
 
-    public com.tx.simplescheduling.model.Class retrieveClass(Integer code) {
+    public com.tx.simplescheduling.model.Class enrollStudent(String code,
+            Student student) {
         com.tx.simplescheduling.model.Class result = null;
 
-        ClassSaving classSaving = getClassCodeMap().get(code);
-
-        if (classSaving != null) {
-            result = classSaving.createClass();
+        result = enrollStudentSafely(code, getClassCodeMap(), student);
+        if (result != null) {
+            enrollStudentSafely(result.getTitle(), getClassTitleMap(), student);
         }
 
         return result;
     }
 
-    public Map<Integer, ClassSaving> getClassCodeMap() {
+    public com.tx.simplescheduling.model.Class enrollStudentSafely(Object key,
+            Map map, Student student) {
+        com.tx.simplescheduling.model.Class result = null;
+
+        ClassSaving retrievedClassSaving = (ClassSaving) map.get(key);
+
+        if (retrievedClassSaving != null) {
+            retrievedClassSaving.enrollStudent(student);
+            result = retrievedClassSaving.createClass();
+        }
+
+        return result;
+    }
+
+    public com.tx.simplescheduling.model.Class enrollStudentUpdating(
+            Integer code,
+            Student student) {
+        com.tx.simplescheduling.model.Class result = null;
+
+        result = enrollStudentUpdatingSafely(code, getClassCodeMap(), student);
+        enrollStudentUpdatingSafely(code, getClassTitleMap(), student);
+        return result;
+    }
+
+    public com.tx.simplescheduling.model.Class enrollStudentUpdatingSafely(
+            Object key, Map map, Student student) {
+        com.tx.simplescheduling.model.Class result = null;
+
+        ClassSaving retrievedClassSaving = (ClassSaving) map.get(key);
+
+        if (retrievedClassSaving != null) {
+            retrievedClassSaving.enrollStudentUpdating(student);
+            result = retrievedClassSaving.createClass();
+        }
+
+        return result;
+    }
+
+    public Map<String, ClassSaving> getClassCodeMap() {
         return classCodeMap;
     }
 
-    public void setClassCodeMap(Map<Integer, ClassSaving> classCodeMap) {
+    public void setClassCodeMap(Map<String, ClassSaving> classCodeMap) {
         this.classCodeMap = classCodeMap;
     }
 
-    public Map<String, List<ClassSaving>> getClassTitleMap() {
+    public Map<String, ClassSaving> getClassTitleMap() {
         return classTitleMap;
     }
 
-    public void setClassTitleMap(
-            Map<String, List<ClassSaving>> classTitleMap) {
+    public void setClassTitleMap(Map<String, ClassSaving> classTitleMap) {
         this.classTitleMap = classTitleMap;
     }
 

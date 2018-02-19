@@ -45,6 +45,7 @@ public class StudentResource {
      * Creates a new instance of StudentResource
      */
     public StudentResource() {
+        studentGlobalInfo = new StudentGlobalInfo();
     }
 
     @PostConstruct
@@ -149,13 +150,13 @@ public class StudentResource {
             synchronized (studentGlobalInfo.getStudentIdMap()) {
                 StudentSaving studentSaving = studentGlobalInfo.addStudent(
                         studentParam, classResource.getClassGlobalInfo());
-                //TODO enroll to class map
 
                 System.out.println("Created student " + studentSaving.getId());
 
                 return studentSaving;
             }
         } catch (Exception ex) {
+            ex.printStackTrace();
             throw new InternalServerErrorException(
                     "Some error during creation of the student happens unexpectedly");
         }

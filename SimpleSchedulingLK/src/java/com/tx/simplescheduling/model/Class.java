@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Luis Kupferberg Ruiz
  */
 @XmlRootElement
-public class Class {
+public class Class implements Comparable<Class> {
 
     protected String code;
     protected String title;
@@ -26,6 +26,10 @@ public class Class {
         this.code = code;
         this.title = title;
         this.description = description;
+    }
+
+    public int compareTo(Class o) {
+        return this.getCode().compareTo(o.getCode());
     }
 
     public String getCode() {

@@ -6,6 +6,7 @@
 package com.tx.simplescheduling.model;
 
 import java.util.Set;
+import java.util.TreeSet;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -19,10 +20,12 @@ public class ClassSaving extends Class {
     private Set<Student> studentSet;
 
     public ClassSaving() {
+        studentSet = new TreeSet<Student>();
     }
 
     public ClassSaving(String code, String title, String description) {
         super(code, title, description);
+        studentSet = new TreeSet<Student>();
     }
 
     public Set<Student> getStudentSet() {
@@ -33,9 +36,20 @@ public class ClassSaving extends Class {
     public void setStudentSet(Set<Student> studentSet) {
         this.studentSet = studentSet;
     }
-    
+
     public Class createClass() {
         return new Class(code, title, description);
+    }
+
+    public void enrollStudent(Student student) {
+        getStudentSet().add(student);
+    }
+
+    public void enrollStudentUpdating(Student student) {
+        if (getStudentSet().contains(student)) {
+            getStudentSet().remove(student);
+        }
+        getStudentSet().add(student);
     }
 
 }

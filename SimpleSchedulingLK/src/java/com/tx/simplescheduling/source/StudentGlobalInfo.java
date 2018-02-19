@@ -7,8 +7,6 @@ package com.tx.simplescheduling.source;
 
 import com.tx.simplescheduling.model.StudentParam;
 import com.tx.simplescheduling.model.StudentSaving;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -20,8 +18,8 @@ public class StudentGlobalInfo {
 
     private Map<Integer, StudentSaving> studentIdMap
             = new ConcurrentHashMap<Integer, StudentSaving>();
-    private Map<String, List<StudentSaving>> studentNameMap
-            = new ConcurrentHashMap<String, List<StudentSaving>>();
+    private Map<String, StudentSaving> studentNameMap
+            = new ConcurrentHashMap<String, StudentSaving>();
 
     public StudentGlobalInfo() {
     }
@@ -33,17 +31,7 @@ public class StudentGlobalInfo {
         studentSaving.buildClasses(studentParam.getClassCodeList(),
                 classGlobalInfo);
         getStudentIdMap().put(studentSaving.getId(), studentSaving);
-        String name = studentParam.getFirstName() + " " + studentParam.
-                getLastName();
-        List<StudentSaving> studentNameList = getStudentNameMap().get(name);
-        List<StudentSaving> studentNameListToSave
-                = new ArrayList<StudentSaving>();
-        if (studentNameList != null) {
-            studentNameListToSave = studentNameList;
-        }
-
-        studentNameListToSave.add(studentSaving);
-        getStudentNameMap().put(name, studentNameListToSave);
+        getStudentNameMap().put(studentSaving.buildFullName(), studentSaving);
 
         return studentSaving;
     }
@@ -56,12 +44,12 @@ public class StudentGlobalInfo {
         this.studentIdMap = studentIdMap;
     }
 
-    public Map<String, List<StudentSaving>> getStudentNameMap() {
+    public Map<String, StudentSaving> getStudentNameMap() {
         return studentNameMap;
     }
 
     public void setStudentNameMap(
-            Map<String, List<StudentSaving>> studentNameMap) {
+            Map<String, StudentSaving> studentNameMap) {
         this.studentNameMap = studentNameMap;
     }
 

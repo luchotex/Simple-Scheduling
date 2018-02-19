@@ -35,6 +35,7 @@ public class ClassResource {
      * Creates a new instance of classResource
      */
     public ClassResource() {
+        classGlobalInfo = new ClassGlobalInfo();
     }
 
     public ResourceContext getResourceContext() {

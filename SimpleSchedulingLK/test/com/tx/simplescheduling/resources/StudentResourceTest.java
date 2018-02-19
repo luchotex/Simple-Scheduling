@@ -5,9 +5,10 @@
  */
 package com.tx.simplescheduling.resources;
 
+import com.tx.simplescheduling.model.ClassSaving;
 import com.tx.simplescheduling.model.StudentParam;
 import com.tx.simplescheduling.model.StudentSaving;
-import java.util.List;
+import com.tx.simplescheduling.source.ClassGlobalInfo;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -38,8 +39,21 @@ public class StudentResourceTest {
         container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
         studentInstance = (StudentResource) container.getContext().lookup(
                 "java:global/classes/StudentResource");
-        studentInstance.setClassResource((ClassResource) container.getContext().lookup(
-                "java:global/classes/ClassResource"));
+        studentInstance.setClassResource((ClassResource) container.getContext().
+                lookup(
+                        "java:global/classes/ClassResource"));
+        ClassGlobalInfo classGlobalInfo
+                = studentInstance.getClassResource().getClassGlobalInfo();
+        ClassSaving classToSave1 = new ClassSaving("class1", "class1", "class1");
+        ClassSaving classToSave2 = new ClassSaving("class2", "class2", "class2");
+        classGlobalInfo.getClassCodeMap().put(classToSave1.getCode(),
+                classToSave1);
+        classGlobalInfo.getClassCodeMap().put(classToSave2.getCode(),
+                classToSave2);
+        classGlobalInfo.getClassTitleMap().put(classToSave1.getTitle(),
+                classToSave1);
+        classGlobalInfo.getClassTitleMap().put(classToSave2.getTitle(),
+                classToSave2);
     }
 
     @AfterClass
@@ -68,29 +82,32 @@ public class StudentResourceTest {
             assertTrue(containsExceptionName(BadRequestException.class, ex));
         }
     }
-    
+
     /**
      * Test of createStudent method, of class StudentResource.
      */
     @Test
-    public void testCreateStudentCorrectSaving()
-            throws Exception {
+    public void testCreateStudentCorrectSaving() {
         System.out.println("Test createStudent correct saving");
-        StudentParam student = new StudentParam(1, "Test name",
+        Integer id = 1;
+        StudentParam student = new StudentParam(id, "Test name",
                 "test last name");
-        Set<Integer> codeSet = new TreeSet<Integer>();
-        codeSet.add(1);
-        codeSet.add(3);
+        Set<String> codeSet = new TreeSet<String>();
+        codeSet.add("class1");
+        codeSet.add("class2");
+        student.setClassCodeList(codeSet);
         StudentSaving result = studentInstance.createStudent(student);
-        
+
         Map<Integer, StudentSaving> studentIdMap
                 = studentInstance.getStudentGlobalInfo().getStudentIdMap();
-        
-        Map<String, List<StudentSaving>> studentNameMap
+
+        Map<String, StudentSaving> studentNameMap
                 = studentInstance.getStudentGlobalInfo().getStudentNameMap();
-        
+        StudentSaving savedStudent = studentIdMap.get(id);
+
         assertEquals(1, studentIdMap.size());
         assertEquals(1, studentNameMap.size());
+        assertEquals(2, savedStudent.getClassSet().size());
     }
 
     private boolean containsExceptionName(Class expectedClassException,

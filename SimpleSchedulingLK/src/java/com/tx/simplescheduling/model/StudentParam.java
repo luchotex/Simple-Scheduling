@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement (name = "studentParam")
 public class StudentParam extends Student {
 
-    private Set<Integer> classCodeList;
+    private Set<String> classCodeList;
 
     public StudentParam() {
     }
@@ -25,12 +25,12 @@ public class StudentParam extends Student {
         super(id, firsName, lastName);
     }
 
-    public Set<Integer> getClassCodeList() {
+    public Set<String> getClassCodeList() {
         return classCodeList;
     }
 
     @XmlElement
-    public void setClassCodeList(Set<Integer> classCodeList) {
+    public void setClassCodeList(Set<String> classCodeList) {
         this.classCodeList = classCodeList;
     }
 

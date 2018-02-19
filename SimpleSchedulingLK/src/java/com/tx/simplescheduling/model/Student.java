@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Luis Kupferberg Ruiz
  */
 @XmlRootElement
-public class Student {
+public class Student implements Comparable<Student> {
 
     protected Integer id;
     protected String firstName;
@@ -26,6 +26,14 @@ public class Student {
         this.id = id;
         this.firstName = firsName;
         this.lastName = lastName;
+    }
+
+    public String buildFullName() {
+        return getFirstName() + " " + getLastName();
+    }
+
+    public int compareTo(Student o) {
+        return this.getId().compareTo(o.getId());
     }
 
     public Integer getId() {
@@ -53,7 +61,7 @@ public class Student {
     @XmlElement
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }    
+    }
 
     @Override
     public int hashCode() {

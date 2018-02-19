@@ -7,6 +7,7 @@ package com.tx.simplescheduling.model;
 
 import com.tx.simplescheduling.source.ClassGlobalInfo;
 import java.util.Set;
+import java.util.TreeSet;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -24,6 +25,7 @@ public class StudentSaving extends Student {
 
     public StudentSaving(Integer id, String firsName, String lastName) {
         super(id, firsName, lastName);
+        classSet = new TreeSet<Class>();
     }
 
     public Set<Class> getClassSet() {
@@ -35,12 +37,29 @@ public class StudentSaving extends Student {
         this.classSet = classSet;
     }
 
-    public void buildClasses(Set<Integer> classCodeSet,
-            ClassGlobalInfo classInfo) {
-        synchronized (classInfo.getClassCodeMap()) {
-            for (Integer code : classCodeSet) {
-                Class classToAdd = classInfo.retrieveClass(code);
+    public void buildClasses(Set<String> classCodeSet,
+            ClassGlobalInfo classGlobalInfo) {
+        synchronized (classGlobalInfo.getClassCodeMap()) {
+            for (String code : classCodeSet) {
+                Class classToAdd = classGlobalInfo.enrollStudent(code,
+                        this);
                 if (classToAdd != null) {
+                    this.classSet.add(classToAdd);
+                }
+            }
+        }
+    }
+
+    public void buildClassesUpdating(Set<Integer> classCodeSet,
+            ClassGlobalInfo classGlobalInfo) {
+        synchronized (classGlobalInfo.getClassCodeMap()) {
+            for (Integer code : classCodeSet) {
+                Class classToAdd = classGlobalInfo.enrollStudentUpdating(code,
+                        this);
+                if (classToAdd != null) {
+                    if (classSet.contains(classToAdd)) {
+                        classSet.remove(classToAdd);
+                    }
                     this.classSet.add(classToAdd);
                 }
             }
@@ -50,5 +69,4 @@ public class StudentSaving extends Student {
     public synchronized void addClasses(Class classToAdd) {
         classSet.add(classToAdd);
     }
-
 }
