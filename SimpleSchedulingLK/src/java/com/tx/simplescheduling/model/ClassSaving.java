@@ -5,7 +5,6 @@
  */
 package com.tx.simplescheduling.model;
 
-import java.io.Serializable;
 import java.util.Set;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -33,6 +32,10 @@ public class ClassSaving extends Class {
     @XmlElement
     public void setStudentSet(Set<Student> studentSet) {
         this.studentSet = studentSet;
+    }
+    
+    public Class createClass() {
+        return new Class(code, title, description);
     }
 
 }

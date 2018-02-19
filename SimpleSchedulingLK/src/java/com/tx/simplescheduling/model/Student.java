@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author Luis Kupferberg Ruiz
  */
-@XmlRootElement 
+@XmlRootElement
 public class Student {
 
     protected Integer id;
@@ -53,8 +53,33 @@ public class Student {
     @XmlElement
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }    
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 17 * hash + (this.id != null ? this.id.hashCode() : 0);
+        hash = 17 * hash + (this.firstName != null ? this.firstName.
+                hashCode() : 0);
+        hash = 17 * hash
+                + (this.lastName != null ? this.lastName.hashCode() : 0);
+        return hash;
     }
-    
-    
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Student student = (Student) obj;
+        return this.id == null ? student.getId() == null
+                : this.id.equals(student.id);
+    }
 
 }

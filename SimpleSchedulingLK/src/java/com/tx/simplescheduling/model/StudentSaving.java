@@ -5,7 +5,7 @@
  */
 package com.tx.simplescheduling.model;
 
-import java.io.Serializable;
+import com.tx.simplescheduling.source.ClassGlobalInfo;
 import java.util.Set;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -33,6 +33,22 @@ public class StudentSaving extends Student {
     @XmlElement
     public void setClassSet(Set<Class> classSet) {
         this.classSet = classSet;
+    }
+
+    public void buildClasses(Set<Integer> classCodeSet,
+            ClassGlobalInfo classInfo) {
+        synchronized (classInfo.getClassCodeMap()) {
+            for (Integer code : classCodeSet) {
+                Class classToAdd = classInfo.retrieveClass(code);
+                if (classToAdd != null) {
+                    this.classSet.add(classToAdd);
+                }
+            }
+        }
+    }
+
+    public synchronized void addClasses(Class classToAdd) {
+        classSet.add(classToAdd);
     }
 
 }

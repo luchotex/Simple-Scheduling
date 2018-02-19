@@ -5,7 +5,6 @@
  */
 package com.tx.simplescheduling.model;
 
-import java.io.Serializable;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -54,6 +53,32 @@ public class Class {
     @XmlElement
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 11 * hash + (this.code != null ? this.code.hashCode() : 0);
+        hash = 11 * hash + (this.title != null ? this.title.hashCode() : 0);
+        hash = 11 * hash + (this.description != null ? this.description.
+                hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Class paramClass = (Class) obj;
+        return (this.code == null) ? (paramClass.code == null)
+                : this.code.equals(paramClass.code);
     }
 
 }

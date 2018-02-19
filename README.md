@@ -10,3 +10,5 @@ Methods to implement:
 -- Searching class by code using the GET Method.
 -- For the ids, codes is going to use an set to receive unique elements.
 -- Like is going to be simulated the student and class source, is necessary to store those on a map.
+-- For the associated fields we going to have: for students the concatenation of the firstName and the lastName fields to search by full name. For Class we is going to be employed the title.
+-- For the above searches is going to be used an map on each case.

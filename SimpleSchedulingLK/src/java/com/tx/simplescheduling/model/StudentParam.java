@@ -35,8 +35,7 @@ public class StudentParam extends Student {
     }
 
     public StudentSaving createStudentSaving() {
-        StudentSaving result = new StudentSaving(id, firstName, lastName);
-        return result;
+        return new StudentSaving(id, firstName, lastName);
     }
 
 }
