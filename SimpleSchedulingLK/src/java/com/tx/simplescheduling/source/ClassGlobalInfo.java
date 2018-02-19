@@ -36,7 +36,7 @@ public class ClassGlobalInfo {
         return result;
     }
 
-    public com.tx.simplescheduling.model.Class enrollStudentSafely(Object key,
+    private com.tx.simplescheduling.model.Class enrollStudentSafely(Object key,
             Map map, Student student) {
         com.tx.simplescheduling.model.Class result = null;
 
@@ -60,7 +60,7 @@ public class ClassGlobalInfo {
         return result;
     }
 
-    public com.tx.simplescheduling.model.Class enrollStudentUpdatingSafely(
+    private com.tx.simplescheduling.model.Class enrollStudentUpdatingSafely(
             Object key, Map map, Student student) {
         com.tx.simplescheduling.model.Class result = null;
 

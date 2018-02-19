@@ -41,8 +41,7 @@ public class StudentSaving extends Student {
             ClassGlobalInfo classGlobalInfo) {
         synchronized (classGlobalInfo.getClassCodeMap()) {
             for (String code : classCodeSet) {
-                Class classToAdd = classGlobalInfo.enrollStudent(code,
-                        this);
+                Class classToAdd = classGlobalInfo.enrollStudent(code, this);
                 if (classToAdd != null) {
                     this.classSet.add(classToAdd);
                 }
@@ -64,9 +63,5 @@ public class StudentSaving extends Student {
                 }
             }
         }
-    }
-
-    public synchronized void addClasses(Class classToAdd) {
-        classSet.add(classToAdd);
     }
 }
