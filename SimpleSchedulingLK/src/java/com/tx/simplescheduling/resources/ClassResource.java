@@ -33,6 +33,10 @@ public class ClassResource {
     public ClassResource() {
         classProcess = new ClassProcess();
     }
+    
+    
+    
+    
 
     public ResourceContext getResourceContext() {
         return resourceContext;

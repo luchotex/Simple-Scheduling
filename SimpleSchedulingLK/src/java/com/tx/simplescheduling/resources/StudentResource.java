@@ -120,8 +120,8 @@ public class StudentResource {
     }
 
     /**
-     * Retrieves the saved student by the id, responding all the class with
-     * their information
+     * Creating the student with all their classes codes, responding all the
+     * class with their information
      *
      * @param studentParam is the complete student information with related
      * class codes
@@ -162,6 +162,27 @@ public class StudentResource {
         } catch (Exception ex) {
             throw new InternalServerErrorException(
                     "Some error during updating of the student happens unexpectedly on interface");
+        }
+    }
+
+    /**
+     * Delete the saved student by the id, responding all the classes related
+     *
+     * @param id is the identifier unique and irreplaceable value in sourceF
+     * @return
+     */
+    @DELETE
+    @Path("{id}")
+    @Produces("application/xml")
+    public Response removeStudent(@PathParam("id") Integer id) {
+        try {
+            return studentProcess.removeStudent(id, getClassResource().
+                    getClassProcess());
+        } catch (WebApplicationException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            throw new InternalServerErrorException(
+                    "Some error during deletion the student happens unexpectedly on interface");
         }
     }
 
