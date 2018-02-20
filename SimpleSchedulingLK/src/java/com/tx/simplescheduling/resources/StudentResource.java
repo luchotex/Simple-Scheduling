@@ -81,30 +81,21 @@ public class StudentResource {
      * and the last name
      * @return
      */
-//    @GET
-//    @Path("{fullName}")
-//    @Produces("application/xml")
-//    public List<StudentSaving> retrieveStudent(
-//            @PathParam("fullName") String fullName) {
-//
-//        if (fullName == null) {
-//            throw new BadRequestException("The fullName param sent is null");
-//        }
-//
-//        if (!studentNameMap.containsKey(fullName)) {
-//            throw new NotFoundException("The fullName " + fullName
-//                    + " of the student not exist on sources");
-//        }
-//
-//        try {
-//            synchronized (studentIdMap) {
-//                return studentNameMap.get(fullName);
-//            }
-//        } catch (Exception ex) {
-//            throw new InternalServerErrorException(
-//                    "Some error during retrieving the student happens unexpectedly");
-//        }
-//    }
+    @GET
+    @Path("fullname/{fullName}")
+    @Produces("application/xml")
+    public StudentSaving retrieveStudent(
+            @PathParam("fullName") String fullName) {
+        try {
+            return studentProcess.retrieveStudentByFullName(fullName);
+        } catch (WebApplicationException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            throw new InternalServerErrorException(
+                    "Some error during retrieving the student by full name happens unexpectedly on interface");
+        }
+    }
+
     /**
      * Retrieves ALL the saved student, responding all the class with their
      * information
@@ -137,7 +128,7 @@ public class StudentResource {
     @Produces(MediaType.APPLICATION_XML)
     public StudentSaving createStudent(StudentParam studentParam) {
         try {
-            return getStudentGlobalInfo().addStudent(studentParam,
+            return getStudentProcess().addStudent(studentParam,
                     getClassResource().getClassProcess());
         } catch (WebApplicationException ex) {
             throw ex;
@@ -163,12 +154,12 @@ public class StudentResource {
         this.resourceContext = resourceContext;
     }
 
-    public StudentProcess getStudentGlobalInfo() {
+    public StudentProcess getStudentProcess() {
         return studentProcess;
     }
 
-    public void setStudentGlobalInfo(StudentProcess studentGlobalInfo) {
-        this.studentProcess = studentGlobalInfo;
+    public void setStudentProcess(StudentProcess studentProcess) {
+        this.studentProcess = studentProcess;
     }
 
 }

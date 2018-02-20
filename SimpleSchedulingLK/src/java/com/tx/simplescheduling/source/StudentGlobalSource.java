@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
+import javax.ws.rs.NotFoundException;
 
 /**
  *
@@ -32,7 +33,25 @@ public class StudentGlobalSource {
     }
 
     public StudentSaving retrieveById(Integer id) {
-        return getStudentIdMap().get(id);
+        StudentSaving student = getStudentIdMap().get(id);
+
+        if (student == null) {
+            throw new NotFoundException("The id " + id
+                    + " of a student not exist on sources");
+        }
+
+        return student;
+    }
+
+    public StudentSaving retrieveByFullName(String fullName) {
+        StudentSaving student = getStudentNameMap().get(fullName);
+
+        if (student == null) {
+            throw new NotFoundException("The fullName " + fullName
+                    + " of the student not exist on sources");
+        }
+
+        return student;
     }
 
     public Set<StudentSaving> retrieveAll() {

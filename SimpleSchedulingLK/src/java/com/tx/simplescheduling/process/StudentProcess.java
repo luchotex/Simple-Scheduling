@@ -13,6 +13,8 @@ import java.util.Set;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.NotFoundException;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
 
 /**
  *
@@ -42,6 +44,8 @@ public class StudentProcess {
 
                 System.out.println("Created student " + studentSaving.getId());
 
+                Response.ok(studentSaving).build();
+
                 return studentSaving;
             }
         } catch (Exception ex) {
@@ -55,15 +59,30 @@ public class StudentProcess {
             if (id == null) {
                 throw new BadRequestException("The id param sent is null");
             }
-            if (!getStudentGlobalSource().getStudentIdMap().containsKey(id)) {
-                throw new NotFoundException("The id " + id
-                        + " of a student not exist on sources");
-            }
             try {
                 return getStudentGlobalSource().retrieveById(id);
+            } catch (WebApplicationException ex) {
+                throw ex;
             } catch (Exception ex) {
                 throw buildException(ex,
                         "Some error during retrieving the student happens unexpectedly");
+            }
+        }
+    }
+
+    public StudentSaving retrieveStudentByFullName(String fullName) {
+        synchronized (getStudentGlobalSource().getStudentIdMap()) {
+            if (fullName == null) {
+                throw new BadRequestException("The fullName param sent is null");
+            }
+
+            try {
+                return getStudentGlobalSource().retrieveByFullName(fullName);
+            } catch (WebApplicationException ex) {
+                throw ex;
+            } catch (Exception ex) {
+                throw new InternalServerErrorException(
+                        "Some error during retrieving the student by full name happens unexpectedly");
             }
         }
     }
