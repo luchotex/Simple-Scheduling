@@ -52,4 +52,8 @@ public class ClassSaving extends Class {
         getStudentSet().add(student);
     }
 
+    public void disenrollStudent(Student student) {
+        getStudentSet().remove(student);
+    }
+
 }

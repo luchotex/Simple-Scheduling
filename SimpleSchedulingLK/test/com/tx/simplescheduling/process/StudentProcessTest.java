@@ -20,7 +20,7 @@ import static org.junit.Assert.*;
  * @author Luis Kupferberg Ruiz
  */
 public class StudentProcessTest {
-    
+
     public StudentProcessTest() {
     }
 
@@ -39,7 +39,7 @@ public class StudentProcessTest {
         ClassProcess classProcess = buildDefaultClassProcess();
         StudentProcess instance = new StudentProcess();
         StudentSaving result = instance.addStudent(student, classProcess);
-        
+
         assertNotNull(result);
         assertEquals(student.getId(), result.getId());
         assertEquals(student.getFirstName(), result.getFirstName());
@@ -56,7 +56,7 @@ public class StudentProcessTest {
         StudentParam student = null;
         ClassProcess classProcess = buildDefaultClassProcess();
         StudentProcess instance = new StudentProcess();
-        
+
         try {
             StudentSaving result = instance.addStudent(student,
                     classProcess);
@@ -79,13 +79,13 @@ public class StudentProcessTest {
         student.setClassCodeList(codeSet);
         ClassProcess classProcess = null;
         StudentProcess instance = new StudentProcess();
-        
+
         try {
             StudentSaving result = instance.addStudent(student, classProcess);
         } catch (Exception ex) {
             assertTrue(containsExceptionName(NullPointerException.class, ex));
         }
-        
+
     }
 
     /**
@@ -122,7 +122,7 @@ public class StudentProcessTest {
         StudentProcess instance = new StudentProcess();
         instance.addStudent(student, classProcess);
         StudentSaving result = instance.retrieveStudent(student.getId());
-        
+
         assertNotNull(result);
         assertEquals(student.getId(), result.getId());
         assertEquals(student.getFirstName(), result.getFirstName());
@@ -190,7 +190,7 @@ public class StudentProcessTest {
         instance.addStudent(student, classProcess);
         StudentSaving result = instance.retrieveStudentByFullName(
                 student.buildFullName());
-        
+
         assertNotNull(result);
         assertEquals(student.getId(), result.getId());
         assertEquals(student.getFirstName(), result.getFirstName());
@@ -241,7 +241,74 @@ public class StudentProcessTest {
             assertTrue(containsExceptionName(NotFoundException.class, ex));
         }
     }
-    
+
+    /**
+     * Test of remove student by id successful, of class StudentProcess.
+     */
+    @Test
+    public void testRemoveStudentSucessful() {
+        System.out.println("Test removeStudentSucessful");
+        StudentParam student = new StudentParam(1, "Test name",
+                "test last name");
+        Set<String> codeSet = new TreeSet<String>();
+        codeSet.add("class1");
+        codeSet.add("class2");
+        student.setClassCodeList(codeSet);
+        ClassProcess classProcess = buildDefaultClassProcess();
+        StudentProcess instance = new StudentProcess();
+        instance.addStudent(student, classProcess);
+
+        instance.removeStudent(student.getId(), classProcess);
+        Set<StudentSaving> retrieveAllStudent = instance.retrieveAllStudent();
+
+        assertEquals(0, retrieveAllStudent.size());
+
+    }
+
+    /**
+     * Test of remove student by id null id, of class StudentProcess.
+     */
+    @Test
+    public void testRemoveStudentNullId() {
+        System.out.println("Test removeStudentNullId");
+        StudentParam student = new StudentParam(1, "Test name",
+                "test last name");
+        Set<String> codeSet = new TreeSet<String>();
+        codeSet.add("class1");
+        codeSet.add("class2");
+        student.setClassCodeList(codeSet);
+        ClassProcess classProcess = buildDefaultClassProcess();
+        StudentProcess instance = new StudentProcess();
+        instance.addStudent(student, classProcess);
+        try {
+            instance.removeStudent(null, classProcess);
+        } catch (Exception ex) {
+            assertTrue(containsExceptionName(BadRequestException.class, ex));
+        }
+    }
+
+    /**
+     * Test of remove student by id but not found, of class StudentProcess.
+     */
+    @Test
+    public void testRemoveStudenByIdFound() {
+        System.out.println("Test removeStudenByIdFound");
+        StudentParam student = new StudentParam(1, "Test name",
+                "test last name");
+        Set<String> codeSet = new TreeSet<String>();
+        codeSet.add("class1");
+        codeSet.add("class2");
+        student.setClassCodeList(codeSet);
+        ClassProcess classProcess = buildDefaultClassProcess();
+        StudentProcess instance = new StudentProcess();
+        instance.addStudent(student, classProcess);
+        try {
+            instance.removeStudent(3, classProcess);
+        } catch (Exception ex) {
+            assertTrue(containsExceptionName(NotFoundException.class, ex));
+        }
+    }
+
     private ClassProcess buildDefaultClassProcess() {
         ClassProcess classProcess = new ClassProcess();
         ClassSaving classToSave1 = new ClassSaving("class1", "class1", "class1");
@@ -256,20 +323,20 @@ public class StudentProcessTest {
                 getTitle(), classToSave2);
         return classProcess;
     }
-    
+
     private boolean containsExceptionName(Class expectedClassException,
             Exception returnedException) {
-        
+
         boolean causeEvaluation = false;
-        
+
         if (returnedException.getCause() != null) {
             causeEvaluation = returnedException.getCause().getClass().
                     getSimpleName().contains(expectedClassException.
                             getSimpleName());
         }
-        
+
         return causeEvaluation || returnedException.getClass()
                 .getSimpleName().equals(expectedClassException.getSimpleName());
     }
-    
+
 }

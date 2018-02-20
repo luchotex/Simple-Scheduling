@@ -49,6 +49,12 @@ public class StudentSaving extends Student {
         }
     }
 
+    public void disenrollAllClasses(ClassGlobalSource classGlobalSource) {
+        for (com.tx.simplescheduling.model.Class element : getClassSet()) {
+            classGlobalSource.disenrollStudent(element, this);
+        }
+    }
+
     public void buildClassesUpdating(Set<Integer> classCodeSet,
             ClassGlobalSource classGlobalSource) {
         synchronized (classGlobalSource.getClassCodeMap()) {

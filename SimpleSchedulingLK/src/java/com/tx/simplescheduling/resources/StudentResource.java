@@ -13,6 +13,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.POST;
@@ -22,6 +23,7 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.ResourceContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  * REST Web Service
@@ -55,7 +57,7 @@ public class StudentResource {
     }
 
     /**
-     * Retrieves the saved student by the id, responding all the class with
+     * Retrieves the saved student by the id, responding all the classes related
      *
      * @param id is the identifier unique and irreplaceable value in sourceF
      * @return
@@ -75,7 +77,8 @@ public class StudentResource {
     }
 
     /**
-     * Retrieves the saved student by the id, responding all the class with
+     * Retrieves the saved student by the full name, responding all the classes
+     * related
      *
      * @param fullName is the full name made by the concatenation of the first
      * and the last name
@@ -135,6 +138,27 @@ public class StudentResource {
         } catch (Exception ex) {
             throw new InternalServerErrorException(
                     "Some error during creation of the student happens unexpectedly on interface");
+        }
+    }
+
+    /**
+     * Retrieves the saved student by the id, responding all the classes related
+     *
+     * @param id is the identifier unique and irreplaceable value in sourceF
+     * @return
+     */
+    @DELETE
+    @Path("{id}")
+    @Produces("application/xml")
+    public Response deleteStudent(@PathParam("id") Integer id) {
+        try {
+            return studentProcess.removeStudent(id, getClassResource().
+                    getClassProcess());
+        } catch (WebApplicationException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            throw new InternalServerErrorException(
+                    "Some error during deletion the student happens unexpectedly on interface");
         }
     }
 

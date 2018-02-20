@@ -47,6 +47,30 @@ public class ClassGlobalSource {
         return result;
     }
 
+    public void disenrollStudent(com.tx.simplescheduling.model.Class classSaving,
+            Student student) {
+        boolean wasRemoved = disenrollStudentSafely(classSaving.getCode(),
+                getClassCodeMap(), student);
+        if (wasRemoved) {
+            disenrollStudentSafely(classSaving.getTitle(), getClassTitleMap(),
+                    student);
+        }
+    }
+
+    private boolean disenrollStudentSafely(Object key,
+            Map map, Student student) {
+        boolean result = false;
+
+        ClassSaving retrievedClassSaving = (ClassSaving) map.get(key);
+
+        if (retrievedClassSaving != null) {
+            retrievedClassSaving.disenrollStudent(student);
+            result = true;
+        }
+
+        return result;
+    }
+
     public com.tx.simplescheduling.model.Class enrollStudentUpdating(
             Integer code, Student student) {
         com.tx.simplescheduling.model.Class result = null;

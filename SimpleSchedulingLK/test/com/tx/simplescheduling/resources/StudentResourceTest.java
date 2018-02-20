@@ -9,7 +9,6 @@ import com.tx.simplescheduling.model.ClassSaving;
 import com.tx.simplescheduling.model.StudentParam;
 import com.tx.simplescheduling.model.StudentSaving;
 import com.tx.simplescheduling.process.ClassProcess;
-import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import javax.ejb.embeddable.EJBContainer;

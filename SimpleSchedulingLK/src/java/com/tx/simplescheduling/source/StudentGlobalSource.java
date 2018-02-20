@@ -53,6 +53,17 @@ public class StudentGlobalSource {
 
         return student;
     }
+    
+    public void remove(Integer id) {
+        StudentSaving student = getStudentIdMap().get(id);
+
+        if (student == null) {
+            throw new NotFoundException("The id " + id
+                    + " of a student not exist on sources for removing");
+        }
+        getStudentIdMap().remove(id);
+        getStudentNameMap().remove(student.buildFullName());
+    }
 
     public Set<StudentSaving> retrieveAll() {
         return new TreeSet<StudentSaving>(getStudentIdMap().values());
