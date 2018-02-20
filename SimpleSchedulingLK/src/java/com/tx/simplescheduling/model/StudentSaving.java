@@ -5,7 +5,7 @@
  */
 package com.tx.simplescheduling.model;
 
-import com.tx.simplescheduling.process.ClassProcess;
+import com.tx.simplescheduling.source.ClassGlobalSource;
 import java.util.Set;
 import java.util.TreeSet;
 import javax.xml.bind.annotation.XmlElement;
@@ -38,10 +38,10 @@ public class StudentSaving extends Student {
     }
 
     public void buildClasses(Set<String> classCodeSet,
-            ClassProcess classGlobalInfo) {
-        synchronized (classGlobalInfo.getClassCodeMap()) {
+            ClassGlobalSource classGlobalSource) {
+        synchronized (classGlobalSource.getClassCodeMap()) {
             for (String code : classCodeSet) {
-                Class classToAdd = classGlobalInfo.enrollStudent(code, this);
+                Class classToAdd = classGlobalSource.enrollStudent(code, this);
                 if (classToAdd != null) {
                     this.classSet.add(classToAdd);
                 }
@@ -50,10 +50,10 @@ public class StudentSaving extends Student {
     }
 
     public void buildClassesUpdating(Set<Integer> classCodeSet,
-            ClassProcess classGlobalInfo) {
-        synchronized (classGlobalInfo.getClassCodeMap()) {
+            ClassGlobalSource classGlobalSource) {
+        synchronized (classGlobalSource.getClassCodeMap()) {
             for (Integer code : classCodeSet) {
-                Class classToAdd = classGlobalInfo.enrollStudentUpdating(code,
+                Class classToAdd = classGlobalSource.enrollStudentUpdating(code,
                         this);
                 if (classToAdd != null) {
                     if (classSet.contains(classToAdd)) {

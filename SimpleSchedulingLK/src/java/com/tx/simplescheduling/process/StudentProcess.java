@@ -27,7 +27,7 @@ public class StudentProcess {
     }
 
     public StudentSaving addStudent(StudentParam studentParam,
-            ClassProcess classGlobalInfo) {
+            ClassProcess classProcess) {
         if (studentParam == null) {
             throw new BadRequestException("The student param sent is null");
         }
@@ -37,7 +37,7 @@ public class StudentProcess {
             synchronized (studentIdMap) {
                 StudentSaving studentSaving = studentParam.createStudentSaving();
                 studentSaving.buildClasses(studentParam.getClassCodeList(),
-                        classGlobalInfo);
+                        classProcess.getClassGlobalSource());
                 getStudentGlobalSource().add(studentSaving);
 
                 System.out.println("Created student " + studentSaving.getId());

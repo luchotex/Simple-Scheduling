@@ -50,12 +50,12 @@ public class ClassResource {
         this.studentResource = studentResource;
     }
 
-    public ClassProcess getClassGlobalInfo() {
+    public ClassProcess getClassProcess() {
         return classProcess;
     }
 
-    public void setClassGlobalInfo(ClassProcess classGlobalInfo) {
-        this.classProcess = classGlobalInfo;
+    public void setClassProcess(ClassProcess classProcess) {
+        this.classProcess = classProcess;
     }
 
 }

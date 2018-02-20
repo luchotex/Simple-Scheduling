@@ -13,4 +13,6 @@ Methods to implement:
 -- For the associated fields we going to have: for students the concatenation of the firstName and the lastName fields to search by full name. For Class we is going to be employed the title.
 -- For the above searches is going to be used an map on each case.
 -- Is necessary to use a single class to make all the operations over the sources.
--- There is going to exist classes for the sources (like the BD classes, entities), process classes for the logic part. 
+-- There is going to exist classes for the sources (like the BD classes, entities), process classes for the logic part.
+-- Is going to be used the concurrent map for id only for purposes of implementation without DB's, if not, It would be necessary to use an synchronized object.
+-- Is necessary to pass the sources instances due to this stores the data and are saved on the process classes.

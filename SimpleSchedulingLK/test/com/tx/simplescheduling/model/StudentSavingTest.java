@@ -6,6 +6,7 @@
 package com.tx.simplescheduling.model;
 
 import com.tx.simplescheduling.process.ClassProcess;
+import com.tx.simplescheduling.source.ClassGlobalSource;
 import java.util.Set;
 import java.util.TreeSet;
 import static org.junit.Assert.assertEquals;
@@ -29,20 +30,20 @@ public class StudentSavingTest {
         Set<String> codeSet = new TreeSet<String>();
         codeSet.add("class1");
         codeSet.add("class2");
-        ClassProcess classGlobalInfo = new ClassProcess();
+        ClassGlobalSource classGlobalSource = new ClassGlobalSource();
         ClassSaving classToSave1 = new ClassSaving("class1", "class1", "class1");
         ClassSaving classToSave2 = new ClassSaving("class2", "class2", "class2");
-        classGlobalInfo.getClassCodeMap().put(classToSave1.getCode(),
+        classGlobalSource.getClassCodeMap().put(classToSave1.getCode(),
                 classToSave1);
-        classGlobalInfo.getClassCodeMap().put(classToSave2.getCode(),
+        classGlobalSource.getClassCodeMap().put(classToSave2.getCode(),
                 classToSave2);
-        classGlobalInfo.getClassTitleMap().put(classToSave1.getTitle(),
+        classGlobalSource.getClassTitleMap().put(classToSave1.getTitle(),
                 classToSave1);
-        classGlobalInfo.getClassTitleMap().put(classToSave2.getTitle(),
+        classGlobalSource.getClassTitleMap().put(classToSave2.getTitle(),
                 classToSave2);
         StudentSaving instance = new StudentSaving(1, "Test name",
                 "test last name");
-        instance.buildClasses(codeSet, classGlobalInfo);
+        instance.buildClasses(codeSet, classGlobalSource);
 
         assertEquals(2, instance.getClassSet().size());
         assertEquals(1, classToSave1.getStudentSet().size());
@@ -58,20 +59,20 @@ public class StudentSavingTest {
         Set<String> codeSet = new TreeSet<String>();
         codeSet.add("class1");
         codeSet.add("class3");
-        ClassProcess classGlobalInfo = new ClassProcess();
+        ClassGlobalSource classGlobalSource = new ClassGlobalSource();
         ClassSaving classToSave1 = new ClassSaving("class1", "class1", "class1");
         ClassSaving classToSave2 = new ClassSaving("class2", "class2", "class2");
-        classGlobalInfo.getClassCodeMap().put(classToSave1.getCode(),
+        classGlobalSource.getClassCodeMap().put(classToSave1.getCode(),
                 classToSave1);
-        classGlobalInfo.getClassCodeMap().put(classToSave2.getCode(),
+        classGlobalSource.getClassCodeMap().put(classToSave2.getCode(),
                 classToSave2);
-        classGlobalInfo.getClassTitleMap().put(classToSave1.getTitle(),
+        classGlobalSource.getClassTitleMap().put(classToSave1.getTitle(),
                 classToSave1);
-        classGlobalInfo.getClassTitleMap().put(classToSave2.getTitle(),
+        classGlobalSource.getClassTitleMap().put(classToSave2.getTitle(),
                 classToSave2);
         StudentSaving instance = new StudentSaving(1, "Test name",
                 "test last name");
-        instance.buildClasses(codeSet, classGlobalInfo);
+        instance.buildClasses(codeSet, classGlobalSource);
 
         assertEquals(1, instance.getClassSet().size());
         assertEquals(1, classToSave1.getStudentSet().size());
@@ -84,7 +85,7 @@ public class StudentSavingTest {
     @Test(expected = NullPointerException.class)
     public void testBuildClassesNullCodeSet() {
         System.out.println("Test buildClassesNullCodeSet");
-        ClassProcess classGlobalInfo = new ClassProcess();
+        ClassGlobalSource classGlobalInfo = new ClassGlobalSource();
         ClassSaving classToSave1 = new ClassSaving("class1", "class1", "class1");
         ClassSaving classToSave2 = new ClassSaving("class2", "class2", "class2");
         classGlobalInfo.getClassCodeMap().put(classToSave1.getCode(),
@@ -107,14 +108,14 @@ public class StudentSavingTest {
     @Test(expected = NullPointerException.class)
     public void testBuildClassesNullClassGlobalInfo() {
         System.out.println("Test buildClassesNullClassGlobalInfo");
-        ClassProcess classGlobalInfo = null;
+        ClassGlobalSource classGlobalSource = null;
 
         Set<String> codeSet = new TreeSet<String>();
         codeSet.add("class1");
         codeSet.add("class2");
 
         StudentSaving instance = new StudentSaving();
-        instance.buildClasses(codeSet, classGlobalInfo);
+        instance.buildClasses(codeSet, classGlobalSource);
     }
 
 //

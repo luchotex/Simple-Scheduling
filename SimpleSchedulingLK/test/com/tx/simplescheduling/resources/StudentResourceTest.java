@@ -43,17 +43,17 @@ public class StudentResourceTest {
                 lookup(
                         "java:global/classes/ClassResource"));
         ClassProcess classGlobalInfo
-                = studentInstance.getClassResource().getClassGlobalInfo();
+                = studentInstance.getClassResource().getClassProcess();
         ClassSaving classToSave1 = new ClassSaving("class1", "class1", "class1");
         ClassSaving classToSave2 = new ClassSaving("class2", "class2", "class2");
-        classGlobalInfo.getClassCodeMap().put(classToSave1.getCode(),
-                classToSave1);
-        classGlobalInfo.getClassCodeMap().put(classToSave2.getCode(),
-                classToSave2);
-        classGlobalInfo.getClassTitleMap().put(classToSave1.getTitle(),
-                classToSave1);
-        classGlobalInfo.getClassTitleMap().put(classToSave2.getTitle(),
-                classToSave2);
+        classGlobalInfo.getClassGlobalSource().getClassCodeMap().put(
+                classToSave1.getCode(), classToSave1);
+        classGlobalInfo.getClassGlobalSource().getClassCodeMap().put(
+                classToSave2.getCode(), classToSave2);
+        classGlobalInfo.getClassGlobalSource().getClassTitleMap().put(
+                classToSave1.getTitle(), classToSave1);
+        classGlobalInfo.getClassGlobalSource().getClassTitleMap().put(
+                classToSave2.getTitle(), classToSave2);
     }
 
     @AfterClass

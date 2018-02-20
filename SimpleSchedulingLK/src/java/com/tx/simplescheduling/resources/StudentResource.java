@@ -138,7 +138,7 @@ public class StudentResource {
     public StudentSaving createStudent(StudentParam studentParam) {
         try {
             return getStudentGlobalInfo().addStudent(studentParam,
-                    getClassResource().getClassGlobalInfo());
+                    getClassResource().getClassProcess());
         } catch (WebApplicationException ex) {
             throw ex;
         } catch (Exception ex) {
