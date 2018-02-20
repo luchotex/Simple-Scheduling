@@ -12,3 +12,5 @@ Methods to implement:
 -- Like is going to be simulated the student and class source, is necessary to store those on a map.
 -- For the associated fields we going to have: for students the concatenation of the firstName and the lastName fields to search by full name. For Class we is going to be employed the title.
 -- For the above searches is going to be used an map on each case.
+-- Is necessary to use a single class to make all the operations over the sources.
+-- There is going to exist classes for the sources (like the BD classes, entities), process classes for the logic part. 

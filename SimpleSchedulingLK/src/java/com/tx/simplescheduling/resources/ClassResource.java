@@ -5,11 +5,7 @@
  */
 package com.tx.simplescheduling.resources;
 
-import com.tx.simplescheduling.source.ClassGlobalInfo;
-import com.tx.simplescheduling.model.ClassSaving;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import com.tx.simplescheduling.process.ClassProcess;
 import javax.ejb.Singleton;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.Path;
@@ -29,13 +25,13 @@ public class ClassResource {
 
     private StudentResource studentResource;
 
-    private ClassGlobalInfo classGlobalInfo;
+    private ClassProcess classProcess;
 
     /**
      * Creates a new instance of classResource
      */
     public ClassResource() {
-        classGlobalInfo = new ClassGlobalInfo();
+        classProcess = new ClassProcess();
     }
 
     public ResourceContext getResourceContext() {
@@ -54,12 +50,12 @@ public class ClassResource {
         this.studentResource = studentResource;
     }
 
-    public ClassGlobalInfo getClassGlobalInfo() {
-        return classGlobalInfo;
+    public ClassProcess getClassGlobalInfo() {
+        return classProcess;
     }
 
-    public void setClassGlobalInfo(ClassGlobalInfo classGlobalInfo) {
-        this.classGlobalInfo = classGlobalInfo;
+    public void setClassGlobalInfo(ClassProcess classGlobalInfo) {
+        this.classProcess = classGlobalInfo;
     }
 
 }

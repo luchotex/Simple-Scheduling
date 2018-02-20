@@ -3,15 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.tx.simplescheduling.source;
+package com.tx.simplescheduling.process;
 
+import com.tx.simplescheduling.process.ClassProcess;
 import com.tx.simplescheduling.model.Class;
 import com.tx.simplescheduling.model.ClassSaving;
 import com.tx.simplescheduling.model.Student;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -19,9 +16,9 @@ import static org.junit.Assert.*;
  *
  * @author Luis Kupferberg Ruiz
  */
-public class ClassGlobalInfoTest {
+public class ClassProcessTest {
 
-    public ClassGlobalInfoTest() {
+    public ClassProcessTest() {
     }
 
     /**
@@ -33,7 +30,7 @@ public class ClassGlobalInfoTest {
         String code = "class1";
         Student student = new Student(1, "Test name", "test last name");
 
-        ClassGlobalInfo instance = new ClassGlobalInfo();
+        ClassProcess instance = new ClassProcess();
         ClassSaving classToSave1 = new ClassSaving("class1", "class1", "class1");
         ClassSaving classToSave2 = new ClassSaving("class2", "class2", "class2");
         instance.getClassCodeMap().put(classToSave1.getCode(),
@@ -64,7 +61,7 @@ public class ClassGlobalInfoTest {
         String code = null;
         Student student = new Student(1, "Test name", "test last name");
 
-        ClassGlobalInfo instance = new ClassGlobalInfo();
+        ClassProcess instance = new ClassProcess();
         Class result = instance.enrollStudent(code, student);
     }
 
@@ -77,7 +74,7 @@ public class ClassGlobalInfoTest {
         String code = "class1";
         Student student = null;
 
-        ClassGlobalInfo instance = new ClassGlobalInfo();
+        ClassProcess instance = new ClassProcess();
         ClassSaving classToSave1 = new ClassSaving("class1", "class1", "class1");
         ClassSaving classToSave2 = new ClassSaving("class2", "class2", "class2");
         instance.getClassCodeMap().put(classToSave1.getCode(),
@@ -100,7 +97,7 @@ public class ClassGlobalInfoTest {
         String code = "other code";
         Student student = new Student(1, "Test name", "test last name");
 
-        ClassGlobalInfo instance = new ClassGlobalInfo();
+        ClassProcess instance = new ClassProcess();
         ClassSaving classToSave1 = new ClassSaving("class1", "class1", "class1");
         ClassSaving classToSave2 = new ClassSaving("class2", "class2", "class2");
         instance.getClassCodeMap().put(classToSave1.getCode(),
@@ -125,7 +122,7 @@ public class ClassGlobalInfoTest {
         String code = "class1";
         Student student = new Student(1, "Test name", "test last name");
 
-        ClassGlobalInfo instance = new ClassGlobalInfo();
+        ClassProcess instance = new ClassProcess();
         ClassSaving classToSave1 = new ClassSaving("class1", "class1", "class1");
         ClassSaving classToSave2 = new ClassSaving("class2", "class2", "class2");
         instance.getClassCodeMap().put(classToSave1.getCode(),

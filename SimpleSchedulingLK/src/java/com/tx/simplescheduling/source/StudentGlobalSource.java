@@ -5,35 +5,38 @@
  */
 package com.tx.simplescheduling.source;
 
-import com.tx.simplescheduling.model.StudentParam;
 import com.tx.simplescheduling.model.StudentSaving;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
  *
  * @author Luis Kupferberg Ruiz
  */
-public class StudentGlobalInfo {
+public class StudentGlobalSource {
 
     private Map<Integer, StudentSaving> studentIdMap
             = new ConcurrentHashMap<Integer, StudentSaving>();
     private Map<String, StudentSaving> studentNameMap
             = new ConcurrentHashMap<String, StudentSaving>();
 
-    public StudentGlobalInfo() {
+    public StudentGlobalSource() {
     }
 
-    public StudentSaving addStudent(StudentParam studentParam,
-            ClassGlobalInfo classGlobalInfo) {
-
-        StudentSaving studentSaving = studentParam.createStudentSaving();
-        studentSaving.buildClasses(studentParam.getClassCodeList(),
-                classGlobalInfo);
+    public void add(StudentSaving studentSaving) {
         getStudentIdMap().put(studentSaving.getId(), studentSaving);
-        getStudentNameMap().put(studentSaving.buildFullName(), studentSaving);
+        getStudentNameMap().put(studentSaving.buildFullName(),
+                studentSaving);
+    }
 
-        return studentSaving;
+    public StudentSaving retrieveById(Integer id) {
+        return getStudentIdMap().get(id);
+    }
+
+    public Set<StudentSaving> retrieveAll() {
+        return new TreeSet<StudentSaving>(getStudentIdMap().values());
     }
 
     public Map<Integer, StudentSaving> getStudentIdMap() {

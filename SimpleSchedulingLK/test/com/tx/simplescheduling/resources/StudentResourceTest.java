@@ -8,7 +8,7 @@ package com.tx.simplescheduling.resources;
 import com.tx.simplescheduling.model.ClassSaving;
 import com.tx.simplescheduling.model.StudentParam;
 import com.tx.simplescheduling.model.StudentSaving;
-import com.tx.simplescheduling.source.ClassGlobalInfo;
+import com.tx.simplescheduling.process.ClassProcess;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -42,7 +42,7 @@ public class StudentResourceTest {
         studentInstance.setClassResource((ClassResource) container.getContext().
                 lookup(
                         "java:global/classes/ClassResource"));
-        ClassGlobalInfo classGlobalInfo
+        ClassProcess classGlobalInfo
                 = studentInstance.getClassResource().getClassGlobalInfo();
         ClassSaving classToSave1 = new ClassSaving("class1", "class1", "class1");
         ClassSaving classToSave2 = new ClassSaving("class2", "class2", "class2");
@@ -98,16 +98,11 @@ public class StudentResourceTest {
         student.setClassCodeList(codeSet);
         StudentSaving result = studentInstance.createStudent(student);
 
-        Map<Integer, StudentSaving> studentIdMap
-                = studentInstance.getStudentGlobalInfo().getStudentIdMap();
-
-        Map<String, StudentSaving> studentNameMap
-                = studentInstance.getStudentGlobalInfo().getStudentNameMap();
-        StudentSaving savedStudent = studentIdMap.get(id);
-
-        assertEquals(1, studentIdMap.size());
-        assertEquals(1, studentNameMap.size());
-        assertEquals(2, savedStudent.getClassSet().size());
+        assertNotNull(result);
+        assertEquals(student.getId(), result.getId());
+        assertEquals(student.getFirstName(), result.getFirstName());
+        assertEquals(student.getLastName(), result.getLastName());
+        assertEquals(2, result.getClassSet().size());
     }
 
     private boolean containsExceptionName(Class expectedClassException,

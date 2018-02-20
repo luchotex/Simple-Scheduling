@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.tx.simplescheduling.source;
+package com.tx.simplescheduling.process;
 
 import com.tx.simplescheduling.model.ClassSaving;
 import com.tx.simplescheduling.model.Student;
@@ -14,14 +14,14 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author Luis Kupferberg Ruiz
  */
-public class ClassGlobalInfo {
+public class ClassProcess {
 
     private Map<String, ClassSaving> classCodeMap
             = new ConcurrentHashMap<String, ClassSaving>();
     private Map<String, ClassSaving> classTitleMap
             = new ConcurrentHashMap<String, ClassSaving>();
 
-    public ClassGlobalInfo() {
+    public ClassProcess() {
     }
 
     public com.tx.simplescheduling.model.Class enrollStudent(String code,
