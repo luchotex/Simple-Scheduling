@@ -7,8 +7,12 @@ package com.tx.simplescheduling.source;
 
 import com.tx.simplescheduling.model.ClassSaving;
 import com.tx.simplescheduling.model.Student;
+import com.tx.simplescheduling.model.StudentSaving;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
+import javax.ws.rs.NotFoundException;
 
 /**
  *
@@ -20,6 +24,32 @@ public class ClassGlobalSource {
             = new ConcurrentHashMap<String, ClassSaving>();
     private Map<String, ClassSaving> classTitleMap
             = new ConcurrentHashMap<String, ClassSaving>();
+
+    public ClassSaving retrieveByCode(String code) {
+        ClassSaving classSaving = getClassCodeMap().get(code);
+
+        if (classSaving == null) {
+            throw new NotFoundException("The code " + code
+                    + " of a class not exist on sources");
+        }
+
+        return classSaving;
+    }
+
+    public ClassSaving retrieveByTitle(String title) {
+        ClassSaving classSaving = getClassTitleMap().get(title);
+
+        if (classSaving == null) {
+            throw new NotFoundException("The title" + title
+                    + " of the class not exist on sources");
+        }
+
+        return classSaving;
+    }
+
+    public Set<ClassSaving> retrieveAll() {
+        return new TreeSet<ClassSaving>(getClassCodeMap().values());
+    }
 
     public com.tx.simplescheduling.model.Class enrollStudent(String code,
             Student student) {

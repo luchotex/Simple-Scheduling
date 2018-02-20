@@ -27,32 +27,6 @@ public class StudentProcess {
         studentGlobalSource = new StudentGlobalSource();
     }
 
-    public StudentSaving addStudent(StudentParam studentParam,
-            ClassProcess classProcess) {
-        if (studentParam == null) {
-            throw new BadRequestException("The student param sent is null");
-        }
-        try {
-            Map<Integer, StudentSaving> studentIdMap = getStudentGlobalSource().
-                    getStudentIdMap();
-            synchronized (studentIdMap) {
-                StudentSaving studentSaving = studentParam.createStudentSaving();
-                studentSaving.buildClasses(studentParam.getClassCodeList(),
-                        classProcess.getClassGlobalSource());
-                getStudentGlobalSource().add(studentSaving);
-
-                System.out.println("Created student " + studentSaving.getId());
-
-                return studentSaving;
-            }
-        } catch (WebApplicationException ex) {
-            throw ex;
-        } catch (Exception ex) {
-            throw buildException(ex,
-                    "Some error during creation of the student happens unexpectedly");
-        }
-    }
-
     public StudentSaving retrieveStudent(Integer id) {
         synchronized (getStudentGlobalSource().getStudentIdMap()) {
             if (id == null) {
@@ -86,7 +60,7 @@ public class StudentProcess {
         }
     }
 
-    public Set<StudentSaving> retrieveAllStudent() {
+    public Set<StudentSaving> retrieveAllStudents() {
         synchronized (getStudentGlobalSource().getStudentIdMap()) {
             try {
                 return getStudentGlobalSource().retrieveAll();
@@ -94,6 +68,32 @@ public class StudentProcess {
                 throw buildException(ex,
                         "Some error during retrieving ALL the student happens unexpectedlye");
             }
+        }
+    }
+
+    public StudentSaving addStudent(StudentParam studentParam,
+            ClassProcess classProcess) {
+        if (studentParam == null) {
+            throw new BadRequestException("The student param sent is null");
+        }
+        try {
+            Map<Integer, StudentSaving> studentIdMap = getStudentGlobalSource().
+                    getStudentIdMap();
+            synchronized (studentIdMap) {
+                StudentSaving studentSaving = studentParam.createStudentSaving();
+                studentSaving.buildClasses(studentParam.getClassCodeList(),
+                        classProcess.getClassGlobalSource());
+                getStudentGlobalSource().add(studentSaving);
+
+                System.out.println("Created student " + studentSaving.getId());
+
+                return studentSaving;
+            }
+        } catch (WebApplicationException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            throw buildException(ex,
+                    "Some error during creation of the student happens unexpectedly");
         }
     }
 
@@ -136,12 +136,12 @@ public class StudentProcess {
                     getStudentIdMap();
             synchronized (studentIdMap) {
                 StudentSaving studentSaving = getStudentGlobalSource().
-                        retrieveById(studentParam.getId());                
-                
+                        retrieveById(studentParam.getId());
+
                 studentSaving.buildClassesUpdating(studentParam.
-                        getClassCodeList(), classProcess.getClassGlobalSource());                
+                        getClassCodeList(), classProcess.getClassGlobalSource());
                 studentSaving.setValues(studentParam);
-                getStudentGlobalSource().update(studentSaving);                
+                getStudentGlobalSource().update(studentSaving);
 
                 System.out.println("Created student " + studentSaving.getId());
 

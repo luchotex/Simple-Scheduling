@@ -26,12 +26,6 @@ public class StudentGlobalSource {
     public StudentGlobalSource() {
     }
 
-    public void add(StudentSaving studentSaving) {
-        getStudentIdMap().put(studentSaving.getId(), studentSaving);
-        getStudentNameMap().put(studentSaving.buildFullName(),
-                studentSaving);
-    }
-
     public StudentSaving retrieveById(Integer id) {
         StudentSaving student = getStudentIdMap().get(id);
 
@@ -53,7 +47,17 @@ public class StudentGlobalSource {
 
         return student;
     }
-    
+
+    public Set<StudentSaving> retrieveAll() {
+        return new TreeSet<StudentSaving>(getStudentIdMap().values());
+    }
+
+    public void add(StudentSaving studentSaving) {
+        getStudentIdMap().put(studentSaving.getId(), studentSaving);
+        getStudentNameMap().put(studentSaving.buildFullName(),
+                studentSaving);
+    }
+
     public void remove(Integer id) {
         StudentSaving student = getStudentIdMap().get(id);
 
@@ -64,17 +68,13 @@ public class StudentGlobalSource {
         getStudentIdMap().remove(id);
         getStudentNameMap().remove(student.buildFullName());
     }
-    
+
     public void update(StudentSaving studentSaving) {
         StudentSaving retrievedStudent = retrieveById(studentSaving.getId());
         getStudentIdMap().put(studentSaving.getId(), studentSaving);
         getStudentNameMap().remove(retrievedStudent.buildFullName());
         getStudentNameMap().put(studentSaving.buildFullName(),
                 studentSaving);
-    }
-
-    public Set<StudentSaving> retrieveAll() {
-        return new TreeSet<StudentSaving>(getStudentIdMap().values());
     }
 
     public Map<Integer, StudentSaving> getStudentIdMap() {

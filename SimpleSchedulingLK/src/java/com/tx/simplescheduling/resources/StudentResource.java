@@ -20,6 +20,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.ResourceContext;
 import javax.ws.rs.core.Context;
@@ -110,7 +111,7 @@ public class StudentResource {
     @Produces("application/xml")
     public Set<StudentSaving> retrieveAllStudents() {
         try {
-            return studentProcess.retrieveAllStudent();
+            return studentProcess.retrieveAllStudents();
         } catch (WebApplicationException ex) {
             throw ex;
         } catch (Exception ex) {

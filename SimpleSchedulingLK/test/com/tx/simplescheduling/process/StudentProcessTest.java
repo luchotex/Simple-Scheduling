@@ -260,7 +260,7 @@ public class StudentProcessTest {
         instance.addStudent(student, classProcess);
 
         instance.removeStudent(student.getId(), classProcess);
-        Set<StudentSaving> retrieveAllStudent = instance.retrieveAllStudent();
+        Set<StudentSaving> retrieveAllStudent = instance.retrieveAllStudents();
 
         assertEquals(0, retrieveAllStudent.size());
 
