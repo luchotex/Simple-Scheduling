@@ -21,7 +21,7 @@ public class StudentSavingTest {
     }
 
     /**
-     * Test of buildClasses null class global source, of class StudentSaving.
+     * Test of buildStudents null class global source, of class StudentSaving.
      */
     @Test
     public void testBuildClassesSuccesful() {
@@ -42,7 +42,7 @@ public class StudentSavingTest {
     }
 
     /**
-     * Test of buildClasses null class global source, of class StudentSaving.
+     * Test of buildStudents null class global source, of class StudentSaving.
      */
     @Test
     public void testBuildClassesSuccesfulButNotOneClass() {
@@ -63,7 +63,7 @@ public class StudentSavingTest {
     }
 
     /**
-     * Test of buildClasses null class global source, of class StudentSaving.
+     * Test of buildStudents null class global source, of class StudentSaving.
      */
     @Test(expected = NullPointerException.class)
     public void testBuildClassesNullCodeSet() {
@@ -76,7 +76,7 @@ public class StudentSavingTest {
     }
 
     /**
-     * Test of buildClasses null class global source, of class StudentSaving.
+     * Test of buildStudents null class global source, of class StudentSaving.
      */
     @Test(expected = NullPointerException.class)
     public void testBuildClassesNullClassGlobalSource() {
@@ -119,7 +119,7 @@ public class StudentSavingTest {
     }
 
     /**
-     * Test of disenrollAllClasses but not one Class, of class StudentSaving.
+     * Test of disassignAllStudents but not one Class, of class StudentSaving.
      */
     @Test
     public void testDisenrollAllClassesButNotOneClass() {
@@ -148,7 +148,7 @@ public class StudentSavingTest {
     }
 
     /**
-     * Test of disenrollAllClasses null code set, of class StudentSaving.
+     * Test of disassignAllStudents null code set, of class StudentSaving.
      */
     @Test(expected = NullPointerException.class)
     public void testDisenrollAllClassesNullCodeSet() {
@@ -160,8 +160,8 @@ public class StudentSavingTest {
     }
 
     /**
-     * Test of disenrollAllClasses null class global source, of class
-     * StudentSaving.
+     * Test of disassignAllStudents null class global source, of class
+ StudentSaving.
      */
     @Test(expected = NullPointerException.class)
     public void testDisenrollAllClassesNullClassGlobalSource() {
@@ -177,7 +177,7 @@ public class StudentSavingTest {
     }
 
     /**
-     * Test of buildClasses updating successful , of class StudentSaving.
+     * Test of buildStudents updating successful , of class StudentSaving.
      */
     @Test
     public void testBuildClassesUpdatingSuccesful() {
@@ -217,7 +217,7 @@ public class StudentSavingTest {
     }
 
     /**
-     * Test of buildClasses updating null class global source, of class StudentSaving.
+     * Test of buildStudents updating null class global source, of class StudentSaving.
      */
     @Test(expected = NullPointerException.class)
     public void testBuildClassesUpdatingNullCodeSet() {
@@ -230,7 +230,7 @@ public class StudentSavingTest {
     }
 
     /**
-     * Test of buildClasses updating null class global source, of class StudentSaving.
+     * Test of buildStudents updating null class global source, of class StudentSaving.
      */
     @Test(expected = NullPointerException.class)
     public void testBuildClassesUpdatingNullClassGlobalSource() {

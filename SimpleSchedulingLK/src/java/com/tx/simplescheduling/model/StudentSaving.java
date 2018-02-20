@@ -37,43 +37,41 @@ public class StudentSaving extends Student {
         this.classSet = classSet;
     }
 
+    public Student createStudent() {
+        return new Student(id, firstName, lastName);
+    }
+
     public void buildClasses(Set<String> classCodeSet,
             ClassGlobalSource classGlobalSource) {
-        synchronized (classGlobalSource.getClassCodeMap()) {
-            for (String code : classCodeSet) {
-                Class classToAdd = classGlobalSource.enrollStudent(code, this);
-                if (classToAdd != null) {
-                    this.classSet.add(classToAdd);
-                }
+        for (String code : classCodeSet) {
+            Class classToAdd = classGlobalSource.enrollStudent(code, this);
+            if (classToAdd != null) {
+                this.classSet.add(classToAdd);
             }
         }
     }
 
     public void disenrollAllClasses(ClassGlobalSource classGlobalSource) {
-        synchronized (classGlobalSource.getClassCodeMap()) {
-            for (com.tx.simplescheduling.model.Class element : getClassSet()) {
-                classGlobalSource.disenrollStudent(element, this);
-            }
+        for (com.tx.simplescheduling.model.Class element : getClassSet()) {
+            classGlobalSource.disenrollStudent(element, this);
         }
     }
 
     public void buildClassesUpdating(Set<String> classCodeSet,
             ClassGlobalSource classGlobalSource) {
-        synchronized (classGlobalSource.getClassCodeMap()) {
 
-            for (com.tx.simplescheduling.model.Class element : this.
-                    getClassSet()) {
-                if (!classCodeSet.contains(element.getCode())) {
-                    classGlobalSource.disenrollStudent(element, this);
-                    this.getClassSet().remove(element);
-                }
+        for (com.tx.simplescheduling.model.Class element : this.
+                getClassSet()) {
+            if (!classCodeSet.contains(element.getCode())) {
+                classGlobalSource.disenrollStudent(element, this);
+                this.getClassSet().remove(element);
             }
+        }
 
-            for (String code : classCodeSet) {
-                com.tx.simplescheduling.model.Class created = new Class(code,
-                        null, null);
-                enrollClassUpdating(created, classGlobalSource, code);
-            }
+        for (String code : classCodeSet) {
+            com.tx.simplescheduling.model.Class created = new Class(code,
+                    null, null);
+            enrollClassUpdating(created, classGlobalSource, code);
         }
     }
 
@@ -83,12 +81,27 @@ public class StudentSaving extends Student {
             com.tx.simplescheduling.model.Class classToAdd
                     = classGlobalSource.enrollStudentUpdating(code, this);
             if (classToAdd != null) {
-                if (classSet.contains(classToAdd)) {
-                    classSet.remove(classToAdd);
+                if (getClassSet().contains(classToAdd)) {
+                    getClassSet().remove(classToAdd);
                 }
-                this.classSet.add(classToAdd);
+                this.getClassSet().add(classToAdd);
             }
         }
+    }
+
+    public void assignClass(Class classToAssign) {
+        getClassSet().add(classToAssign);
+    }
+
+    public void assignClassUpdating(Class classToAssign) {
+        if (getClassSet().contains(classToAssign)) {
+            getClassSet().remove(classToAssign);
+        }
+        getClassSet().add(classToAssign);
+    }
+
+    public void disassignClass(Class classToDisassign) {
+        getClassSet().remove(classToDisassign);
     }
 
     public void setValues(StudentParam studentParam) {

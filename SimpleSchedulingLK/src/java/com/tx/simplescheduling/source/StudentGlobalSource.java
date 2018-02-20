@@ -5,6 +5,7 @@
  */
 package com.tx.simplescheduling.source;
 
+import com.tx.simplescheduling.model.Student;
 import com.tx.simplescheduling.model.StudentSaving;
 import java.util.Map;
 import java.util.Set;
@@ -75,6 +76,67 @@ public class StudentGlobalSource {
         getStudentNameMap().remove(retrievedStudent.buildFullName());
         getStudentNameMap().put(studentSaving.buildFullName(),
                 studentSaving);
+    }
+
+    private Student assignClassSafely(Object key,
+            Map map, com.tx.simplescheduling.model.Class classToAssign) {
+        Student result = null;
+
+        StudentSaving retrievedStudentSaving = (StudentSaving) map.get(key);
+
+        if (retrievedStudentSaving != null) {
+            retrievedStudentSaving.assignClass(classToAssign);
+            result = retrievedStudentSaving.createStudent();
+        }
+
+        return result;
+    }
+
+    public void disassignClass(Student studentSaving,
+            com.tx.simplescheduling.model.Class classToDisassign) {
+        boolean wasRemoved = disassignClassSafely(studentSaving.getId(),
+                getStudentIdMap(), classToDisassign);
+        if (wasRemoved) {
+            disassignClassSafely(studentSaving.buildFullName(),
+                    getStudentNameMap(), classToDisassign);
+        }
+    }
+
+    private boolean disassignClassSafely(Object key,
+            Map map, com.tx.simplescheduling.model.Class classToDisassign) {
+        boolean result = false;
+
+        StudentSaving retrievedStudentSaving = (StudentSaving) map.get(key);
+
+        if (retrievedStudentSaving != null) {
+            retrievedStudentSaving.disassignClass(classToDisassign);
+            result = true;
+        }
+
+        return result;
+    }
+
+    public Student assignClassUpdating(
+            Integer id, com.tx.simplescheduling.model.Class classToAssign) {
+        Student result = null;
+
+        result = assignClassUpdatingSafely(id, getStudentIdMap(), classToAssign);
+        assignClassUpdatingSafely(id, getStudentNameMap(), classToAssign);
+        return result;
+    }
+
+    private Student assignClassUpdatingSafely(
+            Object key, Map map, com.tx.simplescheduling.model.Class classToAssign) {
+        Student result = null;
+
+        StudentSaving retrievedStudentSaving = (StudentSaving) map.get(key);
+
+        if (retrievedStudentSaving != null) {
+            retrievedStudentSaving.assignClassUpdating(classToAssign);
+            result = retrievedStudentSaving.createStudent();
+        }
+
+        return result;
     }
 
     public Map<Integer, StudentSaving> getStudentIdMap() {

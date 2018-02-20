@@ -26,7 +26,7 @@ public class StudentProcessTest {
     }
 
     /**
-     * Test of addStudent successful method, of class StudentProcess.
+     * Test of addClass successful method, of class StudentProcess.
      */
     @Test
     public void testAddStudentSucessful() {
@@ -49,7 +49,7 @@ public class StudentProcessTest {
     }
 
     /**
-     * Test of addStudent null student, of class StudentProcess.
+     * Test of addClass null student, of class StudentProcess.
      */
     @Test
     public void testAddStudentNullStudentParam() {
@@ -67,7 +67,7 @@ public class StudentProcessTest {
     }
 
     /**
-     * Test of addStudent null class ClassProcess, of class StudentProcess.
+     * Test of addClass null class ClassProcess, of class StudentProcess.
      */
     @Test
     public void testAddStudentNullClassProcess() {
@@ -90,7 +90,7 @@ public class StudentProcessTest {
     }
 
     /**
-     * Test of addStudent null class code list, of class StudentProcess.
+     * Test of addClass null class code list, of class StudentProcess.
      */
     @Test
     public void testAddStudentNullClassCodeList() {
@@ -311,7 +311,7 @@ public class StudentProcessTest {
     }
 
     /**
-     * Test of addStudent successful method, of class StudentProcess.
+     * Test of addClass successful method, of class StudentProcess.
      */
     @Test
     public void testUpdateStudentSucessful() {
@@ -351,7 +351,7 @@ public class StudentProcessTest {
     }
 
     /**
-     * Test of updateStudent null student, of class StudentProcess.
+     * Test of updateClass null student, of class StudentProcess.
      */
     @Test
     public void testUpdateStudentNullStudentParam() {
@@ -369,7 +369,7 @@ public class StudentProcessTest {
     }
 
     /**
-     * Test of updateStudent null class ClassProcess, of class StudentProcess.
+     * Test of updateClass null class ClassProcess, of class StudentProcess.
      */
     @Test
     public void testUpdateStudentNullClassProcess() {
@@ -392,7 +392,7 @@ public class StudentProcessTest {
     }
 
     /**
-     * Test of updateStudent null class code list, of class StudentProcess.
+     * Test of updateClass null class code list, of class StudentProcess.
      */
     @Test
     public void testupdateStudentNullClassCodeList() {

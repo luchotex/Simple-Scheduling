@@ -63,6 +63,29 @@ public class ClassGlobalSource {
         return result;
     }
 
+    public void add(ClassSaving classSaving) {
+        getClassCodeMap().put(classSaving.getCode(), classSaving);
+        getClassTitleMap().put(classSaving.getTitle(), classSaving);
+    }
+
+    public void remove(String code) {
+        ClassSaving classToRemove = getClassCodeMap().get(code);
+
+        if (classToRemove == null) {
+            throw new NotFoundException("The code " + code
+                    + " of a class not exist on sources for removing");
+        }
+        getClassCodeMap().remove(code);
+        getClassTitleMap().remove(classToRemove.getTitle());
+    }
+
+    public void update(ClassSaving classSaving) {
+        ClassSaving retrievedClass = retrieveByCode(classSaving.getCode());
+        getClassCodeMap().put(classSaving.getCode(), classSaving);
+        getClassTitleMap().remove(retrievedClass.getTitle());
+        getClassTitleMap().put(classSaving.getTitle(), classSaving);
+    }
+
     private com.tx.simplescheduling.model.Class enrollStudentSafely(Object key,
             Map map, Student student) {
         com.tx.simplescheduling.model.Class result = null;

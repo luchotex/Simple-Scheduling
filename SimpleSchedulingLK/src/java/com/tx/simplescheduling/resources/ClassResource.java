@@ -5,19 +5,26 @@
  */
 package com.tx.simplescheduling.resources;
 
+import com.tx.simplescheduling.model.ClassParam;
 import com.tx.simplescheduling.model.ClassSaving;
 import com.tx.simplescheduling.process.ClassProcess;
 import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.InternalServerErrorException;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.ResourceContext;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  * REST Web Service
@@ -51,7 +58,8 @@ public class ClassResource {
     }
 
     /**
-     * Retrieves the saved class by the id, responding all the students related
+     * Retrieves the saved class by the code, responding all the students
+     * related
      *
      * @param code is the identifier unique and irreplaceable value in class
      * @return
@@ -59,9 +67,9 @@ public class ClassResource {
     @GET
     @Path("{code}")
     @Produces("application/xml")
-    public ClassSaving retrieveClass(@PathParam("id") String code) {
+    public ClassSaving retrieveClass(@PathParam("code") String code) {
         try {
-            return classProcess.retrieveClass(code);
+            return getClassProcess().retrieveClass(code);
         } catch (WebApplicationException ex) {
             throw ex;
         } catch (Exception ex) {
@@ -71,20 +79,20 @@ public class ClassResource {
     }
 
     /**
-     * Retrieves the saved student by the full name, responding all the classes
+     * Retrieves the saved class by the title, responding all the classes
      * related
      *
-     * @param fullName is the full name made by the concatenation of the first
+     * @param title is the of the class
      * and the last name
      * @return
      */
     @GET
-    @Path("fullname/{fullName}")
+    @Path("title/{title}")
     @Produces("application/xml")
     public ClassSaving retrieveClassByTitle(
-            @PathParam("fullName") String fullName) {
+            @PathParam("title") String title) {
         try {
-            return classProcess.retrieveClasstByTitle(fullName);
+            return getClassProcess().retrieveClasstByTitle(title);
         } catch (WebApplicationException ex) {
             throw ex;
         } catch (Exception ex) {
@@ -103,12 +111,79 @@ public class ClassResource {
     @Produces("application/xml")
     public Set<ClassSaving> retrieveAllClasses() {
         try {
-            return classProcess.retrieveAllClasses();
+            return getClassProcess().retrieveAllClasses();
         } catch (WebApplicationException ex) {
             throw ex;
         } catch (Exception ex) {
             throw new InternalServerErrorException(
                     "Some error during retrieving ALL the classes happens unexpectedly on interface");
+        }
+    }
+
+    /**
+     * Creating the class with all their classes codes, responding all the
+     * Student with their information
+     *
+     * @param classParam is the complete class information with related student
+     * ids
+     * @return
+     */
+    @POST
+    @Consumes(MediaType.APPLICATION_XML)
+    @Produces(MediaType.APPLICATION_XML)
+    public ClassSaving createClass(ClassParam classParam) {
+        try {
+            return getClassProcess().addClass(classParam,
+                    getStudentResource().getStudentProcess());
+        } catch (WebApplicationException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            throw new InternalServerErrorException(
+                    "Some error during creation of the class happens unexpectedly on interface");
+        }
+    }
+
+    /**
+     * Update the class sending all the information, responding all the student
+     * with their information
+     *
+     * @param classParam is the complete student information with related class
+     * codes
+     * @return
+     */
+    @PUT
+    @Consumes(MediaType.APPLICATION_XML)
+    @Produces(MediaType.APPLICATION_XML)
+    public ClassSaving updateClass(ClassParam classParam) {
+        try {
+            return getClassProcess().updateClass(classParam,
+                    getStudentResource().getStudentProcess());
+        } catch (WebApplicationException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            throw new InternalServerErrorException(
+                    "Some error during updating of the class happens unexpectedly on interface");
+        }
+    }
+
+    /**
+     * Delete the saved class by the code
+     *
+     * @param code is the identifier unique and irreplaceable value in source
+     * @return
+     */
+    @DELETE
+    @Path("{code}")
+    @Produces("application/xml")
+    public Response removeClass(@PathParam("code") String code) {
+        try {
+            return getClassProcess().removeClass(code, getStudentResource().
+                    getStudentProcess());
+        } catch (WebApplicationException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            throw new InternalServerErrorException(
+                    "Some error during deletion the class happens unexpectedly on interface");
         }
     }
 

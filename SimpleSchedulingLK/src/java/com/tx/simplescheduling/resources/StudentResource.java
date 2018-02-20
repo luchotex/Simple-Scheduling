@@ -69,7 +69,7 @@ public class StudentResource {
     @Produces("application/xml")
     public StudentSaving retrieveStudent(@PathParam("id") Integer id) {
         try {
-            return studentProcess.retrieveStudent(id);
+            return getStudentProcess().retrieveStudent(id);
         } catch (WebApplicationException ex) {
             throw ex;
         } catch (Exception ex) {
@@ -92,7 +92,7 @@ public class StudentResource {
     public StudentSaving retrieveStudent(
             @PathParam("fullName") String fullName) {
         try {
-            return studentProcess.retrieveStudentByFullName(fullName);
+            return getStudentProcess().retrieveStudentByFullName(fullName);
         } catch (WebApplicationException ex) {
             throw ex;
         } catch (Exception ex) {
@@ -111,7 +111,7 @@ public class StudentResource {
     @Produces("application/xml")
     public Set<StudentSaving> retrieveAllStudents() {
         try {
-            return studentProcess.retrieveAllStudents();
+            return getStudentProcess().retrieveAllStudents();
         } catch (WebApplicationException ex) {
             throw ex;
         } catch (Exception ex) {
@@ -167,9 +167,9 @@ public class StudentResource {
     }
 
     /**
-     * Delete the saved student by the id, responding all the classes related
+     * Delete the saved student by the id
      *
-     * @param id is the identifier unique and irreplaceable value in sourceF
+     * @param id is the identifier unique and irreplaceable value in source
      * @return
      */
     @DELETE
@@ -177,7 +177,7 @@ public class StudentResource {
     @Produces("application/xml")
     public Response removeStudent(@PathParam("id") Integer id) {
         try {
-            return studentProcess.removeStudent(id, getClassResource().
+            return getStudentProcess().removeStudent(id, getClassResource().
                     getClassProcess());
         } catch (WebApplicationException ex) {
             throw ex;
