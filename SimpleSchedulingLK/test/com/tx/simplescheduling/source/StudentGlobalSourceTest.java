@@ -5,6 +5,7 @@
  */
 package com.tx.simplescheduling.source;
 
+import com.tx.simplescheduling.model.Student;
 import com.tx.simplescheduling.model.StudentSaving;
 import java.util.Set;
 import javax.ws.rs.NotFoundException;
@@ -123,15 +124,16 @@ public class StudentGlobalSourceTest {
         System.out.println("Test retrieveByFullNameFotFound");
         StudentGlobalSource instance = buildDefaultInstance();
 
-        StudentSaving result = instance.retrieveByFullName("Not existent full name");
+        StudentSaving result = instance.retrieveByFullName(
+                "Not existent full name");
     }
 
     /**
      * Test of retrieveAll method, of class StudentGlobalSource.
      */
     @Test
-    public void testRetrieveAll() {
-        System.out.println("retrieveAll");
+    public void testRetrieveAllSucessful() {
+        System.out.println("Test retrieveAllSucessful");
         StudentSaving studentSaving = new StudentSaving(1, "Test name",
                 "test last name");
         StudentSaving studentSaving2 = new StudentSaving(2, "Test name2",
@@ -145,6 +147,52 @@ public class StudentGlobalSourceTest {
         assertEquals(2, allStudents.size());
         assertTrue(allStudents.contains(studentSaving));
         assertTrue(allStudents.contains(studentSaving2));
+    }
+
+    /**
+     * Test of add method, of class StudentGlobalSource.
+     */
+    @Test
+    public void testUpdateSuccessful() {
+        System.out.println("Test addSuccessful");
+        StudentSaving studentSaving = new StudentSaving(1, "Test name",
+                "test last name");
+        StudentGlobalSource instance = new StudentGlobalSource();
+        instance.add(studentSaving);
+
+        StudentSaving retrievedStudent = instance.retrieveById(1);
+
+        assertNotNull(retrievedStudent);
+        assertEquals(studentSaving.getId(), retrievedStudent.getId());
+        assertEquals(studentSaving.getFirstName(), retrievedStudent.
+                getFirstName());
+        assertEquals(studentSaving.getLastName(), retrievedStudent.getLastName());
+        assertEquals(1, instance.getStudentNameMap().size());
+
+        studentSaving = new StudentSaving(1, "Test name after",
+                "test last name after");
+
+        instance.update(studentSaving);
+
+        retrievedStudent = instance.retrieveById(1);
+        assertNotNull(retrievedStudent);
+        assertEquals(studentSaving.getId(), retrievedStudent.getId());
+        assertEquals(studentSaving.getFirstName(), retrievedStudent.
+                getFirstName());
+        assertEquals(studentSaving.getLastName(), retrievedStudent.getLastName());
+        assertEquals(1, instance.getStudentNameMap().size());
+
+    }
+
+    /**
+     * Test of add method, of class StudentGlobalSource.
+     */
+    @Test(expected = NullPointerException.class)
+    public void testUpdateNullStudent() {
+        System.out.println("Test updateNullStudent");
+        StudentSaving studentSaving = null;
+        StudentGlobalSource instance = new StudentGlobalSource();
+        instance.update(studentSaving);
     }
 
     private StudentGlobalSource buildDefaultInstance() {
@@ -161,4 +209,5 @@ public class StudentGlobalSourceTest {
                 studentSaving2);
         return instance;
     }
+
 }

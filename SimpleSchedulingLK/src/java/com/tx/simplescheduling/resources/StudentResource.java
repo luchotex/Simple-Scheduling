@@ -17,6 +17,7 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.WebApplicationException;
@@ -142,23 +143,25 @@ public class StudentResource {
     }
 
     /**
-     * Retrieves the saved student by the id, responding all the classes related
+     * Update the student sending all the information, responding all the class
+     * with their information
      *
-     * @param id is the identifier unique and irreplaceable value in sourceF
+     * @param studentParam is the complete student information with related
+     * class codes
      * @return
      */
-    @DELETE
-    @Path("{id}")
-    @Produces("application/xml")
-    public Response deleteStudent(@PathParam("id") Integer id) {
+    @PUT
+    @Consumes(MediaType.APPLICATION_XML)
+    @Produces(MediaType.APPLICATION_XML)
+    public StudentSaving updateStudent(StudentParam studentParam) {
         try {
-            return studentProcess.removeStudent(id, getClassResource().
-                    getClassProcess());
+            return getStudentProcess().updateStudent(studentParam,
+                    getClassResource().getClassProcess());
         } catch (WebApplicationException ex) {
             throw ex;
         } catch (Exception ex) {
             throw new InternalServerErrorException(
-                    "Some error during deletion the student happens unexpectedly on interface");
+                    "Some error during updating of the student happens unexpectedly on interface");
         }
     }
 

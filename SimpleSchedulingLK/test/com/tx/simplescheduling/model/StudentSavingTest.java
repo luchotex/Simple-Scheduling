@@ -176,6 +176,75 @@ public class StudentSavingTest {
         instance.disenrollAllClasses(classGlobalSource);
     }
 
+    /**
+     * Test of buildClasses updating successful , of class StudentSaving.
+     */
+    @Test
+    public void testBuildClassesUpdatingSuccesful() {
+        System.out.println("Test buildClassesUpdatingSuccesful");
+        Set<String> codeSet = new TreeSet<String>();
+        codeSet.add("class1");
+        codeSet.add("class2");
+        ClassGlobalSource classGlobalSource = buildDefaultClassGlobalSource();
+
+        ClassSaving classToSave3 = new ClassSaving("class3", "class3", "class3");
+        classGlobalSource.getClassCodeMap().put(classToSave3.getCode(),
+                classToSave3);
+        classGlobalSource.getClassTitleMap().put(classToSave3.getTitle(),
+                classToSave3);
+
+        StudentSaving instance = new StudentSaving(1, "Test name",
+                "test last name");
+        instance.buildClasses(codeSet, classGlobalSource);
+
+        assertEquals(2, instance.getClassSet().size());
+        assertEquals(1, classGlobalSource.getClassCodeMap().get("class1").
+                getStudentSet().size());
+        assertEquals(1, classGlobalSource.getClassCodeMap().get("class2").
+                getStudentSet().size());
+
+        codeSet = new TreeSet<String>();
+        codeSet.add("class1");
+        codeSet.add("class3");
+        
+        instance.buildClassesUpdating(codeSet, classGlobalSource);
+        
+        assertEquals(2, instance.getClassSet().size());
+        assertEquals(1, classGlobalSource.getClassCodeMap().get("class1").
+                getStudentSet().size());
+        assertEquals(1, classGlobalSource.getClassCodeMap().get("class3").
+                getStudentSet().size());
+    }
+
+    /**
+     * Test of buildClasses updating null class global source, of class StudentSaving.
+     */
+    @Test(expected = NullPointerException.class)
+    public void testBuildClassesUpdatingNullCodeSet() {
+        System.out.println("Test buildClassesUpdatingNullCodeSet");
+        ClassGlobalSource classGlobalSource = buildDefaultClassGlobalSource();
+        Set<String> codeSet = null;
+
+        StudentSaving instance = new StudentSaving();
+        instance.buildClassesUpdating(codeSet, classGlobalSource);
+    }
+
+    /**
+     * Test of buildClasses updating null class global source, of class StudentSaving.
+     */
+    @Test(expected = NullPointerException.class)
+    public void testBuildClassesUpdatingNullClassGlobalSource() {
+        System.out.println("Test buildClassesUpdatingNullClassGlobalSource");
+        ClassGlobalSource classGlobalSource = null;
+
+        Set<String> codeSet = new TreeSet<String>();
+        codeSet.add("class1");
+        codeSet.add("class2");
+
+        StudentSaving instance = new StudentSaving();
+        instance.buildClasses(codeSet, classGlobalSource);
+    }
+    
     private ClassGlobalSource buildDefaultClassGlobalSource() {
         ClassGlobalSource classGlobalSource = new ClassGlobalSource();
         ClassSaving classToSave1 = new ClassSaving("class1", "class1", "class1");
@@ -190,19 +259,4 @@ public class StudentSavingTest {
                 classToSave2);
         return classGlobalSource;
     }
-
-//
-//    /**
-//     * Test of buildClassesUpdating method, of class StudentSaving.
-//     */
-//    @Test
-//    public void testBuildClassesUpdating() {
-//        System.out.println("buildClassesUpdating");
-//        Set<Integer> classCodeSet = null;
-//        ClassGlobalInfo classGlobalInfo = null;
-//        StudentSaving instance = new StudentSaving();
-//        instance.buildClassesUpdating(classCodeSet, classGlobalInfo);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
 }

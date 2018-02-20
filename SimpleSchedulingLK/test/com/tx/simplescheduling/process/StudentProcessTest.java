@@ -12,6 +12,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.NotFoundException;
+import javax.ws.rs.WebApplicationException;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -96,11 +97,11 @@ public class StudentProcessTest {
         System.out.println("Test addStudentNullClassCodeList");
         StudentParam student = new StudentParam(1, "Test name",
                 "test last name");
-        ClassProcess classGlobalSource = buildDefaultClassProcess();
+        ClassProcess classProcess = buildDefaultClassProcess();
         StudentProcess instance = new StudentProcess();
         try {
             StudentSaving result = instance.addStudent(student,
-                    classGlobalSource);
+                    classProcess);
         } catch (Exception ex) {
             assertTrue(containsExceptionName(NullPointerException.class, ex));
         }
@@ -304,6 +305,105 @@ public class StudentProcessTest {
         instance.addStudent(student, classProcess);
         try {
             instance.removeStudent(3, classProcess);
+        } catch (Exception ex) {
+            assertTrue(containsExceptionName(NotFoundException.class, ex));
+        }
+    }
+
+    /**
+     * Test of addStudent successful method, of class StudentProcess.
+     */
+    @Test
+    public void testUpdateStudentSucessful() {
+        System.out.println("Test updateStudentSucessful");
+        StudentParam student = new StudentParam(1, "Test name",
+                "test last name");
+        Set<String> codeSet = new TreeSet<String>();
+        codeSet.add("class1");
+        codeSet.add("class2");
+        student.setClassCodeList(codeSet);
+        ClassProcess classProcess = buildDefaultClassProcess();
+        ClassSaving classToSave3 = new ClassSaving("class3", "class3", "class3");
+        classProcess.getClassGlobalSource().getClassCodeMap().put(classToSave3.
+                getCode(), classToSave3);
+        classProcess.getClassGlobalSource().getClassTitleMap().put(classToSave3.
+                getTitle(), classToSave3);
+        StudentProcess instance = new StudentProcess();
+        StudentSaving result = instance.addStudent(student, classProcess);
+
+        assertNotNull(result);
+        assertEquals(student.getId(), result.getId());
+        assertEquals(student.getFirstName(), result.getFirstName());
+        assertEquals(student.getLastName(), result.getLastName());
+        assertEquals(2, result.getClassSet().size());
+
+        student = new StudentParam(1, "Test name after", "test last name after");
+        codeSet = new TreeSet<String>();
+        codeSet.add("class1");
+        codeSet.add("class3");
+        student.setClassCodeList(codeSet);
+        result = instance.updateStudent(student, classProcess);
+        assertNotNull(result);
+        assertEquals(student.getId(), result.getId());
+        assertEquals(student.getFirstName(), result.getFirstName());
+        assertEquals(student.getLastName(), result.getLastName());
+        assertEquals(2, result.getClassSet().size());
+    }
+
+    /**
+     * Test of updateStudent null student, of class StudentProcess.
+     */
+    @Test
+    public void testUpdateStudentNullStudentParam() {
+        System.out.println("Test updateStudentNullStudentParam");
+        StudentParam student = null;
+        ClassProcess classProcess = buildDefaultClassProcess();
+        StudentProcess instance = new StudentProcess();
+
+        try {
+            StudentSaving result = instance.updateStudent(student,
+                    classProcess);
+        } catch (Exception ex) {
+            assertTrue(containsExceptionName(BadRequestException.class, ex));
+        }
+    }
+
+    /**
+     * Test of updateStudent null class ClassProcess, of class StudentProcess.
+     */
+    @Test
+    public void testUpdateStudentNullClassProcess() {
+        System.out.println("Test updateStudentNullClassProcess");
+        StudentParam student = new StudentParam(1, "Test name",
+                "test last name");
+        Set<String> codeSet = new TreeSet<String>();
+        codeSet.add("class1");
+        codeSet.add("class2");
+        student.setClassCodeList(codeSet);
+        ClassProcess classProcess = null;
+        StudentProcess instance = new StudentProcess();
+
+        try {
+            instance.updateStudent(student, classProcess);
+        } catch (Exception ex) {
+            assertTrue(containsExceptionName(NotFoundException.class, ex));
+        }
+
+    }
+
+    /**
+     * Test of updateStudent null class code list, of class StudentProcess.
+     */
+    @Test
+    public void testupdateStudentNullClassCodeList() {
+        System.out.println("Test updateStudentNullClassCodeList");
+        StudentParam student = new StudentParam(1, "Test name",
+                "test last name");
+        ClassProcess classProcess = buildDefaultClassProcess();
+        StudentProcess instance = new StudentProcess();
+
+        try {
+            instance.updateStudent(student, classProcess);
         } catch (Exception ex) {
             assertTrue(containsExceptionName(NotFoundException.class, ex));
         }

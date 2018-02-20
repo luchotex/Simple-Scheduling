@@ -8,6 +8,8 @@ package com.tx.simplescheduling.source;
 import com.tx.simplescheduling.model.Class;
 import com.tx.simplescheduling.model.ClassSaving;
 import com.tx.simplescheduling.model.Student;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -246,13 +248,14 @@ public class ClassGlobalSourceTest {
         Class anotherClass = new Class("Another code", "another title",
                 "another description");
         instance.disenrollStudent(anotherClass, student);
-        
+
         assertEquals(1, codeClassSaving.getStudentSet().size());
         assertEquals(1, titleClassSaving.getStudentSet().size());
     }
 
     /**
-     * Test of disenrollStudent code not found method on title map, of class ClassGlobalSource.
+     * Test of disenrollStudent code not found method on title map, of class
+     * ClassGlobalSource.
      */
     @Test
     public void testDisenrollStudentNotFoundOnTitleMap() {
@@ -278,25 +281,150 @@ public class ClassGlobalSourceTest {
         assertNotNull(result);
         assertEquals(1, codeClassSaving.getStudentSet().size());
         assertNull(titleClassSaving);
-        
+
         instance.disenrollStudent(result, student);
         assertEquals(0, codeClassSaving.getStudentSet().size());
         assertNull(titleClassSaving);
     }
 
-//    /**
-//     * Test of enrollStudentUpdating method, of class ClassGlobalSource.
-//     */
-//    @Test
-//    public void testEnrollStudentUpdating() {
-//        System.out.println("enrollStudentUpdating");
-//        Integer code = null;
-//        Student student = null;
-//        ClassGlobalSource instance = new ClassGlobalSource();
-//        Class expResult = null;
-//        Class result = instance.enrollStudentUpdating(code, student);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
+    /**
+     * Test of enrollStudent updating successful method, of class
+     * ClassGlobalSource.
+     */
+    @Test
+    public void testEnrollStudentUpdatingSuccessfull() {
+        System.out.println("Test enrollStudentUpdatingSuccessfull");
+        String code = "class1";
+        Student student = new Student(1, "Test name", "test last name");
+
+        ClassGlobalSource instance = new ClassGlobalSource();
+        ClassSaving classToSave1 = new ClassSaving("class1", "class1", "class1");
+        ClassSaving classToSave2 = new ClassSaving("class2", "class2", "class2");
+        instance.getClassCodeMap().put(classToSave1.getCode(),
+                classToSave1);
+        instance.getClassCodeMap().put(classToSave2.getCode(),
+                classToSave2);
+        instance.getClassTitleMap().put(classToSave1.getTitle(),
+                classToSave1);
+        instance.getClassTitleMap().put(classToSave2.getTitle(),
+                classToSave2);
+        Class result = instance.enrollStudent(code, student);
+
+        ClassSaving codeClassSaving = instance.getClassCodeMap().get(code);
+        ClassSaving titleClassSaving = instance.getClassTitleMap().get(
+                codeClassSaving.getTitle());
+
+        assertNotNull(result);
+        assertEquals(1, codeClassSaving.getStudentSet().size());
+        assertEquals(1, titleClassSaving.getStudentSet().size());
+
+        student = new Student(1, "Test name after", "test last name after");
+
+        result = instance.enrollStudentUpdating(code, student);
+
+        assertNotNull(result);
+        assertEquals(1, codeClassSaving.getStudentSet().size());
+        assertEquals(1, titleClassSaving.getStudentSet().size());
+
+        List<Student> studentSaved = new ArrayList<Student>(codeClassSaving.
+                getStudentSet());
+        Student retrieveStudent = studentSaved.get(0);
+        assertEquals("Test name after", retrieveStudent.getFirstName());
+        assertEquals("test last name after", retrieveStudent.getLastName());
+
+    }
+
+    /**
+     * Test of enrollStudent updating null code method, of class
+     * ClassGlobalSource.
+     */
+    @Test(expected = NullPointerException.class)
+    public void testEnrollStudentUpdatingNullCode() {
+        System.out.println("Test enrollStudentUpdatingNullCode");
+        String code = null;
+        Student student = new Student(1, "Test name", "test last name");
+
+        ClassGlobalSource instance = new ClassGlobalSource();
+        Class result = instance.enrollStudentUpdating(code, student);
+    }
+
+    /**
+     * Test of enrollStudent updating null student method, of class
+     * ClassGlobalSource.
+     */
+    @Test(expected = NullPointerException.class)
+    public void testEnrollStudentUpdatingNullStudent() {
+        System.out.println("Test enrollStudentUpdatingNullStudent");
+        String code = "class1";
+        Student student = null;
+
+        ClassGlobalSource instance = new ClassGlobalSource();
+        ClassSaving classToSave1 = new ClassSaving("class1", "class1", "class1");
+        ClassSaving classToSave2 = new ClassSaving("class2", "class2", "class2");
+        instance.getClassCodeMap().put(classToSave1.getCode(),
+                classToSave1);
+        instance.getClassCodeMap().put(classToSave2.getCode(),
+                classToSave2);
+        instance.getClassTitleMap().put(classToSave1.getTitle(),
+                classToSave1);
+        instance.getClassTitleMap().put(classToSave2.getTitle(),
+                classToSave2);
+        Class result = instance.enrollStudentUpdating(code, student);
+    }
+
+    /**
+     * Test of enrollStudent Updating code not found method, of class
+     * ClassGlobalSource.
+     */
+    @Test
+    public void testEnrollStudentUpdatingNotFoundCode() {
+        System.out.println("Test enrollStudentNotFoundCode");
+        String code = "other code";
+        Student student = new Student(1, "Test name", "test last name");
+
+        ClassGlobalSource instance = new ClassGlobalSource();
+        ClassSaving classToSave1 = new ClassSaving("class1", "class1", "class1");
+        ClassSaving classToSave2 = new ClassSaving("class2", "class2", "class2");
+        instance.getClassCodeMap().put(classToSave1.getCode(),
+                classToSave1);
+        instance.getClassCodeMap().put(classToSave2.getCode(),
+                classToSave2);
+        instance.getClassTitleMap().put(classToSave1.getTitle(),
+                classToSave1);
+        instance.getClassTitleMap().put(classToSave2.getTitle(),
+                classToSave2);
+        Class result = instance.enrollStudentUpdating(code, student);
+
+        assertNull(result);
+    }
+
+    /**
+     * Test of enrollStudent Updating code not found method, of class
+     * ClassGlobalSource.
+     */
+    @Test
+    public void testEnrollStudentUpdatingNotFoundOnTitleMap() {
+        System.out.println("Test enrollStudentUpdatingNotFoundOnTitleMap");
+        String code = "class1";
+        Student student = new Student(1, "Test name", "test last name");
+
+        ClassGlobalSource instance = new ClassGlobalSource();
+        ClassSaving classToSave1 = new ClassSaving("class1", "class1", "class1");
+        ClassSaving classToSave2 = new ClassSaving("class2", "class2", "class2");
+        instance.getClassCodeMap().put(classToSave1.getCode(),
+                classToSave1);
+        instance.getClassCodeMap().put(classToSave2.getCode(),
+                classToSave2);
+        instance.getClassTitleMap().put(classToSave2.getTitle(),
+                classToSave2);
+        Class result = instance.enrollStudentUpdating(code, student);
+
+        ClassSaving codeClassSaving = instance.getClassCodeMap().get(code);
+        ClassSaving titleClassSaving = instance.getClassTitleMap().get(
+                codeClassSaving.getTitle());
+
+        assertNotNull(result);
+        assertEquals(1, codeClassSaving.getStudentSet().size());
+        assertNull(titleClassSaving);
+    }
 }

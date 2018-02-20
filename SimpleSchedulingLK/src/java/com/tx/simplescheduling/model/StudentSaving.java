@@ -50,24 +50,49 @@ public class StudentSaving extends Student {
     }
 
     public void disenrollAllClasses(ClassGlobalSource classGlobalSource) {
-        for (com.tx.simplescheduling.model.Class element : getClassSet()) {
-            classGlobalSource.disenrollStudent(element, this);
+        synchronized (classGlobalSource.getClassCodeMap()) {
+            for (com.tx.simplescheduling.model.Class element : getClassSet()) {
+                classGlobalSource.disenrollStudent(element, this);
+            }
         }
     }
 
-    public void buildClassesUpdating(Set<Integer> classCodeSet,
+    public void buildClassesUpdating(Set<String> classCodeSet,
             ClassGlobalSource classGlobalSource) {
         synchronized (classGlobalSource.getClassCodeMap()) {
-            for (Integer code : classCodeSet) {
-                Class classToAdd = classGlobalSource.enrollStudentUpdating(code,
-                        this);
-                if (classToAdd != null) {
-                    if (classSet.contains(classToAdd)) {
-                        classSet.remove(classToAdd);
-                    }
-                    this.classSet.add(classToAdd);
+
+            for (com.tx.simplescheduling.model.Class element : this.
+                    getClassSet()) {
+                if (!classCodeSet.contains(element.getCode())) {
+                    classGlobalSource.disenrollStudent(element, this);
+                    this.getClassSet().remove(element);
                 }
             }
+
+            for (String code : classCodeSet) {
+                com.tx.simplescheduling.model.Class created = new Class(code,
+                        null, null);
+                enrollClassUpdating(created, classGlobalSource, code);
+            }
         }
+    }
+
+    private void enrollClassUpdating(Class created,
+            ClassGlobalSource classGlobalSource, String code) {
+        if (!this.getClassSet().contains(created)) {
+            com.tx.simplescheduling.model.Class classToAdd
+                    = classGlobalSource.enrollStudentUpdating(code, this);
+            if (classToAdd != null) {
+                if (classSet.contains(classToAdd)) {
+                    classSet.remove(classToAdd);
+                }
+                this.classSet.add(classToAdd);
+            }
+        }
+    }
+
+    public void setValues(StudentParam studentParam) {
+        this.setFirstName(studentParam.getFirstName());
+        this.setLastName(studentParam.getLastName());
     }
 }

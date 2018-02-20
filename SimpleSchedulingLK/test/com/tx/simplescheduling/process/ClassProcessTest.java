@@ -5,9 +5,6 @@
  */
 package com.tx.simplescheduling.process;
 
-import com.tx.simplescheduling.model.Class;
-import com.tx.simplescheduling.model.ClassSaving;
-import com.tx.simplescheduling.model.Student;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

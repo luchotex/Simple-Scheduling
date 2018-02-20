@@ -72,7 +72,7 @@ public class ClassGlobalSource {
     }
 
     public com.tx.simplescheduling.model.Class enrollStudentUpdating(
-            Integer code, Student student) {
+            String code, Student student) {
         com.tx.simplescheduling.model.Class result = null;
 
         result = enrollStudentUpdatingSafely(code, getClassCodeMap(), student);

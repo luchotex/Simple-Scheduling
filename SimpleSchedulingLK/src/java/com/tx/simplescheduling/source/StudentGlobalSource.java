@@ -64,6 +64,14 @@ public class StudentGlobalSource {
         getStudentIdMap().remove(id);
         getStudentNameMap().remove(student.buildFullName());
     }
+    
+    public void update(StudentSaving studentSaving) {
+        StudentSaving retrievedStudent = retrieveById(studentSaving.getId());
+        getStudentIdMap().put(studentSaving.getId(), studentSaving);
+        getStudentNameMap().remove(retrievedStudent.buildFullName());
+        getStudentNameMap().put(studentSaving.buildFullName(),
+                studentSaving);
+    }
 
     public Set<StudentSaving> retrieveAll() {
         return new TreeSet<StudentSaving>(getStudentIdMap().values());
