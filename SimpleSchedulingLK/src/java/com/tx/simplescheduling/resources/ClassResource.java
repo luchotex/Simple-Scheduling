@@ -14,14 +14,12 @@ import javax.ejb.Singleton;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.ResourceContext;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -66,39 +64,24 @@ public class ClassResource {
      */
     @GET
     @Path("{code}")
-    @Produces("application/xml")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public ClassSaving retrieveClass(@PathParam("code") String code) {
-        try {
-            return getClassProcess().retrieveClass(code);
-        } catch (WebApplicationException ex) {
-            throw ex;
-        } catch (Exception ex) {
-            throw new InternalServerErrorException(
-                    "Some error during retrieving the class happens unexpectedly on interface");
-        }
+        return getClassProcess().retrieveClass(code);
     }
 
     /**
      * Retrieves the saved class by the title, responding all the classes
      * related
      *
-     * @param title is the of the class
-     * and the last name
+     * @param title is the of the class and the last name
      * @return
      */
     @GET
     @Path("title/{title}")
-    @Produces("application/xml")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public ClassSaving retrieveClassByTitle(
             @PathParam("title") String title) {
-        try {
-            return getClassProcess().retrieveClasstByTitle(title);
-        } catch (WebApplicationException ex) {
-            throw ex;
-        } catch (Exception ex) {
-            throw new InternalServerErrorException(
-                    "Some error during retrieving the class by full name happens unexpectedly on interface");
-        }
+        return getClassProcess().retrieveClasstByTitle(title);
     }
 
     /**
@@ -108,16 +91,9 @@ public class ClassResource {
      * @return
      */
     @GET
-    @Produces("application/xml")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Set<ClassSaving> retrieveAllClasses() {
-        try {
-            return getClassProcess().retrieveAllClasses();
-        } catch (WebApplicationException ex) {
-            throw ex;
-        } catch (Exception ex) {
-            throw new InternalServerErrorException(
-                    "Some error during retrieving ALL the classes happens unexpectedly on interface");
-        }
+        return getClassProcess().retrieveAllClasses();
     }
 
     /**
@@ -129,18 +105,11 @@ public class ClassResource {
      * @return
      */
     @POST
-    @Consumes(MediaType.APPLICATION_XML)
-    @Produces(MediaType.APPLICATION_XML)
+    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public ClassSaving createClass(ClassParam classParam) {
-        try {
-            return getClassProcess().addClass(classParam,
-                    getStudentResource().getStudentProcess());
-        } catch (WebApplicationException ex) {
-            throw ex;
-        } catch (Exception ex) {
-            throw new InternalServerErrorException(
-                    "Some error during creation of the class happens unexpectedly on interface");
-        }
+        return getClassProcess().addClass(classParam,
+                getStudentResource().getStudentProcess());
     }
 
     /**
@@ -152,18 +121,11 @@ public class ClassResource {
      * @return
      */
     @PUT
-    @Consumes(MediaType.APPLICATION_XML)
-    @Produces(MediaType.APPLICATION_XML)
+    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public ClassSaving updateClass(ClassParam classParam) {
-        try {
-            return getClassProcess().updateClass(classParam,
-                    getStudentResource().getStudentProcess());
-        } catch (WebApplicationException ex) {
-            throw ex;
-        } catch (Exception ex) {
-            throw new InternalServerErrorException(
-                    "Some error during updating of the class happens unexpectedly on interface");
-        }
+        return getClassProcess().updateClass(classParam,
+                getStudentResource().getStudentProcess());
     }
 
     /**
@@ -174,17 +136,10 @@ public class ClassResource {
      */
     @DELETE
     @Path("{code}")
-    @Produces("application/xml")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response removeClass(@PathParam("code") String code) {
-        try {
-            return getClassProcess().removeClass(code, getStudentResource().
-                    getStudentProcess());
-        } catch (WebApplicationException ex) {
-            throw ex;
-        } catch (Exception ex) {
-            throw new InternalServerErrorException(
-                    "Some error during deletion the class happens unexpectedly on interface");
-        }
+        return getClassProcess().removeClass(code, getStudentResource().
+                getStudentProcess());
     }
 
     public ResourceContext getResourceContext() {
