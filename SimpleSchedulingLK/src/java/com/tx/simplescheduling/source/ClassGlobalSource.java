@@ -7,7 +7,6 @@ package com.tx.simplescheduling.source;
 
 import com.tx.simplescheduling.model.ClassSaving;
 import com.tx.simplescheduling.model.Student;
-import com.tx.simplescheduling.model.StudentSaving;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -25,8 +24,8 @@ public class ClassGlobalSource {
     private Map<String, ClassSaving> classTitleMap
             = new ConcurrentHashMap<String, ClassSaving>();
 
-    public ClassSaving retrieveByCode(String code) {
-        ClassSaving classSaving = getClassCodeMap().get(code);
+    public ClassSaving retrieveByIdentifier(String code) {
+        ClassSaving classSaving = getIdentifierMap().get(code);
 
         if (classSaving == null) {
             throw new NotFoundException("The code " + code
@@ -36,8 +35,8 @@ public class ClassGlobalSource {
         return classSaving;
     }
 
-    public ClassSaving retrieveByTitle(String title) {
-        ClassSaving classSaving = getClassTitleMap().get(title);
+    public ClassSaving retrieveByTypicalSearch(String title) {
+        ClassSaving classSaving = getTypicalSearchMap().get(title);
 
         if (classSaving == null) {
             throw new NotFoundException("The title" + title
@@ -48,119 +47,112 @@ public class ClassGlobalSource {
     }
 
     public Set<ClassSaving> retrieveAll() {
-        return new TreeSet<ClassSaving>(getClassCodeMap().values());
-    }
-
-    public com.tx.simplescheduling.model.Class enrollStudent(String code,
-            Student student) {
-        com.tx.simplescheduling.model.Class result = null;
-
-        result = enrollStudentSafely(code, getClassCodeMap(), student);
-        if (result != null) {
-            enrollStudentSafely(result.getTitle(), getClassTitleMap(), student);
-        }
-
-        return result;
+        return new TreeSet<ClassSaving>(getIdentifierMap().values());
     }
 
     public void add(ClassSaving classSaving) {
-        getClassCodeMap().put(classSaving.getCode(), classSaving);
-        getClassTitleMap().put(classSaving.getTitle(), classSaving);
+        getIdentifierMap().put(classSaving.getCode(), classSaving);
+        getTypicalSearchMap().put(classSaving.getTitle(), classSaving);
     }
 
     public void remove(String code) {
-        ClassSaving classToRemove = getClassCodeMap().get(code);
+        ClassSaving classToRemove = getIdentifierMap().get(code);
 
         if (classToRemove == null) {
             throw new NotFoundException("The code " + code
                     + " of a class not exist on sources for removing");
         }
-        getClassCodeMap().remove(code);
-        getClassTitleMap().remove(classToRemove.getTitle());
+        getIdentifierMap().remove(code);
+        getTypicalSearchMap().remove(classToRemove.getTitle());
     }
 
     public void update(ClassSaving classSaving) {
-        ClassSaving retrievedClass = retrieveByCode(classSaving.getCode());
-        getClassCodeMap().put(classSaving.getCode(), classSaving);
-        getClassTitleMap().remove(retrievedClass.getTitle());
-        getClassTitleMap().put(classSaving.getTitle(), classSaving);
+        ClassSaving retrievedClass = retrieveByIdentifier(classSaving.getCode());
+        getIdentifierMap().put(classSaving.getCode(), classSaving);
+        getTypicalSearchMap().remove(retrievedClass.getTitle());
+        getTypicalSearchMap().put(classSaving.getTitle(), classSaving);
     }
 
-    private com.tx.simplescheduling.model.Class enrollStudentSafely(Object key,
-            Map map, Student student) {
-        com.tx.simplescheduling.model.Class result = null;
-
-        ClassSaving retrievedClassSaving = (ClassSaving) map.get(key);
-
-        if (retrievedClassSaving != null) {
-            retrievedClassSaving.enrollStudent(student);
-            result = retrievedClassSaving.createClass();
-        }
-
-        return result;
-    }
-
-    public void disenrollStudent(com.tx.simplescheduling.model.Class classSaving,
-            Student student) {
-        boolean wasRemoved = disenrollStudentSafely(classSaving.getCode(),
-                getClassCodeMap(), student);
-        if (wasRemoved) {
-            disenrollStudentSafely(classSaving.getTitle(), getClassTitleMap(),
-                    student);
-        }
-    }
-
-    private boolean disenrollStudentSafely(Object key,
-            Map map, Student student) {
-        boolean result = false;
-
-        ClassSaving retrievedClassSaving = (ClassSaving) map.get(key);
-
-        if (retrievedClassSaving != null) {
-            retrievedClassSaving.disenrollStudent(student);
-            result = true;
-        }
-
-        return result;
-    }
-
-    public com.tx.simplescheduling.model.Class enrollStudentUpdating(
+    public com.tx.simplescheduling.model.Class addRelatedElement(
             String code, Student student) {
         com.tx.simplescheduling.model.Class result = null;
 
-        result = enrollStudentUpdatingSafely(code, getClassCodeMap(), student);
-        enrollStudentUpdatingSafely(code, getClassTitleMap(), student);
+        result = addRelatedElementSafely(code, getIdentifierMap(), student);
+        if (result != null) {
+            addRelatedElementSafely(result.getTitle(), getTypicalSearchMap(),
+                    student);
+        }
+
         return result;
     }
 
-    private com.tx.simplescheduling.model.Class enrollStudentUpdatingSafely(
+    public void removeRelatedElement(
+            com.tx.simplescheduling.model.Class classSaving, Student student) {
+        boolean wasRemoved = removeRelatedElementSafely(classSaving.getCode(),
+                getIdentifierMap(), student);
+        if (wasRemoved) {
+            removeRelatedElementSafely(classSaving.getTitle(),
+                    getTypicalSearchMap(), student);
+        }
+    }
+
+    public com.tx.simplescheduling.model.Class updatingRelatedElement(
+            String code, Student student) {
+        com.tx.simplescheduling.model.Class result = null;
+
+        result = updateRelatedElementSafely(code, getIdentifierMap(), student);
+        updateRelatedElementSafely(code, getTypicalSearchMap(), student);
+        return result;
+    }
+
+    private com.tx.simplescheduling.model.Class addRelatedElementSafely(
             Object key, Map map, Student student) {
         com.tx.simplescheduling.model.Class result = null;
 
         ClassSaving retrievedClassSaving = (ClassSaving) map.get(key);
 
         if (retrievedClassSaving != null) {
-            retrievedClassSaving.enrollStudentUpdating(student);
-            result = retrievedClassSaving.createClass();
+            retrievedClassSaving.addRelatedElement(student);
+            result = retrievedClassSaving.createRelatedElement();
         }
 
         return result;
     }
 
-    public Map<String, ClassSaving> getClassCodeMap() {
+    private boolean removeRelatedElementSafely(Object key,
+            Map map, Student student) {
+        boolean result = false;
+
+        ClassSaving retrievedClassSaving = (ClassSaving) map.get(key);
+
+        if (retrievedClassSaving != null) {
+            retrievedClassSaving.removeRelatedElement(student);
+            result = true;
+        }
+
+        return result;
+    }
+
+    private com.tx.simplescheduling.model.Class updateRelatedElementSafely(
+            Object key, Map map, Student student) {
+        com.tx.simplescheduling.model.Class result = null;
+
+        ClassSaving retrievedClassSaving = (ClassSaving) map.get(key);
+
+        if (retrievedClassSaving != null) {
+            retrievedClassSaving.updateRelatedElement(student);
+            result = retrievedClassSaving.createRelatedElement();
+        }
+
+        return result;
+    }
+
+    public Map<String, ClassSaving> getIdentifierMap() {
         return classCodeMap;
     }
 
-    public void setClassCodeMap(Map<String, ClassSaving> classCodeMap) {
-        this.classCodeMap = classCodeMap;
-    }
-
-    public Map<String, ClassSaving> getClassTitleMap() {
+    public Map<String, ClassSaving> getTypicalSearchMap() {
         return classTitleMap;
-    }
-
-    public void setClassTitleMap(Map<String, ClassSaving> classTitleMap) {
-        this.classTitleMap = classTitleMap;
     }
 
 }

@@ -8,7 +8,6 @@ package com.tx.simplescheduling.model;
 import com.tx.simplescheduling.source.StudentGlobalSource;
 import java.util.Set;
 import java.util.TreeSet;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -33,19 +32,18 @@ public class ClassSaving extends Class {
         return studentSet;
     }
 
-    @XmlElement
     public void setStudentSet(Set<Student> studentSet) {
         this.studentSet = studentSet;
     }
 
-    public Class createClass() {
+    public Class createRelatedElement() {
         return new Class(code, title, description);
     }
 
-    public void buildStudents(Set<Integer> studentIdSet,
+    public void buildRelatedElementAdding(Set<Integer> studentIdSet,
             StudentGlobalSource studentGlobalSource) {
         for (Integer id : studentIdSet) {
-            Student studentToAdd = studentGlobalSource.assignClassUpdating(id,
+            Student studentToAdd = studentGlobalSource.addRelatedElement(id,
                     this);
             if (studentToAdd != null) {
                 this.studentSet.add(studentToAdd);
@@ -53,33 +51,33 @@ public class ClassSaving extends Class {
         }
     }
 
-    public void disassignAllStudents(StudentGlobalSource studentGlobalSource) {
+    public void removeAllRelatedElements(StudentGlobalSource studentGlobalSource) {
         for (Student element : getStudentSet()) {
-            studentGlobalSource.disassignClass(element, this);
+            studentGlobalSource.removeRelatedElement(element, this);
         }
     }
 
-    public void buildStudentUpdating(Set<Integer> studentIdSet,
+    public void updateRelatedElements(Set<Integer> studentIdSet,
             StudentGlobalSource studentGlobalSource) {
 
         for (Student element : this.getStudentSet()) {
             if (!studentIdSet.contains(element.getId())) {
-                studentGlobalSource.disassignClass(element, this);
+                studentGlobalSource.removeRelatedElement(element, this);
                 this.getStudentSet().remove(element);
             }
         }
 
         for (Integer id : studentIdSet) {
             Student created = new Student(id, null, null);
-            assignStudentUpdating(created, studentGlobalSource, id);
+            updateRetrievedRelatedElement(created, studentGlobalSource, id);
         }
     }
 
-    private void assignStudentUpdating(Student created,
+    private void updateRetrievedRelatedElement(Student created,
             StudentGlobalSource studentGlobalSource, Integer id) {
         if (!this.getStudentSet().contains(created)) {
             Student studentToAdd
-                    = studentGlobalSource.assignClassUpdating(id, this);
+                    = studentGlobalSource.updatingRelatedElement(id, this);
             if (studentToAdd != null) {
                 if (getStudentSet().contains(studentToAdd)) {
                     getStudentSet().remove(studentToAdd);
@@ -89,18 +87,18 @@ public class ClassSaving extends Class {
         }
     }
 
-    public void enrollStudent(Student student) {
+    public void addRelatedElement(Student student) {
         getStudentSet().add(student);
     }
 
-    public void enrollStudentUpdating(Student student) {
+    public void updateRelatedElement(Student student) {
         if (getStudentSet().contains(student)) {
             getStudentSet().remove(student);
         }
         getStudentSet().add(student);
     }
 
-    public void disenrollStudent(Student student) {
+    public void removeRelatedElement(Student student) {
         getStudentSet().remove(student);
     }
 
@@ -108,5 +106,4 @@ public class ClassSaving extends Class {
         this.setTitle(classParam.getTitle());
         this.setDescription(classParam.getDescription());
     }
-
 }

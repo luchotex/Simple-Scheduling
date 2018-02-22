@@ -30,7 +30,7 @@ public class ClassParam extends Class {
         this.studentIdList = studentIdList;
     }
 
-    public ClassSaving createStudentSaving() {
+    public ClassSaving createSavingInstance() {
         ClassSaving result = new ClassSaving(code, title, description);
         return result;
     }

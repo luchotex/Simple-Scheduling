@@ -65,7 +65,7 @@ public class StudentResource {
     @Path("{id}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public StudentSaving retrieveStudent(@PathParam("id") Integer id) {
-        return getStudentProcess().retrieveStudent(id);
+        return getStudentProcess().retrieveByIdentifier(id);
     }
 
     /**
@@ -81,7 +81,7 @@ public class StudentResource {
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public StudentSaving retrieveStudent(
             @PathParam("fullName") String fullName) {
-        return getStudentProcess().retrieveStudentByFullName(fullName);
+        return getStudentProcess().retrieveByTypicalSearch(fullName);
     }
 
     /**
@@ -93,7 +93,7 @@ public class StudentResource {
     @GET
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Set<StudentSaving> retrieveAllStudents() {
-        return getStudentProcess().retrieveAllStudents();
+        return getStudentProcess().retrieveAll();
     }
 
     /**
@@ -108,7 +108,7 @@ public class StudentResource {
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public StudentSaving createStudent(StudentParam studentParam) {
-        return getStudentProcess().addStudent(studentParam,
+        return getStudentProcess().add(studentParam,
                 getClassResource().getClassProcess());
     }
 
@@ -124,7 +124,7 @@ public class StudentResource {
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public StudentSaving updateStudent(StudentParam studentParam) {
-        return getStudentProcess().updateStudent(studentParam,
+        return getStudentProcess().update(studentParam,
                 getClassResource().getClassProcess());
     }
 
@@ -138,7 +138,7 @@ public class StudentResource {
     @Path("{id}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response removeStudent(@PathParam("id") Integer id) {
-        return getStudentProcess().removeStudent(id, getClassResource().
+        return getStudentProcess().remove(id, getClassResource().
                 getClassProcess());
     }
 

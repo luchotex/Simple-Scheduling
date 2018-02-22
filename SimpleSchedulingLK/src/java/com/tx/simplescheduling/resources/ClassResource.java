@@ -66,7 +66,7 @@ public class ClassResource {
     @Path("{code}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public ClassSaving retrieveClass(@PathParam("code") String code) {
-        return getClassProcess().retrieveClass(code);
+        return getClassProcess().retrieveByIdentifier(code);
     }
 
     /**
@@ -81,7 +81,7 @@ public class ClassResource {
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public ClassSaving retrieveClassByTitle(
             @PathParam("title") String title) {
-        return getClassProcess().retrieveClasstByTitle(title);
+        return getClassProcess().retrieveByTypicalSearch(title);
     }
 
     /**
@@ -93,7 +93,7 @@ public class ClassResource {
     @GET
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Set<ClassSaving> retrieveAllClasses() {
-        return getClassProcess().retrieveAllClasses();
+        return getClassProcess().retrieveAll();
     }
 
     /**
@@ -108,7 +108,7 @@ public class ClassResource {
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public ClassSaving createClass(ClassParam classParam) {
-        return getClassProcess().addClass(classParam,
+        return getClassProcess().add(classParam,
                 getStudentResource().getStudentProcess());
     }
 
@@ -124,7 +124,7 @@ public class ClassResource {
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public ClassSaving updateClass(ClassParam classParam) {
-        return getClassProcess().updateClass(classParam,
+        return getClassProcess().update(classParam,
                 getStudentResource().getStudentProcess());
     }
 
@@ -138,7 +138,7 @@ public class ClassResource {
     @Path("{code}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response removeClass(@PathParam("code") String code) {
-        return getClassProcess().removeClass(code, getStudentResource().
+        return getClassProcess().remove(code, getStudentResource().
                 getStudentProcess());
     }
 

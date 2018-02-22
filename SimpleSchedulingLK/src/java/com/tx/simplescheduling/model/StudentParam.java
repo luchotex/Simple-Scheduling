@@ -34,7 +34,7 @@ public class StudentParam extends Student {
         this.classCodeList = classCodeList;
     }
 
-    public StudentSaving createStudentSaving() {
+    public StudentSaving createSavingInstance() {
         return new StudentSaving(id, firstName, lastName);
     }
 

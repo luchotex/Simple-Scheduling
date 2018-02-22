@@ -27,8 +27,8 @@ public class StudentGlobalSource {
     public StudentGlobalSource() {
     }
 
-    public StudentSaving retrieveById(Integer id) {
-        StudentSaving student = getStudentIdMap().get(id);
+    public StudentSaving retrieveByIdentifier(Integer id) {
+        StudentSaving student = getIdentifierMap().get(id);
 
         if (student == null) {
             throw new NotFoundException("The id " + id
@@ -38,8 +38,8 @@ public class StudentGlobalSource {
         return student;
     }
 
-    public StudentSaving retrieveByFullName(String fullName) {
-        StudentSaving student = getStudentNameMap().get(fullName);
+    public StudentSaving retrieveByTypicalSearch(String fullName) {
+        StudentSaving student = getTypicalSearchMap().get(fullName);
 
         if (student == null) {
             throw new NotFoundException("The fullName " + fullName
@@ -50,110 +50,118 @@ public class StudentGlobalSource {
     }
 
     public Set<StudentSaving> retrieveAll() {
-        return new TreeSet<StudentSaving>(getStudentIdMap().values());
+        return new TreeSet<StudentSaving>(getIdentifierMap().values());
     }
 
     public void add(StudentSaving studentSaving) {
-        getStudentIdMap().put(studentSaving.getId(), studentSaving);
-        getStudentNameMap().put(studentSaving.buildFullName(),
+        getIdentifierMap().put(studentSaving.getId(), studentSaving);
+        getTypicalSearchMap().put(studentSaving.buildFullName(),
                 studentSaving);
     }
 
     public void remove(Integer id) {
-        StudentSaving student = getStudentIdMap().get(id);
+        StudentSaving student = getIdentifierMap().get(id);
 
         if (student == null) {
             throw new NotFoundException("The id " + id
                     + " of a student not exist on sources for removing");
         }
-        getStudentIdMap().remove(id);
-        getStudentNameMap().remove(student.buildFullName());
+        getIdentifierMap().remove(id);
+        getTypicalSearchMap().remove(student.buildFullName());
     }
 
     public void update(StudentSaving studentSaving) {
-        StudentSaving retrievedStudent = retrieveById(studentSaving.getId());
-        getStudentIdMap().put(studentSaving.getId(), studentSaving);
-        getStudentNameMap().remove(retrievedStudent.buildFullName());
-        getStudentNameMap().put(studentSaving.buildFullName(),
+        StudentSaving retrievedStudent = retrieveByIdentifier(studentSaving.
+                getId());
+        getIdentifierMap().put(studentSaving.getId(), studentSaving);
+        getTypicalSearchMap().remove(retrievedStudent.buildFullName());
+        getTypicalSearchMap().put(studentSaving.buildFullName(),
                 studentSaving);
     }
 
-    private Student assignClassSafely(Object key,
+    public Student addRelatedElement(
+            Integer id, com.tx.simplescheduling.model.Class classToAssign) {
+        Student result = null;
+
+        result = addRelatedElementSafely(id, getIdentifierMap(), classToAssign);
+        if (result != null) {
+            addRelatedElementSafely(result.buildFullName(),
+                    getTypicalSearchMap(),
+                    classToAssign);
+        }
+
+        return result;
+    }
+
+    public void removeRelatedElement(Student studentSaving,
+            com.tx.simplescheduling.model.Class classToDisassign) {
+        boolean wasRemoved = removeRelatedElementSafely(studentSaving.getId(),
+                getIdentifierMap(), classToDisassign);
+        if (wasRemoved) {
+            removeRelatedElementSafely(studentSaving.buildFullName(),
+                    getTypicalSearchMap(), classToDisassign);
+        }
+    }
+
+    public Student updatingRelatedElement(
+            Integer id, com.tx.simplescheduling.model.Class classToAssign) {
+        Student result = null;
+
+        result = updateRelatedElementSafely(id, getIdentifierMap(),
+                classToAssign);
+        updateRelatedElementSafely(id, getTypicalSearchMap(), classToAssign);
+        return result;
+    }
+
+    private Student addRelatedElementSafely(Object key,
             Map map, com.tx.simplescheduling.model.Class classToAssign) {
         Student result = null;
 
         StudentSaving retrievedStudentSaving = (StudentSaving) map.get(key);
 
         if (retrievedStudentSaving != null) {
-            retrievedStudentSaving.assignClass(classToAssign);
-            result = retrievedStudentSaving.createStudent();
+            retrievedStudentSaving.addRelatedElement(classToAssign);
+            result = retrievedStudentSaving.createRelatedElement();
         }
 
         return result;
     }
 
-    public void disassignClass(Student studentSaving,
-            com.tx.simplescheduling.model.Class classToDisassign) {
-        boolean wasRemoved = disassignClassSafely(studentSaving.getId(),
-                getStudentIdMap(), classToDisassign);
-        if (wasRemoved) {
-            disassignClassSafely(studentSaving.buildFullName(),
-                    getStudentNameMap(), classToDisassign);
-        }
-    }
-
-    private boolean disassignClassSafely(Object key,
+    private boolean removeRelatedElementSafely(Object key,
             Map map, com.tx.simplescheduling.model.Class classToDisassign) {
         boolean result = false;
 
         StudentSaving retrievedStudentSaving = (StudentSaving) map.get(key);
 
         if (retrievedStudentSaving != null) {
-            retrievedStudentSaving.disassignClass(classToDisassign);
+            retrievedStudentSaving.removeRelatedElement(classToDisassign);
             result = true;
         }
 
         return result;
     }
 
-    public Student assignClassUpdating(
-            Integer id, com.tx.simplescheduling.model.Class classToAssign) {
-        Student result = null;
-
-        result = assignClassUpdatingSafely(id, getStudentIdMap(), classToAssign);
-        assignClassUpdatingSafely(id, getStudentNameMap(), classToAssign);
-        return result;
-    }
-
-    private Student assignClassUpdatingSafely(
-            Object key, Map map, com.tx.simplescheduling.model.Class classToAssign) {
+    private Student updateRelatedElementSafely(
+            Object key, Map map,
+            com.tx.simplescheduling.model.Class classToAssign) {
         Student result = null;
 
         StudentSaving retrievedStudentSaving = (StudentSaving) map.get(key);
 
         if (retrievedStudentSaving != null) {
-            retrievedStudentSaving.assignClassUpdating(classToAssign);
-            result = retrievedStudentSaving.createStudent();
+            retrievedStudentSaving.updateRelatedElement(classToAssign);
+            result = retrievedStudentSaving.createRelatedElement();
         }
 
         return result;
     }
 
-    public Map<Integer, StudentSaving> getStudentIdMap() {
+    public Map<Integer, StudentSaving> getIdentifierMap() {
         return studentIdMap;
     }
 
-    public void setStudentIdMap(Map<Integer, StudentSaving> studentIdMap) {
-        this.studentIdMap = studentIdMap;
-    }
-
-    public Map<String, StudentSaving> getStudentNameMap() {
+    public Map<String, StudentSaving> getTypicalSearchMap() {
         return studentNameMap;
-    }
-
-    public void setStudentNameMap(
-            Map<String, StudentSaving> studentNameMap) {
-        this.studentNameMap = studentNameMap;
     }
 
 }

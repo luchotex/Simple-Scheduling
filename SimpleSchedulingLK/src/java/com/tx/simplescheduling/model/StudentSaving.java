@@ -8,7 +8,6 @@ package com.tx.simplescheduling.model;
 import com.tx.simplescheduling.source.ClassGlobalSource;
 import java.util.Set;
 import java.util.TreeSet;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -32,38 +31,37 @@ public class StudentSaving extends Student {
         return classSet;
     }
 
-    @XmlElement
     public void setClassSet(Set<Class> classSet) {
         this.classSet = classSet;
     }
 
-    public Student createStudent() {
+    public Student createRelatedElement() {
         return new Student(id, firstName, lastName);
     }
 
-    public void buildClasses(Set<String> classCodeSet,
+    public void buildRelatedElementAdding(Set<String> classCodeSet,
             ClassGlobalSource classGlobalSource) {
         for (String code : classCodeSet) {
-            Class classToAdd = classGlobalSource.enrollStudent(code, this);
+            Class classToAdd = classGlobalSource.addRelatedElement(code, this);
             if (classToAdd != null) {
                 this.classSet.add(classToAdd);
             }
         }
     }
 
-    public void disenrollAllClasses(ClassGlobalSource classGlobalSource) {
+    public void removeAllRelatedElements(ClassGlobalSource classGlobalSource) {
         for (com.tx.simplescheduling.model.Class element : getClassSet()) {
-            classGlobalSource.disenrollStudent(element, this);
+            classGlobalSource.removeRelatedElement(element, this);
         }
     }
 
-    public void buildClassesUpdating(Set<String> classCodeSet,
+    public void updateRelatedElements(Set<String> classCodeSet,
             ClassGlobalSource classGlobalSource) {
 
         for (com.tx.simplescheduling.model.Class element : this.
                 getClassSet()) {
             if (!classCodeSet.contains(element.getCode())) {
-                classGlobalSource.disenrollStudent(element, this);
+                classGlobalSource.removeRelatedElement(element, this);
                 this.getClassSet().remove(element);
             }
         }
@@ -71,15 +69,15 @@ public class StudentSaving extends Student {
         for (String code : classCodeSet) {
             com.tx.simplescheduling.model.Class created = new Class(code,
                     null, null);
-            enrollClassUpdating(created, classGlobalSource, code);
+            updateRetrievedRelatedElement(created, classGlobalSource, code);
         }
     }
 
-    private void enrollClassUpdating(Class created,
+    private void updateRetrievedRelatedElement(Class created,
             ClassGlobalSource classGlobalSource, String code) {
         if (!this.getClassSet().contains(created)) {
             com.tx.simplescheduling.model.Class classToAdd
-                    = classGlobalSource.enrollStudentUpdating(code, this);
+                    = classGlobalSource.updatingRelatedElement(code, this);
             if (classToAdd != null) {
                 if (getClassSet().contains(classToAdd)) {
                     getClassSet().remove(classToAdd);
@@ -89,18 +87,18 @@ public class StudentSaving extends Student {
         }
     }
 
-    public void assignClass(Class classToAssign) {
+    public void addRelatedElement(Class classToAssign) {
         getClassSet().add(classToAssign);
     }
 
-    public void assignClassUpdating(Class classToAssign) {
+    public void updateRelatedElement(Class classToAssign) {
         if (getClassSet().contains(classToAssign)) {
             getClassSet().remove(classToAssign);
         }
         getClassSet().add(classToAssign);
     }
 
-    public void disassignClass(Class classToDisassign) {
+    public void removeRelatedElement(Class classToDisassign) {
         getClassSet().remove(classToDisassign);
     }
 

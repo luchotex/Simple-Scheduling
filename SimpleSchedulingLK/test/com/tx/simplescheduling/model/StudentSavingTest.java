@@ -21,7 +21,7 @@ public class StudentSavingTest {
     }
 
     /**
-     * Test of buildStudents null class global source, of class StudentSaving.
+     * Test of buildRelatedElementAdding null class global source, of class StudentSaving.
      */
     @Test
     public void testBuildClassesSuccesful() {
@@ -32,17 +32,17 @@ public class StudentSavingTest {
         ClassGlobalSource classGlobalSource = buildDefaultClassGlobalSource();
         StudentSaving instance = new StudentSaving(1, "Test name",
                 "test last name");
-        instance.buildClasses(codeSet, classGlobalSource);
+        instance.buildRelatedElementAdding(codeSet, classGlobalSource);
 
         assertEquals(2, instance.getClassSet().size());
-        assertEquals(1, classGlobalSource.getClassCodeMap().get("class1").
+        assertEquals(1, classGlobalSource.getIdentifierMap().get("class1").
                 getStudentSet().size());
-        assertEquals(1, classGlobalSource.getClassCodeMap().get("class2").
+        assertEquals(1, classGlobalSource.getIdentifierMap().get("class2").
                 getStudentSet().size());
     }
 
     /**
-     * Test of buildStudents null class global source, of class StudentSaving.
+     * Test of buildRelatedElementAdding null class global source, of class StudentSaving.
      */
     @Test
     public void testBuildClassesSuccesfulButNotOneClass() {
@@ -53,17 +53,17 @@ public class StudentSavingTest {
         ClassGlobalSource classGlobalSource = buildDefaultClassGlobalSource();
         StudentSaving instance = new StudentSaving(1, "Test name",
                 "test last name");
-        instance.buildClasses(codeSet, classGlobalSource);
+        instance.buildRelatedElementAdding(codeSet, classGlobalSource);
 
         assertEquals(1, instance.getClassSet().size());
-        assertEquals(1, classGlobalSource.getClassCodeMap().get("class1").
+        assertEquals(1, classGlobalSource.getIdentifierMap().get("class1").
                 getStudentSet().size());
-        assertEquals(0, classGlobalSource.getClassCodeMap().get("class2").
+        assertEquals(0, classGlobalSource.getIdentifierMap().get("class2").
                 getStudentSet().size());
     }
 
     /**
-     * Test of buildStudents null class global source, of class StudentSaving.
+     * Test of buildRelatedElementAdding null class global source, of class StudentSaving.
      */
     @Test(expected = NullPointerException.class)
     public void testBuildClassesNullCodeSet() {
@@ -72,11 +72,11 @@ public class StudentSavingTest {
         Set<String> codeSet = null;
 
         StudentSaving instance = new StudentSaving();
-        instance.buildClasses(codeSet, classGlobalSource);
+        instance.buildRelatedElementAdding(codeSet, classGlobalSource);
     }
 
     /**
-     * Test of buildStudents null class global source, of class StudentSaving.
+     * Test of buildRelatedElementAdding null class global source, of class StudentSaving.
      */
     @Test(expected = NullPointerException.class)
     public void testBuildClassesNullClassGlobalSource() {
@@ -88,7 +88,7 @@ public class StudentSavingTest {
         codeSet.add("class2");
 
         StudentSaving instance = new StudentSaving();
-        instance.buildClasses(codeSet, classGlobalSource);
+        instance.buildRelatedElementAdding(codeSet, classGlobalSource);
     }
 
     /**
@@ -103,23 +103,23 @@ public class StudentSavingTest {
         ClassGlobalSource classGlobalSource = buildDefaultClassGlobalSource();
         StudentSaving instance = new StudentSaving(1, "Test name",
                 "test last name");
-        instance.buildClasses(codeSet, classGlobalSource);
+        instance.buildRelatedElementAdding(codeSet, classGlobalSource);
         assertEquals(2, instance.getClassSet().size());
-        assertEquals(1, classGlobalSource.getClassCodeMap().get("class1").
+        assertEquals(1, classGlobalSource.getIdentifierMap().get("class1").
                 getStudentSet().size());
-        assertEquals(1, classGlobalSource.getClassCodeMap().get("class2").
+        assertEquals(1, classGlobalSource.getIdentifierMap().get("class2").
                 getStudentSet().size());
 
-        instance.disenrollAllClasses(classGlobalSource);
+        instance.removeAllRelatedElements(classGlobalSource);
         assertEquals(2, instance.getClassSet().size());
-        assertEquals(0, classGlobalSource.getClassCodeMap().get("class1").
+        assertEquals(0, classGlobalSource.getIdentifierMap().get("class1").
                 getStudentSet().size());
-        assertEquals(0, classGlobalSource.getClassCodeMap().get("class2").
+        assertEquals(0, classGlobalSource.getIdentifierMap().get("class2").
                 getStudentSet().size());
     }
 
     /**
-     * Test of disassignAllStudents but not one Class, of class StudentSaving.
+     * Test of removeAllRelatedElements but not one Class, of class StudentSaving.
      */
     @Test
     public void testDisenrollAllClassesButNotOneClass() {
@@ -130,25 +130,25 @@ public class StudentSavingTest {
         ClassGlobalSource classGlobalSource = buildDefaultClassGlobalSource();
         StudentSaving instance = new StudentSaving(1, "Test name",
                 "test last name");
-        instance.buildClasses(codeSet, classGlobalSource);
+        instance.buildRelatedElementAdding(codeSet, classGlobalSource);
 
         assertEquals(1, instance.getClassSet().size());
-        assertEquals(1, classGlobalSource.getClassCodeMap().get("class1").
+        assertEquals(1, classGlobalSource.getIdentifierMap().get("class1").
                 getStudentSet().size());
-        assertEquals(0, classGlobalSource.getClassCodeMap().get("class2").
+        assertEquals(0, classGlobalSource.getIdentifierMap().get("class2").
                 getStudentSet().size());
 
-        instance.disenrollAllClasses(classGlobalSource);
+        instance.removeAllRelatedElements(classGlobalSource);
         assertEquals(1, instance.getClassSet().size());
-        assertEquals(0, classGlobalSource.getClassCodeMap().get("class1").
+        assertEquals(0, classGlobalSource.getIdentifierMap().get("class1").
                 getStudentSet().size());
-        assertEquals(0, classGlobalSource.getClassCodeMap().get("class2").
+        assertEquals(0, classGlobalSource.getIdentifierMap().get("class2").
                 getStudentSet().size());
 
     }
 
     /**
-     * Test of disassignAllStudents null code set, of class StudentSaving.
+     * Test of removeAllRelatedElements null code set, of class StudentSaving.
      */
     @Test(expected = NullPointerException.class)
     public void testDisenrollAllClassesNullCodeSet() {
@@ -156,11 +156,11 @@ public class StudentSavingTest {
         ClassGlobalSource classGlobalSource = buildDefaultClassGlobalSource();
 
         StudentSaving instance = new StudentSaving();
-        instance.disenrollAllClasses(classGlobalSource);
+        instance.removeAllRelatedElements(classGlobalSource);
     }
 
     /**
-     * Test of disassignAllStudents null class global source, of class
+     * Test of removeAllRelatedElements null class global source, of class
  StudentSaving.
      */
     @Test(expected = NullPointerException.class)
@@ -173,11 +173,11 @@ public class StudentSavingTest {
         codeSet.add("class2");
 
         StudentSaving instance = new StudentSaving();
-        instance.disenrollAllClasses(classGlobalSource);
+        instance.removeAllRelatedElements(classGlobalSource);
     }
 
     /**
-     * Test of buildStudents updating successful , of class StudentSaving.
+     * Test of buildRelatedElementAdding updating successful , of class StudentSaving.
      */
     @Test
     public void testBuildClassesUpdatingSuccesful() {
@@ -188,36 +188,36 @@ public class StudentSavingTest {
         ClassGlobalSource classGlobalSource = buildDefaultClassGlobalSource();
 
         ClassSaving classToSave3 = new ClassSaving("class3", "class3", "class3");
-        classGlobalSource.getClassCodeMap().put(classToSave3.getCode(),
+        classGlobalSource.getIdentifierMap().put(classToSave3.getCode(),
                 classToSave3);
-        classGlobalSource.getClassTitleMap().put(classToSave3.getTitle(),
+        classGlobalSource.getTypicalSearchMap().put(classToSave3.getTitle(),
                 classToSave3);
 
         StudentSaving instance = new StudentSaving(1, "Test name",
                 "test last name");
-        instance.buildClasses(codeSet, classGlobalSource);
+        instance.buildRelatedElementAdding(codeSet, classGlobalSource);
 
         assertEquals(2, instance.getClassSet().size());
-        assertEquals(1, classGlobalSource.getClassCodeMap().get("class1").
+        assertEquals(1, classGlobalSource.getIdentifierMap().get("class1").
                 getStudentSet().size());
-        assertEquals(1, classGlobalSource.getClassCodeMap().get("class2").
+        assertEquals(1, classGlobalSource.getIdentifierMap().get("class2").
                 getStudentSet().size());
 
         codeSet = new TreeSet<String>();
         codeSet.add("class1");
         codeSet.add("class3");
         
-        instance.buildClassesUpdating(codeSet, classGlobalSource);
+        instance.updateRelatedElements(codeSet, classGlobalSource);
         
         assertEquals(2, instance.getClassSet().size());
-        assertEquals(1, classGlobalSource.getClassCodeMap().get("class1").
+        assertEquals(1, classGlobalSource.getIdentifierMap().get("class1").
                 getStudentSet().size());
-        assertEquals(1, classGlobalSource.getClassCodeMap().get("class3").
+        assertEquals(1, classGlobalSource.getIdentifierMap().get("class3").
                 getStudentSet().size());
     }
 
     /**
-     * Test of buildStudents updating null class global source, of class StudentSaving.
+     * Test of buildRelatedElementAdding updating null class global source, of class StudentSaving.
      */
     @Test(expected = NullPointerException.class)
     public void testBuildClassesUpdatingNullCodeSet() {
@@ -226,11 +226,11 @@ public class StudentSavingTest {
         Set<String> codeSet = null;
 
         StudentSaving instance = new StudentSaving();
-        instance.buildClassesUpdating(codeSet, classGlobalSource);
+        instance.updateRelatedElements(codeSet, classGlobalSource);
     }
 
     /**
-     * Test of buildStudents updating null class global source, of class StudentSaving.
+     * Test of buildRelatedElementAdding updating null class global source, of class StudentSaving.
      */
     @Test(expected = NullPointerException.class)
     public void testBuildClassesUpdatingNullClassGlobalSource() {
@@ -242,20 +242,20 @@ public class StudentSavingTest {
         codeSet.add("class2");
 
         StudentSaving instance = new StudentSaving();
-        instance.buildClasses(codeSet, classGlobalSource);
+        instance.buildRelatedElementAdding(codeSet, classGlobalSource);
     }
     
     private ClassGlobalSource buildDefaultClassGlobalSource() {
         ClassGlobalSource classGlobalSource = new ClassGlobalSource();
         ClassSaving classToSave1 = new ClassSaving("class1", "class1", "class1");
         ClassSaving classToSave2 = new ClassSaving("class2", "class2", "class2");
-        classGlobalSource.getClassCodeMap().put(classToSave1.getCode(),
+        classGlobalSource.getIdentifierMap().put(classToSave1.getCode(),
                 classToSave1);
-        classGlobalSource.getClassCodeMap().put(classToSave2.getCode(),
+        classGlobalSource.getIdentifierMap().put(classToSave2.getCode(),
                 classToSave2);
-        classGlobalSource.getClassTitleMap().put(classToSave1.getTitle(),
+        classGlobalSource.getTypicalSearchMap().put(classToSave1.getTitle(),
                 classToSave1);
-        classGlobalSource.getClassTitleMap().put(classToSave2.getTitle(),
+        classGlobalSource.getTypicalSearchMap().put(classToSave2.getTitle(),
                 classToSave2);
         return classGlobalSource;
     }
