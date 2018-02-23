@@ -6,13 +6,14 @@
 package com.tx.simplescheduling.process;
 
 import com.tx.simplescheduling.model.ClassSaving;
-import com.tx.simplescheduling.model.StudentParam;
+import com.tx.simplescheduling.model.Student;
+import com.tx.simplescheduling.model.param.StudentParam;
 import com.tx.simplescheduling.model.StudentSaving;
 import java.util.Set;
 import java.util.TreeSet;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.NotFoundException;
-import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -39,13 +40,15 @@ public class StudentProcessTest {
         student.setClassCodeList(codeSet);
         ClassProcess classProcess = buildDefaultClassProcess();
         StudentProcess instance = new StudentProcess();
-        StudentSaving result = instance.add(student, classProcess);
+        Response result = instance.add(student, classProcess);
+
+        Student studentResult = (Student) result.getEntity();
 
         assertNotNull(result);
-        assertEquals(student.getId(), result.getId());
-        assertEquals(student.getFirstName(), result.getFirstName());
-        assertEquals(student.getLastName(), result.getLastName());
-        assertEquals(2, result.getRelatedElementSet().size());
+        assertEquals(student.getId(), studentResult.getId());
+        assertEquals(student.getFirstName(), studentResult.getFirstName());
+        assertEquals(student.getLastName(), studentResult.getLastName());
+        assertEquals(2, studentResult.getRelatedElementSet().size());
     }
 
     /**
@@ -59,8 +62,7 @@ public class StudentProcessTest {
         StudentProcess instance = new StudentProcess();
 
         try {
-            StudentSaving result = instance.add(student,
-                    classProcess);
+            Response result = instance.add(student, classProcess);
         } catch (Exception ex) {
             assertTrue(containsExceptionName(BadRequestException.class, ex));
         }
@@ -82,7 +84,7 @@ public class StudentProcessTest {
         StudentProcess instance = new StudentProcess();
 
         try {
-            StudentSaving result = instance.add(student, classProcess);
+            Response result = instance.add(student, classProcess);
         } catch (Exception ex) {
             assertTrue(containsExceptionName(NullPointerException.class, ex));
         }
@@ -100,8 +102,7 @@ public class StudentProcessTest {
         ClassProcess classProcess = buildDefaultClassProcess();
         StudentProcess instance = new StudentProcess();
         try {
-            StudentSaving result = instance.add(student,
-                    classProcess);
+            Response result = instance.add(student, classProcess);
         } catch (Exception ex) {
             assertTrue(containsExceptionName(NullPointerException.class, ex));
         }
@@ -122,12 +123,14 @@ public class StudentProcessTest {
         ClassProcess classProcess = buildDefaultClassProcess();
         StudentProcess instance = new StudentProcess();
         instance.add(student, classProcess);
-        StudentSaving result = instance.retrieveByIdentifier(student.getId());
+
+        Response result = instance.retrieveByIdentifier(student.getId());
+        Student studentResult = (Student) result.getEntity();
 
         assertNotNull(result);
-        assertEquals(student.getId(), result.getId());
-        assertEquals(student.getFirstName(), result.getFirstName());
-        assertEquals(student.getLastName(), result.getLastName());
+        assertEquals(student.getId(), studentResult.getId());
+        assertEquals(student.getFirstName(), studentResult.getFirstName());
+        assertEquals(student.getLastName(), studentResult.getLastName());
     }
 
     /**
@@ -146,7 +149,7 @@ public class StudentProcessTest {
         StudentProcess instance = new StudentProcess();
         instance.add(student, classProcess);
         try {
-            StudentSaving result = instance.retrieveByIdentifier(null);
+            Response result = instance.retrieveByIdentifier(null);
         } catch (Exception ex) {
             assertTrue(containsExceptionName(BadRequestException.class, ex));
         }
@@ -168,7 +171,7 @@ public class StudentProcessTest {
         StudentProcess instance = new StudentProcess();
         instance.add(student, classProcess);
         try {
-            StudentSaving result = instance.retrieveByIdentifier(2);
+            Response result = instance.retrieveByIdentifier(2);
         } catch (Exception ex) {
             assertTrue(containsExceptionName(NotFoundException.class, ex));
         }
@@ -189,13 +192,16 @@ public class StudentProcessTest {
         ClassProcess classProcess = buildDefaultClassProcess();
         StudentProcess instance = new StudentProcess();
         instance.add(student, classProcess);
-        StudentSaving result = instance.retrieveByTypicalSearch(
-                student.buildFullName());
+
+        Response result = instance.retrieveByTypicalSearch(
+                student.buildTypicalSearchField());
+
+        Student studentResult = (Student) result.getEntity();
 
         assertNotNull(result);
-        assertEquals(student.getId(), result.getId());
-        assertEquals(student.getFirstName(), result.getFirstName());
-        assertEquals(student.getLastName(), result.getLastName());
+        assertEquals(student.getId(), studentResult.getId());
+        assertEquals(student.getFirstName(), studentResult.getFirstName());
+        assertEquals(student.getLastName(), studentResult.getLastName());
     }
 
     /**
@@ -214,7 +220,7 @@ public class StudentProcessTest {
         StudentProcess instance = new StudentProcess();
         instance.add(student, classProcess);
         try {
-            StudentSaving result = instance.retrieveByTypicalSearch(null);
+            Response result = instance.retrieveByTypicalSearch(null);
         } catch (Exception ex) {
             assertTrue(containsExceptionName(BadRequestException.class, ex));
         }
@@ -236,7 +242,7 @@ public class StudentProcessTest {
         StudentProcess instance = new StudentProcess();
         instance.add(student, classProcess);
         try {
-            StudentSaving result = instance.retrieveByTypicalSearch(
+            Response result = instance.retrieveByTypicalSearch(
                     "Inexistent full name");
         } catch (Exception ex) {
             assertTrue(containsExceptionName(NotFoundException.class, ex));
@@ -328,26 +334,32 @@ public class StudentProcessTest {
                 getCode(), classToSave3);
         classProcess.getClassGlobalSource().getTypicalSearchMap().put(classToSave3.
                 getTitle(), classToSave3);
-        StudentProcess instance = new StudentProcess();
-        StudentSaving result = instance.add(student, classProcess);
 
-        assertNotNull(result);
-        assertEquals(student.getId(), result.getId());
-        assertEquals(student.getFirstName(), result.getFirstName());
-        assertEquals(student.getLastName(), result.getLastName());
-        assertEquals(2, result.getRelatedElementSet().size());
+        StudentProcess instance = new StudentProcess();
+        Response result = instance.add(student, classProcess);
+
+        Student studentResult = (Student) result.getEntity();
+
+        assertNotNull(studentResult);
+        assertEquals(student.getId(), studentResult.getId());
+        assertEquals(student.getFirstName(), studentResult.getFirstName());
+        assertEquals(student.getLastName(), studentResult.getLastName());
+        assertEquals(2, studentResult.getRelatedElementSet().size());
 
         student = new StudentParam(1, "Test name after", "test last name after");
         codeSet = new TreeSet<String>();
         codeSet.add("class1");
         codeSet.add("class3");
         student.setClassCodeList(codeSet);
+
         result = instance.update(student, classProcess);
-        assertNotNull(result);
-        assertEquals(student.getId(), result.getId());
-        assertEquals(student.getFirstName(), result.getFirstName());
-        assertEquals(student.getLastName(), result.getLastName());
-        assertEquals(2, result.getRelatedElementSet().size());
+
+        studentResult = (Student) result.getEntity();
+        assertNotNull(studentResult);
+        assertEquals(student.getId(), studentResult.getId());
+        assertEquals(student.getFirstName(), studentResult.getFirstName());
+        assertEquals(student.getLastName(), studentResult.getLastName());
+        assertEquals(2, studentResult.getRelatedElementSet().size());
     }
 
     /**
@@ -361,8 +373,7 @@ public class StudentProcessTest {
         StudentProcess instance = new StudentProcess();
 
         try {
-            StudentSaving result = instance.update(student,
-                    classProcess);
+            Response result = instance.update(student, classProcess);
         } catch (Exception ex) {
             assertTrue(containsExceptionName(BadRequestException.class, ex));
         }

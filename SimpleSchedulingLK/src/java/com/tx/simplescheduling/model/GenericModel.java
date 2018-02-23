@@ -5,14 +5,18 @@
  */
 package com.tx.simplescheduling.model;
 
+import com.tx.simplescheduling.model.param.GenericParam;
 import com.tx.simplescheduling.source.GenericSource;
 import java.util.Set;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Luis Kupferberg Ruiz
  */
-public abstract class GenericModel<U extends GenericSource, V extends GenericModel, W extends GenericModel, Z extends GenericModel> {
+@XmlRootElement
+public abstract class GenericModel<U extends GenericSource, V extends GenericModel, W extends GenericModel,
+        Z extends GenericParam> {
 
     public GenericModel() {
     }

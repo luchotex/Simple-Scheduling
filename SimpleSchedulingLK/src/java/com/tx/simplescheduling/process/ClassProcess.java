@@ -5,7 +5,7 @@
  */
 package com.tx.simplescheduling.process;
 
-import com.tx.simplescheduling.model.ClassParam;
+import com.tx.simplescheduling.model.param.ClassParam;
 import com.tx.simplescheduling.model.ClassSaving;
 import com.tx.simplescheduling.source.ClassGlobalSource;
 import java.util.Map;

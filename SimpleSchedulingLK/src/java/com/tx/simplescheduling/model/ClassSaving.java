@@ -5,6 +5,7 @@
  */
 package com.tx.simplescheduling.model;
 
+import com.tx.simplescheduling.model.param.ClassParam;
 import java.util.Set;
 import java.util.TreeSet;
 import javax.xml.bind.annotation.XmlElement;
@@ -15,7 +16,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Luis Kupferberg Ruiz
  */
 @XmlRootElement
-public class ClassSaving extends Class {
+public class ClassSaving extends com.tx.simplescheduling.model.Class {
 
     private Set<Student> studentSet;
 
@@ -44,11 +45,10 @@ public class ClassSaving extends Class {
     }
 
     @Override
-    public Class createSubInstance() {
-        return new Class(code, title, description);
+    public com.tx.simplescheduling.model.Class createSubInstance() {
+        return new com.tx.simplescheduling.model.Class(code, title, description);
     }
-
-    @XmlElement
+    
     public Set<Student> getStudentSet() {
         return studentSet;
     }

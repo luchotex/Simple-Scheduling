@@ -5,9 +5,10 @@
  */
 package com.tx.simplescheduling.model;
 
+import com.tx.simplescheduling.model.param.StudentParam;
 import com.tx.simplescheduling.source.ClassGlobalSource;
 import java.util.Set;
-import javax.xml.bind.annotation.XmlElement;
+import java.util.TreeSet;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -15,7 +16,8 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Luis Kupferberg Ruiz
  */
 @XmlRootElement
-public class Student extends GenericModel<ClassGlobalSource, Student, Class, StudentParam>
+public class Student extends GenericModel<ClassGlobalSource, Student, 
+        com.tx.simplescheduling.model.Class, StudentParam>
         implements Comparable<Student> {
 
     protected Integer id;
@@ -39,32 +41,26 @@ public class Student extends GenericModel<ClassGlobalSource, Student, Class, Stu
         return this.getId().compareTo(o.getId());
     }
 
-    @XmlElement
     public Integer getId() {
         return id;
     }
-
-    @XmlElement
+    
     public void setId(Integer id) {
         this.id = id;
     }
 
-    @XmlElement
     public String getFirstName() {
         return firstName;
     }
-
-    @XmlElement
+    
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    @XmlElement
     public String getLastName() {
         return lastName;
     }
-
-    @XmlElement
+    
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
@@ -98,12 +94,12 @@ public class Student extends GenericModel<ClassGlobalSource, Student, Class, Stu
 
     @Override
     public void setValues(StudentParam genericModel) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     @Override
-    public Set<Class> getRelatedElementSet() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Set<com.tx.simplescheduling.model.Class> getRelatedElementSet() {
+        return new TreeSet<Class>();
     }
 
     @Override
@@ -117,18 +113,18 @@ public class Student extends GenericModel<ClassGlobalSource, Student, Class, Stu
     }
 
     @Override
-    public Class createElement(Object identifier) {
-        return new Class((String) identifier, null, null);
+    public com.tx.simplescheduling.model.Class createElement(Object identifier) {
+        return new com.tx.simplescheduling.model.Class((String) identifier, null, null);
     }
 
     @Override
-    public void setRelatedElementSet(Set<Class> relatedIdentifierSet) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void setRelatedElementSet(Set<com.tx.simplescheduling.model.Class> relatedIdentifierSet) {
+        
     }
 
     @Override
     public Student createSubInstance() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new Student();
     }
 
 }

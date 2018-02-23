@@ -5,6 +5,7 @@
  */
 package com.tx.simplescheduling.model;
 
+import com.tx.simplescheduling.model.param.StudentParam;
 import java.util.Set;
 import java.util.TreeSet;
 import javax.xml.bind.annotation.XmlElement;
@@ -17,14 +18,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class StudentSaving extends Student {
 
-    private Set<Class> classSet;
+    private Set<com.tx.simplescheduling.model.Class> classSet;
 
     public StudentSaving() {
     }
 
     public StudentSaving(Integer id, String firsName, String lastName) {
         super(id, firsName, lastName);
-        setRelatedElementSet(new TreeSet<Class>());
+        setRelatedElementSet(new TreeSet<com.tx.simplescheduling.model.Class>());
     }
 
     @Override
@@ -34,7 +35,7 @@ public class StudentSaving extends Student {
     }
 
     @Override
-    public Set<Class> getRelatedElementSet() {
+    public Set<com.tx.simplescheduling.model.Class> getRelatedElementSet() {
         return classSet;
     }
 
@@ -48,13 +49,12 @@ public class StudentSaving extends Student {
         return new Student(id, firstName, lastName);
     }
 
-    @XmlElement
-    public Set<Class> getClassSet() {
+    public Set<com.tx.simplescheduling.model.Class> getClassSet() {
         return classSet;
     }
 
     @XmlElement
-    public void setClassSet(Set<Class> classSet) {
+    public void setClassSet(Set<com.tx.simplescheduling.model.Class> classSet) {
         this.classSet = classSet;
     }
 

@@ -5,7 +5,8 @@
  */
 package com.tx.simplescheduling.process;
 
-import com.tx.simplescheduling.model.StudentParam;
+import com.tx.simplescheduling.model.Student;
+import com.tx.simplescheduling.model.param.StudentParam;
 import com.tx.simplescheduling.model.StudentSaving;
 import com.tx.simplescheduling.source.StudentGlobalSource;
 import java.util.Map;
@@ -13,6 +14,7 @@ import java.util.Set;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Response;
 
 /**
@@ -27,7 +29,7 @@ public class StudentProcess /*extends GenericProcess */ {
         studentGlobalSource = new StudentGlobalSource();
     }
 
-    public StudentSaving retrieveByIdentifier(Integer id) {
+    public Response retrieveByIdentifier(Integer id) {
         synchronized (getStudentGlobalSource().getIdentifierMap()) {
             if (id == null) {
                 throw new BadRequestException(
@@ -35,7 +37,12 @@ public class StudentProcess /*extends GenericProcess */ {
                         + " param sent is null");
             }
             try {
-                return getStudentGlobalSource().retrieveByIdentifier(id);
+                StudentSaving studentSaving
+                        = getStudentGlobalSource().retrieveByIdentifier(id);
+                GenericEntity entity = new GenericEntity<StudentSaving>(
+                        studentSaving) {
+                };
+                return Response.ok(entity).build();
             } catch (WebApplicationException ex) {
                 throw ex;
             } catch (Exception ex) {
@@ -46,7 +53,7 @@ public class StudentProcess /*extends GenericProcess */ {
         }
     }
 
-    public StudentSaving retrieveByTypicalSearch(String fullName) {
+    public Response retrieveByTypicalSearch(String fullName) {
         synchronized (getStudentGlobalSource().getIdentifierMap()) {
             if (fullName == null) {
                 throw new BadRequestException("The "
@@ -54,8 +61,12 @@ public class StudentProcess /*extends GenericProcess */ {
             }
 
             try {
-                return getStudentGlobalSource().
-                        retrieveByTypicalSearch(fullName);
+                StudentSaving studentSaving
+                        = getStudentGlobalSource().retrieveByTypicalSearch(
+                                fullName);
+                GenericEntity entity = new GenericEntity<StudentSaving>(
+                        studentSaving) {};
+                return Response.ok(entity).build();
             } catch (WebApplicationException ex) {
                 throw ex;
             } catch (Exception ex) {
@@ -79,7 +90,7 @@ public class StudentProcess /*extends GenericProcess */ {
         }
     }
 
-    public StudentSaving add(StudentParam studentParam,
+    public Response add(StudentParam studentParam,
             ClassProcess classProcess) {
         if (studentParam == null) {
             throw new BadRequestException("The " + retrieveClassName()
@@ -98,9 +109,11 @@ public class StudentProcess /*extends GenericProcess */ {
                 getStudentGlobalSource().add(studentSaving);
 
                 System.out.println("Created " + retrieveClassName() + " "
-                        + studentSaving.getId());
-
-                return studentSaving;
+                        + studentSaving.getId());                
+                
+                GenericEntity entity = new GenericEntity<StudentSaving>(
+                        studentSaving) {};
+                return Response.ok(entity).build();
             }
         } catch (WebApplicationException ex) {
             throw ex;
@@ -143,7 +156,7 @@ public class StudentProcess /*extends GenericProcess */ {
         }
     }
 
-    public StudentSaving update(StudentParam studentParam,
+    public Response update(StudentParam studentParam,
             ClassProcess classProcess) {
         if (studentParam == null) {
             throw new BadRequestException("The " + retrieveClassName()
@@ -164,8 +177,10 @@ public class StudentProcess /*extends GenericProcess */ {
 
                 System.out.println("Created " + retrieveIdentifierName() + " "
                         + savingElement.getId());
-
-                return savingElement;
+                
+                GenericEntity entity = new GenericEntity<StudentSaving>(
+                        savingElement) {};
+                return Response.ok(entity).build();
             }
         } catch (WebApplicationException ex) {
             throw ex;
