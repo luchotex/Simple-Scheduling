@@ -12,10 +12,13 @@ import java.util.TreeSet;
 import javax.ws.rs.NotFoundException;
 
 /**
- *
+ *w
  * @author Luis Kupferberg Ruiz
  */
 public abstract class GenericSource<V extends GenericModel, W extends GenericModel, Z extends GenericModel> {
+
+    public GenericSource() {
+    }
 
     public W retrieveByIdentifier(Object key) {
         W retrievedElement = (W) getIdentifierMap().get(key);

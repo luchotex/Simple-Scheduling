@@ -25,6 +25,7 @@ public class StudentParam extends Student {
         super(id, firsName, lastName);
     }
 
+    @XmlElement
     public Set<String> getClassCodeList() {
         return classCodeList;
     }

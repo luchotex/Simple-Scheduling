@@ -22,6 +22,9 @@ public class ClassGlobalSource extends
     private Map<String, ClassSaving> classTitleMap
             = new ConcurrentHashMap<String, ClassSaving>();
 
+    public ClassGlobalSource() {
+    }
+
     public Map<String, ClassSaving> getIdentifierMap() {
         return classCodeMap;
     }

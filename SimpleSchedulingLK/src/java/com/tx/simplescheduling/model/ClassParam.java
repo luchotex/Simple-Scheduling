@@ -25,6 +25,7 @@ public class ClassParam extends Class {
         super(code, title, description);
     }
 
+    @XmlElement
     public Set<Integer> getStudentIdList() {
         return studentIdList;
     }

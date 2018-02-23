@@ -39,6 +39,7 @@ public class Student extends GenericModel<ClassGlobalSource, Student, Class, Stu
         return this.getId().compareTo(o.getId());
     }
 
+    @XmlElement
     public Integer getId() {
         return id;
     }
@@ -48,6 +49,7 @@ public class Student extends GenericModel<ClassGlobalSource, Student, Class, Stu
         this.id = id;
     }
 
+    @XmlElement
     public String getFirstName() {
         return firstName;
     }
@@ -57,6 +59,7 @@ public class Student extends GenericModel<ClassGlobalSource, Student, Class, Stu
         this.firstName = firstName;
     }
 
+    @XmlElement
     public String getLastName() {
         return lastName;
     }

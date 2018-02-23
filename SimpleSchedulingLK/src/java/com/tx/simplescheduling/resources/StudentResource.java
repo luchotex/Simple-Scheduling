@@ -8,6 +8,8 @@ package com.tx.simplescheduling.resources;
 import com.tx.simplescheduling.process.StudentProcess;
 import com.tx.simplescheduling.model.StudentParam;
 import com.tx.simplescheduling.model.StudentSaving;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
@@ -32,12 +34,12 @@ import javax.ws.rs.core.Response;
 @Singleton
 @Path("/student")
 public class StudentResource {
-
+    
     @Context
     private ResourceContext resourceContext;
-
+    
     private ClassResource classResource;
-
+    
     private StudentProcess studentProcess;
 
     /**
@@ -46,7 +48,7 @@ public class StudentResource {
     public StudentResource() {
         studentProcess = new StudentProcess();
     }
-
+    
     @PostConstruct
     public void after() {
         if (getResourceContext() != null) {
@@ -90,6 +92,7 @@ public class StudentResource {
      *
      * @return
      */
+    
     @GET
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Set<StudentSaving> retrieveAllStudents() {
@@ -141,29 +144,29 @@ public class StudentResource {
         return getStudentProcess().remove(id, getClassResource().
                 getClassProcess());
     }
-
+    
     public ClassResource getClassResource() {
         return classResource;
     }
-
+    
     public void setClassResource(ClassResource classResource) {
         this.classResource = classResource;
     }
-
+    
     public ResourceContext getResourceContext() {
         return resourceContext;
     }
-
+    
     public void setResourceContext(ResourceContext resourceContext) {
         this.resourceContext = resourceContext;
     }
-
+    
     public StudentProcess getStudentProcess() {
         return studentProcess;
     }
-
+    
     public void setStudentProcess(StudentProcess studentProcess) {
         this.studentProcess = studentProcess;
     }
-
+    
 }

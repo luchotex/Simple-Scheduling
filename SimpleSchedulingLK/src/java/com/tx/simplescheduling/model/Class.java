@@ -35,6 +35,7 @@ public class Class extends GenericModel<StudentGlobalSource, Class, Student, Cla
         return this.getCode().compareTo(o.getCode());
     }
 
+    @XmlElement
     public String getCode() {
         return code;
     }
@@ -44,6 +45,7 @@ public class Class extends GenericModel<StudentGlobalSource, Class, Student, Cla
         this.code = code;
     }
 
+    @XmlElement
     public String getTitle() {
         return title;
     }
@@ -53,6 +55,7 @@ public class Class extends GenericModel<StudentGlobalSource, Class, Student, Cla
         this.title = title;
     }
 
+    @XmlElement
     public String getDescription() {
         return description;
     }
