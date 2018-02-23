@@ -49,8 +49,8 @@ public class ClassGlobalSourceTest {
                 codeClassSaving.getTitle());
 
         assertNotNull(result);
-        assertEquals(1, codeClassSaving.getStudentSet().size());
-        assertEquals(1, titleClassSaving.getStudentSet().size());
+        assertEquals(1, codeClassSaving.getRelatedElementSet().size());
+        assertEquals(1, titleClassSaving.getRelatedElementSet().size());
     }
 
     /**
@@ -67,7 +67,8 @@ public class ClassGlobalSourceTest {
     }
 
     /**
-     * Test of addRelatedElement null student method, of class ClassGlobalSource.
+     * Test of addRelatedElement null student method, of class
+     * ClassGlobalSource.
      */
     @Test(expected = NullPointerException.class)
     public void testEnrollStudentNullStudent() {
@@ -90,7 +91,8 @@ public class ClassGlobalSourceTest {
     }
 
     /**
-     * Test of addRelatedElement code not found method, of class ClassGlobalSource.
+     * Test of addRelatedElement code not found method, of class
+     * ClassGlobalSource.
      */
     @Test
     public void testEnrollStudentNotFoundCode() {
@@ -115,7 +117,8 @@ public class ClassGlobalSourceTest {
     }
 
     /**
-     * Test of addRelatedElement code not found method, of class ClassGlobalSource.
+     * Test of addRelatedElement code not found method, of class
+     * ClassGlobalSource.
      */
     @Test
     public void testEnrollStudentNotFoundOnTitleMap() {
@@ -139,7 +142,7 @@ public class ClassGlobalSourceTest {
                 codeClassSaving.getTitle());
 
         assertNotNull(result);
-        assertEquals(1, codeClassSaving.getStudentSet().size());
+        assertEquals(1, codeClassSaving.getRelatedElementSet().size());
         assertNull(titleClassSaving);
     }
 
@@ -170,12 +173,12 @@ public class ClassGlobalSourceTest {
                 codeClassSaving.getTitle());
 
         assertNotNull(result);
-        assertEquals(1, codeClassSaving.getStudentSet().size());
-        assertEquals(1, titleClassSaving.getStudentSet().size());
+        assertEquals(1, codeClassSaving.getRelatedElementSet().size());
+        assertEquals(1, titleClassSaving.getRelatedElementSet().size());
 
         instance.removeRelatedElement(classToSave1, student);
-        assertEquals(0, codeClassSaving.getStudentSet().size());
-        assertEquals(0, titleClassSaving.getStudentSet().size());
+        assertEquals(0, codeClassSaving.getRelatedElementSet().size());
+        assertEquals(0, titleClassSaving.getRelatedElementSet().size());
     }
 
     /**
@@ -216,7 +219,7 @@ public class ClassGlobalSourceTest {
 
     /**
      * Test of removeRelatedElement class not found method, of class
- ClassGlobalSource.
+     * ClassGlobalSource.
      */
     @Test
     public void testDiEnrollStudentNotFoundClass() {
@@ -234,7 +237,8 @@ public class ClassGlobalSourceTest {
                 classToSave1);
         instance.getTypicalSearchMap().put(classToSave2.getTitle(),
                 classToSave2);
-        Class result = instance.addRelatedElement(classToSave1.getCode(), student);
+        Class result = instance.addRelatedElement(classToSave1.getCode(),
+                student);
 
         ClassSaving codeClassSaving = instance.getIdentifierMap().get(
                 classToSave1.getCode());
@@ -242,20 +246,20 @@ public class ClassGlobalSourceTest {
                 codeClassSaving.getTitle());
 
         assertNotNull(result);
-        assertEquals(1, codeClassSaving.getStudentSet().size());
-        assertEquals(1, titleClassSaving.getStudentSet().size());
+        assertEquals(1, codeClassSaving.getRelatedElementSet().size());
+        assertEquals(1, titleClassSaving.getRelatedElementSet().size());
 
         Class anotherClass = new Class("Another code", "another title",
                 "another description");
         instance.removeRelatedElement(anotherClass, student);
 
-        assertEquals(1, codeClassSaving.getStudentSet().size());
-        assertEquals(1, titleClassSaving.getStudentSet().size());
+        assertEquals(1, codeClassSaving.getRelatedElementSet().size());
+        assertEquals(1, titleClassSaving.getRelatedElementSet().size());
     }
 
     /**
      * Test of removeRelatedElement code not found method on title map, of class
- ClassGlobalSource.
+     * ClassGlobalSource.
      */
     @Test
     public void testDisenrollStudentNotFoundOnTitleMap() {
@@ -279,17 +283,17 @@ public class ClassGlobalSourceTest {
                 codeClassSaving.getTitle());
 
         assertNotNull(result);
-        assertEquals(1, codeClassSaving.getStudentSet().size());
+        assertEquals(1, codeClassSaving.getRelatedElementSet().size());
         assertNull(titleClassSaving);
 
         instance.removeRelatedElement(result, student);
-        assertEquals(0, codeClassSaving.getStudentSet().size());
+        assertEquals(0, codeClassSaving.getRelatedElementSet().size());
         assertNull(titleClassSaving);
     }
 
     /**
      * Test of addRelatedElement updating successful method, of class
- ClassGlobalSource.
+     * ClassGlobalSource.
      */
     @Test
     public void testEnrollStudentUpdatingSuccessfull() {
@@ -315,19 +319,19 @@ public class ClassGlobalSourceTest {
                 codeClassSaving.getTitle());
 
         assertNotNull(result);
-        assertEquals(1, codeClassSaving.getStudentSet().size());
-        assertEquals(1, titleClassSaving.getStudentSet().size());
+        assertEquals(1, codeClassSaving.getRelatedElementSet().size());
+        assertEquals(1, titleClassSaving.getRelatedElementSet().size());
 
         student = new Student(1, "Test name after", "test last name after");
 
         result = instance.updatingRelatedElement(code, student);
 
         assertNotNull(result);
-        assertEquals(1, codeClassSaving.getStudentSet().size());
-        assertEquals(1, titleClassSaving.getStudentSet().size());
+        assertEquals(1, codeClassSaving.getRelatedElementSet().size());
+        assertEquals(1, titleClassSaving.getRelatedElementSet().size());
 
         List<Student> studentSaved = new ArrayList<Student>(codeClassSaving.
-                getStudentSet());
+                getRelatedElementSet());
         Student retrieveStudent = studentSaved.get(0);
         assertEquals("Test name after", retrieveStudent.getFirstName());
         assertEquals("test last name after", retrieveStudent.getLastName());
@@ -336,7 +340,7 @@ public class ClassGlobalSourceTest {
 
     /**
      * Test of addRelatedElement updating null code method, of class
- ClassGlobalSource.
+     * ClassGlobalSource.
      */
     @Test(expected = NullPointerException.class)
     public void testEnrollStudentUpdatingNullCode() {
@@ -350,7 +354,7 @@ public class ClassGlobalSourceTest {
 
     /**
      * Test of addRelatedElement updating null student method, of class
- ClassGlobalSource.
+     * ClassGlobalSource.
      */
     @Test(expected = NullPointerException.class)
     public void testEnrollStudentUpdatingNullStudent() {
@@ -374,7 +378,7 @@ public class ClassGlobalSourceTest {
 
     /**
      * Test of addRelatedElement Updating code not found method, of class
- ClassGlobalSource.
+     * ClassGlobalSource.
      */
     @Test
     public void testEnrollStudentUpdatingNotFoundCode() {
@@ -400,7 +404,7 @@ public class ClassGlobalSourceTest {
 
     /**
      * Test of addRelatedElement Updating code not found method, of class
- ClassGlobalSource.
+     * ClassGlobalSource.
      */
     @Test
     public void testEnrollStudentUpdatingNotFoundOnTitleMap() {
@@ -424,7 +428,7 @@ public class ClassGlobalSourceTest {
                 codeClassSaving.getTitle());
 
         assertNotNull(result);
-        assertEquals(1, codeClassSaving.getStudentSet().size());
+        assertEquals(1, codeClassSaving.getRelatedElementSet().size());
         assertNull(titleClassSaving);
     }
 }

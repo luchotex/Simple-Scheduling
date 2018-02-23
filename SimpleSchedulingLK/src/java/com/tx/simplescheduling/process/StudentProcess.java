@@ -19,7 +19,7 @@ import javax.ws.rs.core.Response;
  *
  * @author Luis Kupferberg Ruiz
  */
-public class StudentProcess {
+public class StudentProcess extends GenericProcess{
 
     private StudentGlobalSource studentGlobalSource;
 
@@ -182,14 +182,6 @@ public class StudentProcess {
 
     public void setStudentGlobalSource(StudentGlobalSource studentGlobalSource) {
         this.studentGlobalSource = studentGlobalSource;
-    }
-
-    private InternalServerErrorException buildException(Exception ex,
-            String message) {
-        InternalServerErrorException result = new InternalServerErrorException(
-                message, ex);
-
-        return result;
     }
 
     private String retrieveIdentifierName() {

@@ -12,16 +12,13 @@ import javax.ws.rs.InternalServerErrorException;
  * @author Luis Kupferberg Ruiz
  */
 public class GenericProcess {
-    
-    
-    private InternalServerErrorException buildException(Exception ex,
+
+    protected InternalServerErrorException buildException(Exception ex,
             String message) {
         InternalServerErrorException result = new InternalServerErrorException(
                 message, ex);
 
         return result;
     }
-    
-    
-    
+
 }

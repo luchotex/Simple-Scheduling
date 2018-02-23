@@ -45,7 +45,7 @@ public class StudentProcessTest {
         assertEquals(student.getId(), result.getId());
         assertEquals(student.getFirstName(), result.getFirstName());
         assertEquals(student.getLastName(), result.getLastName());
-        assertEquals(2, result.getClassSet().size());
+        assertEquals(2, result.getRelatedElementSet().size());
     }
 
     /**
@@ -335,7 +335,7 @@ public class StudentProcessTest {
         assertEquals(student.getId(), result.getId());
         assertEquals(student.getFirstName(), result.getFirstName());
         assertEquals(student.getLastName(), result.getLastName());
-        assertEquals(2, result.getClassSet().size());
+        assertEquals(2, result.getRelatedElementSet().size());
 
         student = new StudentParam(1, "Test name after", "test last name after");
         codeSet = new TreeSet<String>();
@@ -347,7 +347,7 @@ public class StudentProcessTest {
         assertEquals(student.getId(), result.getId());
         assertEquals(student.getFirstName(), result.getFirstName());
         assertEquals(student.getLastName(), result.getLastName());
-        assertEquals(2, result.getClassSet().size());
+        assertEquals(2, result.getRelatedElementSet().size());
     }
 
     /**

@@ -11,7 +11,6 @@ import com.tx.simplescheduling.source.ClassGlobalSource;
 import java.util.Map;
 import java.util.Set;
 import javax.ws.rs.BadRequestException;
-import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
@@ -19,7 +18,7 @@ import javax.ws.rs.core.Response;
  *
  * @author Luis Kupferberg Ruiz
  */
-public class ClassProcess {
+public class ClassProcess extends GenericProcess {
 
     private ClassGlobalSource classGlobalSource;
 
@@ -179,14 +178,6 @@ public class ClassProcess {
 
     public void setClassGlobalSource(ClassGlobalSource classGlobalSource) {
         this.classGlobalSource = classGlobalSource;
-    }
-
-    private InternalServerErrorException buildException(Exception ex,
-            String message) {
-        InternalServerErrorException result = new InternalServerErrorException(
-                message, ex);
-
-        return result;
     }
 
     private String retrieveIdentifierName() {

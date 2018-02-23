@@ -105,8 +105,8 @@ public class StudentResource {
      * @return
      */
     @POST
-    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Consumes({MediaType.APPLICATION_XML})
+    @Produces({MediaType.APPLICATION_XML})
     public StudentSaving createStudent(StudentParam studentParam) {
         return getStudentProcess().add(studentParam,
                 getClassResource().getClassProcess());

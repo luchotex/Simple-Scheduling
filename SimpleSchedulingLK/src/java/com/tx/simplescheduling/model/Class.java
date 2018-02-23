@@ -5,6 +5,8 @@
  */
 package com.tx.simplescheduling.model;
 
+import com.tx.simplescheduling.source.StudentGlobalSource;
+import java.util.Set;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -13,7 +15,8 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Luis Kupferberg Ruiz
  */
 @XmlRootElement
-public class Class implements Comparable<Class> {
+public class Class extends GenericModel<StudentGlobalSource, Class, Student, ClassParam>
+        implements Comparable<Class> {
 
     protected String code;
     protected String title;
@@ -85,4 +88,38 @@ public class Class implements Comparable<Class> {
                 : this.code.equals(paramClass.code);
     }
 
+    @Override
+    public void setValues(ClassParam genericModel) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Set<Student> getRelatedElementSet() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Object getIdentifier() {
+        return code;
+    }
+
+    @Override
+    public Object getTypicalSearchMember() {
+        return title;
+    }
+
+    @Override
+    public Student createElement(Object identifier) {
+        return new Student((Integer) identifier, null, null);
+    }
+
+    @Override
+    public void setRelatedElementSet(Set relatedIdentifierSet) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Class createSubInstance() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

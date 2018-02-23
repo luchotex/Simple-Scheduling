@@ -6,11 +6,14 @@
 package com.tx.simplescheduling.model;
 
 import java.util.Set;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Luis Kupferberg Ruiz
  */
+@XmlRootElement
 public class ClassParam extends Class {
 
     private Set<Integer> studentIdList;
@@ -26,6 +29,7 @@ public class ClassParam extends Class {
         return studentIdList;
     }
 
+    @XmlElement
     public void setStudentIdList(Set<Integer> studentIdList) {
         this.studentIdList = studentIdList;
     }
