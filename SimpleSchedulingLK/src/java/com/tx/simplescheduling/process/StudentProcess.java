@@ -5,14 +5,13 @@
  */
 package com.tx.simplescheduling.process;
 
-import com.tx.simplescheduling.model.Student;
 import com.tx.simplescheduling.model.param.StudentParam;
 import com.tx.simplescheduling.model.StudentSaving;
+import com.tx.simplescheduling.source.GenericSource;
 import com.tx.simplescheduling.source.StudentGlobalSource;
 import java.util.Map;
 import java.util.Set;
 import javax.ws.rs.BadRequestException;
-import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Response;
@@ -21,7 +20,7 @@ import javax.ws.rs.core.Response;
  *
  * @author Luis Kupferberg Ruiz
  */
-public class StudentProcess /*extends GenericProcess */ {
+public class StudentProcess extends GenericProcess<StudentSaving, ClassProcess, StudentGlobalSource, StudentParam> {
 
     private StudentGlobalSource studentGlobalSource;
 
@@ -29,198 +28,32 @@ public class StudentProcess /*extends GenericProcess */ {
         studentGlobalSource = new StudentGlobalSource();
     }
 
-    public Response retrieveByIdentifier(Integer id) {
-        synchronized (getStudentGlobalSource().getIdentifierMap()) {
-            if (id == null) {
-                throw new BadRequestException(
-                        "The " + retrieveIdentifierName()
-                        + " param sent is null");
-            }
-            try {
-                StudentSaving studentSaving
-                        = getStudentGlobalSource().retrieveByIdentifier(id);
-                GenericEntity entity = new GenericEntity<StudentSaving>(
-                        studentSaving) {
-                };
-                return Response.ok(entity).build();
-            } catch (WebApplicationException ex) {
-                throw ex;
-            } catch (Exception ex) {
-                throw buildException(ex,
-                        "Some error during retrieving the "
-                        + retrieveClassName() + " happens unexpectedly");
-            }
-        }
+    @Override
+    public void setGlobalSource(StudentGlobalSource globalSource) {
+        this.studentGlobalSource = globalSource;
     }
 
-    public Response retrieveByTypicalSearch(String fullName) {
-        synchronized (getStudentGlobalSource().getIdentifierMap()) {
-            if (fullName == null) {
-                throw new BadRequestException("The "
-                        + retrieveTypicalSearchName() + " param sent is null");
-            }
-
-            try {
-                StudentSaving studentSaving
-                        = getStudentGlobalSource().retrieveByTypicalSearch(
-                                fullName);
-                GenericEntity entity = new GenericEntity<StudentSaving>(
-                        studentSaving) {};
-                return Response.ok(entity).build();
-            } catch (WebApplicationException ex) {
-                throw ex;
-            } catch (Exception ex) {
-                throw buildException(ex,
-                        "Some error during retrieving the "
-                        + retrieveClassName() + " by "
-                        + retrieveTypicalSearchName() + " happens unexpectedly");
-            }
-        }
-    }
-
-    public Set<StudentSaving> retrieveAll() {
-        synchronized (getStudentGlobalSource().getIdentifierMap()) {
-            try {
-                return getStudentGlobalSource().retrieveAll();
-            } catch (Exception ex) {
-                throw buildException(ex,
-                        "Some error during retrieving ALL the "
-                        + retrieveClassNamePlural() + " happens unexpectedlye");
-            }
-        }
-    }
-
-    public Response add(StudentParam studentParam,
-            ClassProcess classProcess) {
-        if (studentParam == null) {
-            throw new BadRequestException("The " + retrieveClassName()
-                    + " param sent is null");
-        }
-        try {
-            Map<Integer, StudentSaving> identifierMap
-                    = getStudentGlobalSource().
-                    getIdentifierMap();
-            synchronized (identifierMap) {
-                StudentSaving studentSaving = studentParam.
-                        createSavingInstance();
-                studentSaving.buildRelatedElementAdding(studentParam.
-                        getClassCodeList(),
-                        classProcess.getClassGlobalSource());
-                getStudentGlobalSource().add(studentSaving);
-
-                System.out.println("Created " + retrieveClassName() + " "
-                        + studentSaving.getId());                
-                
-                GenericEntity entity = new GenericEntity<StudentSaving>(
-                        studentSaving) {};
-                return Response.ok(entity).build();
-            }
-        } catch (WebApplicationException ex) {
-            throw ex;
-        } catch (Exception ex) {
-            throw buildException(ex,
-                    "Some error during creation of the " + retrieveClassName()
-                    + " happens unexpectedly");
-        }
-    }
-
-    public Response remove(Integer id,
-            ClassProcess classProcess) {
-        if (id == null) {
-            throw new BadRequestException("The " + retrieveIdentifierName()
-                    + " param sent is null");
-        }
-        try {
-            Map<Integer, StudentSaving> studentIdMap = getStudentGlobalSource().
-                    getIdentifierMap();
-            synchronized (studentIdMap) {
-                StudentSaving retrievedStudent = getStudentGlobalSource().
-                        retrieveByIdentifier(id);
-                retrievedStudent.removeAllRelatedElements(classProcess.
-                        getClassGlobalSource());
-                getStudentGlobalSource().remove(id);
-
-                System.out.println("Removed " + retrieveClassName() + " "
-                        + retrieveIdentifierName() + "=" + id);
-
-                // successfully deleted, return 204 NO CONTENT
-                Response response = Response.noContent().build();
-                return response;
-            }
-        } catch (WebApplicationException ex) {
-            throw ex;
-        } catch (Exception ex) {
-            throw buildException(ex,
-                    "Some error during deletion of the " + retrieveClassName()
-                    + " happens unexpectedly");
-        }
-    }
-
-    public Response update(StudentParam studentParam,
-            ClassProcess classProcess) {
-        if (studentParam == null) {
-            throw new BadRequestException("The " + retrieveClassName()
-                    + " param sent is null");
-        }
-        try {
-            Map<Integer, StudentSaving> identifierMap
-                    = getStudentGlobalSource().
-                    getIdentifierMap();
-            synchronized (identifierMap) {
-                StudentSaving savingElement = getStudentGlobalSource().
-                        retrieveByIdentifier(studentParam.getId());
-
-                savingElement.updateRelatedElements(studentParam.
-                        getClassCodeList(), classProcess.getClassGlobalSource());
-                savingElement.setValues(studentParam);
-                getStudentGlobalSource().update(savingElement);
-
-                System.out.println("Created " + retrieveIdentifierName() + " "
-                        + savingElement.getId());
-                
-                GenericEntity entity = new GenericEntity<StudentSaving>(
-                        savingElement) {};
-                return Response.ok(entity).build();
-            }
-        } catch (WebApplicationException ex) {
-            throw ex;
-        } catch (Exception ex) {
-            throw buildException(ex,
-                    "Some error during updating of the " + retrieveClassName()
-                    + " happens unexpectedly");
-        }
-    }
-
-    public StudentGlobalSource getStudentGlobalSource() {
+    @Override
+    public StudentGlobalSource getGlobalSource() {
         return studentGlobalSource;
     }
 
-    public void setStudentGlobalSource(StudentGlobalSource studentGlobalSource) {
-        this.studentGlobalSource = studentGlobalSource;
-    }
-
-    private String retrieveIdentifierName() {
+    @Override
+    public String retrieveIdentifierName() {
         return "id";
     }
 
-    private String retrieveTypicalSearchName() {
+    @Override
+    public String retrieveTypicalSearchName() {
         return "full name";
     }
 
-    private String retrieveClassName() {
+    public String retrieveClassName() {
         return "student";
     }
 
-    private String retrieveClassNamePlural() {
+    @Override
+    public String retrieveClassNamePlural() {
         return "students";
     }
-
-    protected InternalServerErrorException buildException(Exception ex,
-            String message) {
-        InternalServerErrorException result = new InternalServerErrorException(
-                message, ex);
-
-        return result;
-    }
-
 }

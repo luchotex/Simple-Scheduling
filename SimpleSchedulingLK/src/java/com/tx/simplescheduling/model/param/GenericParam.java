@@ -5,6 +5,10 @@
  */
 package com.tx.simplescheduling.model.param;
 
+import com.tx.simplescheduling.model.GenericModel;
+import java.util.Set;
+import javax.xml.bind.annotation.XmlElement;
+
 /**
  *
  * @author Luis
@@ -13,6 +17,14 @@ public abstract class GenericParam {
 
     public GenericParam() {
     }
+    
+    public abstract Object getIdentifierField();
 
-    public abstract String buildTypicalSearchField();
+    public abstract Set getRelatedCodeList();
+    
+    public abstract void setRelatedCodeList(Set studentIdList);
+
+    public abstract GenericModel createSavingInstance();
+
+    public abstract Object buildTypicalSearchField();
 }

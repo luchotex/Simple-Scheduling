@@ -37,7 +37,7 @@ public class StudentProcessTest {
         Set<String> codeSet = new TreeSet<String>();
         codeSet.add("class1");
         codeSet.add("class2");
-        student.setClassCodeList(codeSet);
+        student.setRelatedCodeList(codeSet);
         ClassProcess classProcess = buildDefaultClassProcess();
         StudentProcess instance = new StudentProcess();
         Response result = instance.add(student, classProcess);
@@ -79,7 +79,7 @@ public class StudentProcessTest {
         Set<String> codeSet = new TreeSet<String>();
         codeSet.add("class1");
         codeSet.add("class2");
-        student.setClassCodeList(codeSet);
+        student.setRelatedCodeList(codeSet);
         ClassProcess classProcess = null;
         StudentProcess instance = new StudentProcess();
 
@@ -119,7 +119,7 @@ public class StudentProcessTest {
         Set<String> codeSet = new TreeSet<String>();
         codeSet.add("class1");
         codeSet.add("class2");
-        student.setClassCodeList(codeSet);
+        student.setRelatedCodeList(codeSet);
         ClassProcess classProcess = buildDefaultClassProcess();
         StudentProcess instance = new StudentProcess();
         instance.add(student, classProcess);
@@ -144,7 +144,7 @@ public class StudentProcessTest {
         Set<String> codeSet = new TreeSet<String>();
         codeSet.add("class1");
         codeSet.add("class2");
-        student.setClassCodeList(codeSet);
+        student.setRelatedCodeList(codeSet);
         ClassProcess classProcess = buildDefaultClassProcess();
         StudentProcess instance = new StudentProcess();
         instance.add(student, classProcess);
@@ -166,7 +166,7 @@ public class StudentProcessTest {
         Set<String> codeSet = new TreeSet<String>();
         codeSet.add("class1");
         codeSet.add("class2");
-        student.setClassCodeList(codeSet);
+        student.setRelatedCodeList(codeSet);
         ClassProcess classProcess = buildDefaultClassProcess();
         StudentProcess instance = new StudentProcess();
         instance.add(student, classProcess);
@@ -188,7 +188,7 @@ public class StudentProcessTest {
         Set<String> codeSet = new TreeSet<String>();
         codeSet.add("class1");
         codeSet.add("class2");
-        student.setClassCodeList(codeSet);
+        student.setRelatedCodeList(codeSet);
         ClassProcess classProcess = buildDefaultClassProcess();
         StudentProcess instance = new StudentProcess();
         instance.add(student, classProcess);
@@ -215,7 +215,7 @@ public class StudentProcessTest {
         Set<String> codeSet = new TreeSet<String>();
         codeSet.add("class1");
         codeSet.add("class2");
-        student.setClassCodeList(codeSet);
+        student.setRelatedCodeList(codeSet);
         ClassProcess classProcess = buildDefaultClassProcess();
         StudentProcess instance = new StudentProcess();
         instance.add(student, classProcess);
@@ -237,7 +237,7 @@ public class StudentProcessTest {
         Set<String> codeSet = new TreeSet<String>();
         codeSet.add("class1");
         codeSet.add("class2");
-        student.setClassCodeList(codeSet);
+        student.setRelatedCodeList(codeSet);
         ClassProcess classProcess = buildDefaultClassProcess();
         StudentProcess instance = new StudentProcess();
         instance.add(student, classProcess);
@@ -260,7 +260,7 @@ public class StudentProcessTest {
         Set<String> codeSet = new TreeSet<String>();
         codeSet.add("class1");
         codeSet.add("class2");
-        student.setClassCodeList(codeSet);
+        student.setRelatedCodeList(codeSet);
         ClassProcess classProcess = buildDefaultClassProcess();
         StudentProcess instance = new StudentProcess();
         instance.add(student, classProcess);
@@ -283,7 +283,7 @@ public class StudentProcessTest {
         Set<String> codeSet = new TreeSet<String>();
         codeSet.add("class1");
         codeSet.add("class2");
-        student.setClassCodeList(codeSet);
+        student.setRelatedCodeList(codeSet);
         ClassProcess classProcess = buildDefaultClassProcess();
         StudentProcess instance = new StudentProcess();
         instance.add(student, classProcess);
@@ -305,7 +305,7 @@ public class StudentProcessTest {
         Set<String> codeSet = new TreeSet<String>();
         codeSet.add("class1");
         codeSet.add("class2");
-        student.setClassCodeList(codeSet);
+        student.setRelatedCodeList(codeSet);
         ClassProcess classProcess = buildDefaultClassProcess();
         StudentProcess instance = new StudentProcess();
         instance.add(student, classProcess);
@@ -327,12 +327,12 @@ public class StudentProcessTest {
         Set<String> codeSet = new TreeSet<String>();
         codeSet.add("class1");
         codeSet.add("class2");
-        student.setClassCodeList(codeSet);
+        student.setRelatedCodeList(codeSet);
         ClassProcess classProcess = buildDefaultClassProcess();
         ClassSaving classToSave3 = new ClassSaving("class3", "class3", "class3");
-        classProcess.getClassGlobalSource().getIdentifierMap().put(classToSave3.
+        classProcess.getGlobalSource().getIdentifierMap().put(classToSave3.
                 getCode(), classToSave3);
-        classProcess.getClassGlobalSource().getTypicalSearchMap().put(classToSave3.
+        classProcess.getGlobalSource().getTypicalSearchMap().put(classToSave3.
                 getTitle(), classToSave3);
 
         StudentProcess instance = new StudentProcess();
@@ -350,7 +350,7 @@ public class StudentProcessTest {
         codeSet = new TreeSet<String>();
         codeSet.add("class1");
         codeSet.add("class3");
-        student.setClassCodeList(codeSet);
+        student.setRelatedCodeList(codeSet);
 
         result = instance.update(student, classProcess);
 
@@ -390,7 +390,7 @@ public class StudentProcessTest {
         Set<String> codeSet = new TreeSet<String>();
         codeSet.add("class1");
         codeSet.add("class2");
-        student.setClassCodeList(codeSet);
+        student.setRelatedCodeList(codeSet);
         ClassProcess classProcess = null;
         StudentProcess instance = new StudentProcess();
 
@@ -424,13 +424,13 @@ public class StudentProcessTest {
         ClassProcess classProcess = new ClassProcess();
         ClassSaving classToSave1 = new ClassSaving("class1", "class1", "class1");
         ClassSaving classToSave2 = new ClassSaving("class2", "class2", "class2");
-        classProcess.getClassGlobalSource().getIdentifierMap().put(classToSave1.
+        classProcess.getGlobalSource().getIdentifierMap().put(classToSave1.
                 getCode(), classToSave1);
-        classProcess.getClassGlobalSource().getIdentifierMap().put(classToSave2.
+        classProcess.getGlobalSource().getIdentifierMap().put(classToSave2.
                 getCode(), classToSave2);
-        classProcess.getClassGlobalSource().getTypicalSearchMap().put(classToSave1.
+        classProcess.getGlobalSource().getTypicalSearchMap().put(classToSave1.
                 getTitle(), classToSave1);
-        classProcess.getClassGlobalSource().getTypicalSearchMap().put(classToSave2.
+        classProcess.getGlobalSource().getTypicalSearchMap().put(classToSave2.
                 getTitle(), classToSave2);
         return classProcess;
     }

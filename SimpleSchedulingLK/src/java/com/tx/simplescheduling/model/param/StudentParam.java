@@ -5,7 +5,6 @@
  */
 package com.tx.simplescheduling.model.param;
 
-import com.tx.simplescheduling.model.Student;
 import com.tx.simplescheduling.model.StudentSaving;
 import java.util.Set;
 import javax.xml.bind.annotation.XmlElement;
@@ -57,12 +56,12 @@ public class StudentParam extends GenericParam {
         this.lastName = lastName;
     }
 
-    public Set<String> getClassCodeList() {
+    public Set<String> getRelatedCodeList() {
         return classCodeList;
     }
 
     @XmlElement
-    public void setClassCodeList(Set<String> classCodeList) {
+    public void setRelatedCodeList(Set classCodeList) {
         this.classCodeList = classCodeList;
     }
 
@@ -73,6 +72,19 @@ public class StudentParam extends GenericParam {
     @Override
     public String buildTypicalSearchField() {
         return getFirstName() + " " + getLastName();
+    }
+
+    @Override
+    public Integer getIdentifierField() {
+        return id;
+    }
+
+    public Set<String> getClassCodeList() {
+        return classCodeList;
+    }
+
+    public void setClassCodeList(Set<String> classCodeList) {
+        this.classCodeList = classCodeList;
     }
 
 }

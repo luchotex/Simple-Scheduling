@@ -32,12 +32,12 @@ public class ClassParam extends GenericParam {
         this.description = description;
     }
 
-    public Set<Integer> getStudentIdList() {
+    public Set<Integer> getRelatedCodeList() {
         return studentIdList;
     }
 
     @XmlElement
-    public void setStudentIdList(Set<Integer> studentIdList) {
+    public void setRelatedCodeList(Set studentIdList) {
         this.studentIdList = studentIdList;
     }
 
@@ -73,6 +73,19 @@ public class ClassParam extends GenericParam {
     @Override
     public String buildTypicalSearchField() {
         return title;
+    }
+
+    @Override
+    public String getIdentifierField() {
+        return code;
+    }
+
+    public Set<Integer> getStudentIdList() {
+        return studentIdList;
+    }
+
+    public void setStudentIdList(Set<Integer> studentIdList) {
+        this.studentIdList = studentIdList;
     }
 
 }
