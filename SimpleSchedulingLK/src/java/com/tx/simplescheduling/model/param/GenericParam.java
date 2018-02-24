@@ -7,7 +7,6 @@ package com.tx.simplescheduling.model.param;
 
 import com.tx.simplescheduling.model.GenericModel;
 import java.util.Set;
-import javax.xml.bind.annotation.XmlElement;
 
 /**
  *

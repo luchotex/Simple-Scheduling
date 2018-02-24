@@ -7,15 +7,7 @@ package com.tx.simplescheduling.process;
 
 import com.tx.simplescheduling.model.param.ClassParam;
 import com.tx.simplescheduling.model.ClassSaving;
-import com.tx.simplescheduling.model.StudentSaving;
-import com.tx.simplescheduling.model.param.StudentParam;
 import com.tx.simplescheduling.source.ClassGlobalSource;
-import com.tx.simplescheduling.source.StudentGlobalSource;
-import java.util.Map;
-import java.util.Set;
-import javax.ws.rs.BadRequestException;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response;
 
 /**
  *
