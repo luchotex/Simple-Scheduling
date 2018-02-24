@@ -5,23 +5,20 @@
  */
 package com.tx.simplescheduling.resources;
 
-import com.tx.simplescheduling.process.StudentProcess;
-import com.tx.simplescheduling.model.StudentParam;
+import com.tx.simplescheduling.model.param.StudentParam;
 import com.tx.simplescheduling.model.StudentSaving;
+import com.tx.simplescheduling.process.StudentProcess;
 import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
-import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
-import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.ResourceContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -66,16 +63,10 @@ public class StudentResource {
      */
     @GET
     @Path("{id}")
-    @Produces("application/xml")
-    public StudentSaving retrieveStudent(@PathParam("id") Integer id) {
-        try {
-            return getStudentProcess().retrieveStudent(id);
-        } catch (WebApplicationException ex) {
-            throw ex;
-        } catch (Exception ex) {
-            throw new InternalServerErrorException(
-                    "Some error during retrieving the student happens unexpectedly on interface");
-        }
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response retrieveStudent(@PathParam("id") Integer id) {
+        return getStudentProcess().retrieveByIdentifier(id);
+        
     }
 
     /**
@@ -88,17 +79,10 @@ public class StudentResource {
      */
     @GET
     @Path("fullname/{fullName}")
-    @Produces("application/xml")
-    public StudentSaving retrieveStudent(
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response retrieveStudent(
             @PathParam("fullName") String fullName) {
-        try {
-            return getStudentProcess().retrieveStudentByFullName(fullName);
-        } catch (WebApplicationException ex) {
-            throw ex;
-        } catch (Exception ex) {
-            throw new InternalServerErrorException(
-                    "Some error during retrieving the student by full name happens unexpectedly on interface");
-        }
+        return getStudentProcess().retrieveByTypicalSearch(fullName);
     }
 
     /**
@@ -108,16 +92,9 @@ public class StudentResource {
      * @return
      */
     @GET
-    @Produces("application/xml")
-    public Set<StudentSaving> retrieveAllStudents() {
-        try {
-            return getStudentProcess().retrieveAllStudents();
-        } catch (WebApplicationException ex) {
-            throw ex;
-        } catch (Exception ex) {
-            throw new InternalServerErrorException(
-                    "Some error during retrieving ALL the student happens unexpectedly on interface");
-        }
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Set<StudentSaving> retrieveAllStudents() {        
+        return getStudentProcess().retrieveAll();
     }
 
     /**
@@ -129,18 +106,11 @@ public class StudentResource {
      * @return
      */
     @POST
-    @Consumes(MediaType.APPLICATION_XML)
-    @Produces(MediaType.APPLICATION_XML)
-    public StudentSaving createStudent(StudentParam studentParam) {
-        try {
-            return getStudentProcess().addStudent(studentParam,
-                    getClassResource().getClassProcess());
-        } catch (WebApplicationException ex) {
-            throw ex;
-        } catch (Exception ex) {
-            throw new InternalServerErrorException(
-                    "Some error during creation of the student happens unexpectedly on interface");
-        }
+    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response createStudent(StudentParam studentParam) {
+        return getStudentProcess().add(studentParam,
+                getClassResource().getClassProcess());
     }
 
     /**
@@ -152,18 +122,11 @@ public class StudentResource {
      * @return
      */
     @PUT
-    @Consumes(MediaType.APPLICATION_XML)
-    @Produces(MediaType.APPLICATION_XML)
-    public StudentSaving updateStudent(StudentParam studentParam) {
-        try {
-            return getStudentProcess().updateStudent(studentParam,
-                    getClassResource().getClassProcess());
-        } catch (WebApplicationException ex) {
-            throw ex;
-        } catch (Exception ex) {
-            throw new InternalServerErrorException(
-                    "Some error during updating of the student happens unexpectedly on interface");
-        }
+    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response updateStudent(StudentParam studentParam) {
+        return getStudentProcess().update(studentParam,
+                getClassResource().getClassProcess());
     }
 
     /**
@@ -174,17 +137,10 @@ public class StudentResource {
      */
     @DELETE
     @Path("{id}")
-    @Produces("application/xml")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response removeStudent(@PathParam("id") Integer id) {
-        try {
-            return getStudentProcess().removeStudent(id, getClassResource().
-                    getClassProcess());
-        } catch (WebApplicationException ex) {
-            throw ex;
-        } catch (Exception ex) {
-            throw new InternalServerErrorException(
-                    "Some error during deletion the student happens unexpectedly on interface");
-        }
+        return getStudentProcess().remove(id, getClassResource().
+                getClassProcess());
     }
 
     public ClassResource getClassResource() {

@@ -23,7 +23,7 @@ public class ClassGlobalSourceTest {
     }
 
     /**
-     * Test of enrollStudent successful method, of class ClassGlobalSource.
+     * Test of addRelatedElement successful method, of class ClassGlobalSource.
      */
     @Test
     public void testEnrollStudentSuccessfull() {
@@ -34,27 +34,27 @@ public class ClassGlobalSourceTest {
         ClassGlobalSource instance = new ClassGlobalSource();
         ClassSaving classToSave1 = new ClassSaving("class1", "class1", "class1");
         ClassSaving classToSave2 = new ClassSaving("class2", "class2", "class2");
-        instance.getClassCodeMap().put(classToSave1.getCode(),
+        instance.getIdentifierMap().put(classToSave1.getCode(),
                 classToSave1);
-        instance.getClassCodeMap().put(classToSave2.getCode(),
+        instance.getIdentifierMap().put(classToSave2.getCode(),
                 classToSave2);
-        instance.getClassTitleMap().put(classToSave1.getTitle(),
+        instance.getTypicalSearchMap().put(classToSave1.getTitle(),
                 classToSave1);
-        instance.getClassTitleMap().put(classToSave2.getTitle(),
+        instance.getTypicalSearchMap().put(classToSave2.getTitle(),
                 classToSave2);
-        Class result = instance.enrollStudent(code, student);
+        Class result = instance.addRelatedElement(code, student);
 
-        ClassSaving codeClassSaving = instance.getClassCodeMap().get(code);
-        ClassSaving titleClassSaving = instance.getClassTitleMap().get(
+        ClassSaving codeClassSaving = instance.getIdentifierMap().get(code);
+        ClassSaving titleClassSaving = instance.getTypicalSearchMap().get(
                 codeClassSaving.getTitle());
 
         assertNotNull(result);
-        assertEquals(1, codeClassSaving.getStudentSet().size());
-        assertEquals(1, titleClassSaving.getStudentSet().size());
+        assertEquals(1, codeClassSaving.getRelatedElementSet().size());
+        assertEquals(1, titleClassSaving.getRelatedElementSet().size());
     }
 
     /**
-     * Test of enrollStudent null code method, of class ClassGlobalSource.
+     * Test of addRelatedElement null code method, of class ClassGlobalSource.
      */
     @Test(expected = NullPointerException.class)
     public void testEnrollStudentNullCode() {
@@ -63,11 +63,12 @@ public class ClassGlobalSourceTest {
         Student student = new Student(1, "Test name", "test last name");
 
         ClassGlobalSource instance = new ClassGlobalSource();
-        Class result = instance.enrollStudent(code, student);
+        Class result = instance.addRelatedElement(code, student);
     }
 
     /**
-     * Test of enrollStudent null student method, of class ClassGlobalSource.
+     * Test of addRelatedElement null student method, of class
+     * ClassGlobalSource.
      */
     @Test(expected = NullPointerException.class)
     public void testEnrollStudentNullStudent() {
@@ -78,19 +79,20 @@ public class ClassGlobalSourceTest {
         ClassGlobalSource instance = new ClassGlobalSource();
         ClassSaving classToSave1 = new ClassSaving("class1", "class1", "class1");
         ClassSaving classToSave2 = new ClassSaving("class2", "class2", "class2");
-        instance.getClassCodeMap().put(classToSave1.getCode(),
+        instance.getIdentifierMap().put(classToSave1.getCode(),
                 classToSave1);
-        instance.getClassCodeMap().put(classToSave2.getCode(),
+        instance.getIdentifierMap().put(classToSave2.getCode(),
                 classToSave2);
-        instance.getClassTitleMap().put(classToSave1.getTitle(),
+        instance.getTypicalSearchMap().put(classToSave1.getTitle(),
                 classToSave1);
-        instance.getClassTitleMap().put(classToSave2.getTitle(),
+        instance.getTypicalSearchMap().put(classToSave2.getTitle(),
                 classToSave2);
-        Class result = instance.enrollStudent(code, student);
+        Class result = instance.addRelatedElement(code, student);
     }
 
     /**
-     * Test of enrollStudent code not found method, of class ClassGlobalSource.
+     * Test of addRelatedElement code not found method, of class
+     * ClassGlobalSource.
      */
     @Test
     public void testEnrollStudentNotFoundCode() {
@@ -101,21 +103,22 @@ public class ClassGlobalSourceTest {
         ClassGlobalSource instance = new ClassGlobalSource();
         ClassSaving classToSave1 = new ClassSaving("class1", "class1", "class1");
         ClassSaving classToSave2 = new ClassSaving("class2", "class2", "class2");
-        instance.getClassCodeMap().put(classToSave1.getCode(),
+        instance.getIdentifierMap().put(classToSave1.getCode(),
                 classToSave1);
-        instance.getClassCodeMap().put(classToSave2.getCode(),
+        instance.getIdentifierMap().put(classToSave2.getCode(),
                 classToSave2);
-        instance.getClassTitleMap().put(classToSave1.getTitle(),
+        instance.getTypicalSearchMap().put(classToSave1.getTitle(),
                 classToSave1);
-        instance.getClassTitleMap().put(classToSave2.getTitle(),
+        instance.getTypicalSearchMap().put(classToSave2.getTitle(),
                 classToSave2);
-        Class result = instance.enrollStudent(code, student);
+        Class result = instance.addRelatedElement(code, student);
 
         assertNull(result);
     }
 
     /**
-     * Test of enrollStudent code not found method, of class ClassGlobalSource.
+     * Test of addRelatedElement code not found method, of class
+     * ClassGlobalSource.
      */
     @Test
     public void testEnrollStudentNotFoundOnTitleMap() {
@@ -126,20 +129,20 @@ public class ClassGlobalSourceTest {
         ClassGlobalSource instance = new ClassGlobalSource();
         ClassSaving classToSave1 = new ClassSaving("class1", "class1", "class1");
         ClassSaving classToSave2 = new ClassSaving("class2", "class2", "class2");
-        instance.getClassCodeMap().put(classToSave1.getCode(),
+        instance.getIdentifierMap().put(classToSave1.getCode(),
                 classToSave1);
-        instance.getClassCodeMap().put(classToSave2.getCode(),
+        instance.getIdentifierMap().put(classToSave2.getCode(),
                 classToSave2);
-        instance.getClassTitleMap().put(classToSave2.getTitle(),
+        instance.getTypicalSearchMap().put(classToSave2.getTitle(),
                 classToSave2);
-        Class result = instance.enrollStudent(code, student);
+        Class result = instance.addRelatedElement(code, student);
 
-        ClassSaving codeClassSaving = instance.getClassCodeMap().get(code);
-        ClassSaving titleClassSaving = instance.getClassTitleMap().get(
+        ClassSaving codeClassSaving = instance.getIdentifierMap().get(code);
+        ClassSaving titleClassSaving = instance.getTypicalSearchMap().get(
                 codeClassSaving.getTitle());
 
         assertNotNull(result);
-        assertEquals(1, codeClassSaving.getStudentSet().size());
+        assertEquals(1, codeClassSaving.getRelatedElementSet().size());
         assertNull(titleClassSaving);
     }
 
@@ -155,31 +158,31 @@ public class ClassGlobalSourceTest {
         ClassGlobalSource instance = new ClassGlobalSource();
         ClassSaving classToSave1 = new ClassSaving("class1", "class1", "class1");
         ClassSaving classToSave2 = new ClassSaving("class2", "class2", "class2");
-        instance.getClassCodeMap().put(classToSave1.getCode(),
+        instance.getIdentifierMap().put(classToSave1.getCode(),
                 classToSave1);
-        instance.getClassCodeMap().put(classToSave2.getCode(),
+        instance.getIdentifierMap().put(classToSave2.getCode(),
                 classToSave2);
-        instance.getClassTitleMap().put(classToSave1.getTitle(),
+        instance.getTypicalSearchMap().put(classToSave1.getTitle(),
                 classToSave1);
-        instance.getClassTitleMap().put(classToSave2.getTitle(),
+        instance.getTypicalSearchMap().put(classToSave2.getTitle(),
                 classToSave2);
-        Class result = instance.enrollStudent(code, student);
+        Class result = instance.addRelatedElement(code, student);
 
-        ClassSaving codeClassSaving = instance.getClassCodeMap().get(code);
-        ClassSaving titleClassSaving = instance.getClassTitleMap().get(
+        ClassSaving codeClassSaving = instance.getIdentifierMap().get(code);
+        ClassSaving titleClassSaving = instance.getTypicalSearchMap().get(
                 codeClassSaving.getTitle());
 
         assertNotNull(result);
-        assertEquals(1, codeClassSaving.getStudentSet().size());
-        assertEquals(1, titleClassSaving.getStudentSet().size());
+        assertEquals(1, codeClassSaving.getRelatedElementSet().size());
+        assertEquals(1, titleClassSaving.getRelatedElementSet().size());
 
-        instance.disenrollStudent(classToSave1, student);
-        assertEquals(0, codeClassSaving.getStudentSet().size());
-        assertEquals(0, titleClassSaving.getStudentSet().size());
+        instance.removeRelatedElement(classToSave1, student);
+        assertEquals(0, codeClassSaving.getRelatedElementSet().size());
+        assertEquals(0, titleClassSaving.getRelatedElementSet().size());
     }
 
     /**
-     * Test of enrollStudent null class method, of class ClassGlobalSource.
+     * Test of addRelatedElement null class method, of class ClassGlobalSource.
      */
     @Test(expected = NullPointerException.class)
     public void testDisenrollStudentNullClass() {
@@ -188,7 +191,7 @@ public class ClassGlobalSourceTest {
         Student student = new Student(1, "Test name", "test last name");
 
         ClassGlobalSource instance = new ClassGlobalSource();
-        instance.disenrollStudent(classToSave1, student);
+        instance.removeRelatedElement(classToSave1, student);
     }
 
     /**
@@ -203,19 +206,19 @@ public class ClassGlobalSourceTest {
         ClassGlobalSource instance = new ClassGlobalSource();
         ClassSaving classToSave1 = new ClassSaving("class1", "class1", "class1");
         ClassSaving classToSave2 = new ClassSaving("class2", "class2", "class2");
-        instance.getClassCodeMap().put(classToSave1.getCode(),
+        instance.getIdentifierMap().put(classToSave1.getCode(),
                 classToSave1);
-        instance.getClassCodeMap().put(classToSave2.getCode(),
+        instance.getIdentifierMap().put(classToSave2.getCode(),
                 classToSave2);
-        instance.getClassTitleMap().put(classToSave1.getTitle(),
+        instance.getTypicalSearchMap().put(classToSave1.getTitle(),
                 classToSave1);
-        instance.getClassTitleMap().put(classToSave2.getTitle(),
+        instance.getTypicalSearchMap().put(classToSave2.getTitle(),
                 classToSave2);
-        instance.disenrollStudent(classToSave1, student);
+        instance.removeRelatedElement(classToSave1, student);
     }
 
     /**
-     * Test of disenrollStudent class not found method, of class
+     * Test of removeRelatedElement class not found method, of class
      * ClassGlobalSource.
      */
     @Test
@@ -226,35 +229,36 @@ public class ClassGlobalSourceTest {
         ClassGlobalSource instance = new ClassGlobalSource();
         ClassSaving classToSave1 = new ClassSaving("class1", "class1", "class1");
         ClassSaving classToSave2 = new ClassSaving("class2", "class2", "class2");
-        instance.getClassCodeMap().put(classToSave1.getCode(),
+        instance.getIdentifierMap().put(classToSave1.getCode(),
                 classToSave1);
-        instance.getClassCodeMap().put(classToSave2.getCode(),
+        instance.getIdentifierMap().put(classToSave2.getCode(),
                 classToSave2);
-        instance.getClassTitleMap().put(classToSave1.getTitle(),
+        instance.getTypicalSearchMap().put(classToSave1.getTitle(),
                 classToSave1);
-        instance.getClassTitleMap().put(classToSave2.getTitle(),
+        instance.getTypicalSearchMap().put(classToSave2.getTitle(),
                 classToSave2);
-        Class result = instance.enrollStudent(classToSave1.getCode(), student);
+        Class result = instance.addRelatedElement(classToSave1.getCode(),
+                student);
 
-        ClassSaving codeClassSaving = instance.getClassCodeMap().get(
+        ClassSaving codeClassSaving = instance.getIdentifierMap().get(
                 classToSave1.getCode());
-        ClassSaving titleClassSaving = instance.getClassTitleMap().get(
+        ClassSaving titleClassSaving = instance.getTypicalSearchMap().get(
                 codeClassSaving.getTitle());
 
         assertNotNull(result);
-        assertEquals(1, codeClassSaving.getStudentSet().size());
-        assertEquals(1, titleClassSaving.getStudentSet().size());
+        assertEquals(1, codeClassSaving.getRelatedElementSet().size());
+        assertEquals(1, titleClassSaving.getRelatedElementSet().size());
 
         Class anotherClass = new Class("Another code", "another title",
                 "another description");
-        instance.disenrollStudent(anotherClass, student);
+        instance.removeRelatedElement(anotherClass, student);
 
-        assertEquals(1, codeClassSaving.getStudentSet().size());
-        assertEquals(1, titleClassSaving.getStudentSet().size());
+        assertEquals(1, codeClassSaving.getRelatedElementSet().size());
+        assertEquals(1, titleClassSaving.getRelatedElementSet().size());
     }
 
     /**
-     * Test of disenrollStudent code not found method on title map, of class
+     * Test of removeRelatedElement code not found method on title map, of class
      * ClassGlobalSource.
      */
     @Test
@@ -266,29 +270,29 @@ public class ClassGlobalSourceTest {
         ClassGlobalSource instance = new ClassGlobalSource();
         ClassSaving classToSave1 = new ClassSaving("class1", "class1", "class1");
         ClassSaving classToSave2 = new ClassSaving("class2", "class2", "class2");
-        instance.getClassCodeMap().put(classToSave1.getCode(),
+        instance.getIdentifierMap().put(classToSave1.getCode(),
                 classToSave1);
-        instance.getClassCodeMap().put(classToSave2.getCode(),
+        instance.getIdentifierMap().put(classToSave2.getCode(),
                 classToSave2);
-        instance.getClassTitleMap().put(classToSave2.getTitle(),
+        instance.getTypicalSearchMap().put(classToSave2.getTitle(),
                 classToSave2);
-        Class result = instance.enrollStudent(code, student);
+        Class result = instance.addRelatedElement(code, student);
 
-        ClassSaving codeClassSaving = instance.getClassCodeMap().get(code);
-        ClassSaving titleClassSaving = instance.getClassTitleMap().get(
+        ClassSaving codeClassSaving = instance.getIdentifierMap().get(code);
+        ClassSaving titleClassSaving = instance.getTypicalSearchMap().get(
                 codeClassSaving.getTitle());
 
         assertNotNull(result);
-        assertEquals(1, codeClassSaving.getStudentSet().size());
+        assertEquals(1, codeClassSaving.getRelatedElementSet().size());
         assertNull(titleClassSaving);
 
-        instance.disenrollStudent(result, student);
-        assertEquals(0, codeClassSaving.getStudentSet().size());
+        instance.removeRelatedElement(result, student);
+        assertEquals(0, codeClassSaving.getRelatedElementSet().size());
         assertNull(titleClassSaving);
     }
 
     /**
-     * Test of enrollStudent updating successful method, of class
+     * Test of addRelatedElement updating successful method, of class
      * ClassGlobalSource.
      */
     @Test
@@ -300,34 +304,34 @@ public class ClassGlobalSourceTest {
         ClassGlobalSource instance = new ClassGlobalSource();
         ClassSaving classToSave1 = new ClassSaving("class1", "class1", "class1");
         ClassSaving classToSave2 = new ClassSaving("class2", "class2", "class2");
-        instance.getClassCodeMap().put(classToSave1.getCode(),
+        instance.getIdentifierMap().put(classToSave1.getCode(),
                 classToSave1);
-        instance.getClassCodeMap().put(classToSave2.getCode(),
+        instance.getIdentifierMap().put(classToSave2.getCode(),
                 classToSave2);
-        instance.getClassTitleMap().put(classToSave1.getTitle(),
+        instance.getTypicalSearchMap().put(classToSave1.getTitle(),
                 classToSave1);
-        instance.getClassTitleMap().put(classToSave2.getTitle(),
+        instance.getTypicalSearchMap().put(classToSave2.getTitle(),
                 classToSave2);
-        Class result = instance.enrollStudent(code, student);
+        Class result = instance.addRelatedElement(code, student);
 
-        ClassSaving codeClassSaving = instance.getClassCodeMap().get(code);
-        ClassSaving titleClassSaving = instance.getClassTitleMap().get(
+        ClassSaving codeClassSaving = instance.getIdentifierMap().get(code);
+        ClassSaving titleClassSaving = instance.getTypicalSearchMap().get(
                 codeClassSaving.getTitle());
 
         assertNotNull(result);
-        assertEquals(1, codeClassSaving.getStudentSet().size());
-        assertEquals(1, titleClassSaving.getStudentSet().size());
+        assertEquals(1, codeClassSaving.getRelatedElementSet().size());
+        assertEquals(1, titleClassSaving.getRelatedElementSet().size());
 
         student = new Student(1, "Test name after", "test last name after");
 
-        result = instance.enrollStudentUpdating(code, student);
+        result = instance.updatingRelatedElement(code, student);
 
         assertNotNull(result);
-        assertEquals(1, codeClassSaving.getStudentSet().size());
-        assertEquals(1, titleClassSaving.getStudentSet().size());
+        assertEquals(1, codeClassSaving.getRelatedElementSet().size());
+        assertEquals(1, titleClassSaving.getRelatedElementSet().size());
 
         List<Student> studentSaved = new ArrayList<Student>(codeClassSaving.
-                getStudentSet());
+                getRelatedElementSet());
         Student retrieveStudent = studentSaved.get(0);
         assertEquals("Test name after", retrieveStudent.getFirstName());
         assertEquals("test last name after", retrieveStudent.getLastName());
@@ -335,7 +339,7 @@ public class ClassGlobalSourceTest {
     }
 
     /**
-     * Test of enrollStudent updating null code method, of class
+     * Test of addRelatedElement updating null code method, of class
      * ClassGlobalSource.
      */
     @Test(expected = NullPointerException.class)
@@ -345,11 +349,11 @@ public class ClassGlobalSourceTest {
         Student student = new Student(1, "Test name", "test last name");
 
         ClassGlobalSource instance = new ClassGlobalSource();
-        Class result = instance.enrollStudentUpdating(code, student);
+        Class result = instance.updatingRelatedElement(code, student);
     }
 
     /**
-     * Test of enrollStudent updating null student method, of class
+     * Test of addRelatedElement updating null student method, of class
      * ClassGlobalSource.
      */
     @Test(expected = NullPointerException.class)
@@ -361,19 +365,19 @@ public class ClassGlobalSourceTest {
         ClassGlobalSource instance = new ClassGlobalSource();
         ClassSaving classToSave1 = new ClassSaving("class1", "class1", "class1");
         ClassSaving classToSave2 = new ClassSaving("class2", "class2", "class2");
-        instance.getClassCodeMap().put(classToSave1.getCode(),
+        instance.getIdentifierMap().put(classToSave1.getCode(),
                 classToSave1);
-        instance.getClassCodeMap().put(classToSave2.getCode(),
+        instance.getIdentifierMap().put(classToSave2.getCode(),
                 classToSave2);
-        instance.getClassTitleMap().put(classToSave1.getTitle(),
+        instance.getTypicalSearchMap().put(classToSave1.getTitle(),
                 classToSave1);
-        instance.getClassTitleMap().put(classToSave2.getTitle(),
+        instance.getTypicalSearchMap().put(classToSave2.getTitle(),
                 classToSave2);
-        Class result = instance.enrollStudentUpdating(code, student);
+        Class result = instance.updatingRelatedElement(code, student);
     }
 
     /**
-     * Test of enrollStudent Updating code not found method, of class
+     * Test of addRelatedElement Updating code not found method, of class
      * ClassGlobalSource.
      */
     @Test
@@ -385,21 +389,21 @@ public class ClassGlobalSourceTest {
         ClassGlobalSource instance = new ClassGlobalSource();
         ClassSaving classToSave1 = new ClassSaving("class1", "class1", "class1");
         ClassSaving classToSave2 = new ClassSaving("class2", "class2", "class2");
-        instance.getClassCodeMap().put(classToSave1.getCode(),
+        instance.getIdentifierMap().put(classToSave1.getCode(),
                 classToSave1);
-        instance.getClassCodeMap().put(classToSave2.getCode(),
+        instance.getIdentifierMap().put(classToSave2.getCode(),
                 classToSave2);
-        instance.getClassTitleMap().put(classToSave1.getTitle(),
+        instance.getTypicalSearchMap().put(classToSave1.getTitle(),
                 classToSave1);
-        instance.getClassTitleMap().put(classToSave2.getTitle(),
+        instance.getTypicalSearchMap().put(classToSave2.getTitle(),
                 classToSave2);
-        Class result = instance.enrollStudentUpdating(code, student);
+        Class result = instance.updatingRelatedElement(code, student);
 
         assertNull(result);
     }
 
     /**
-     * Test of enrollStudent Updating code not found method, of class
+     * Test of addRelatedElement Updating code not found method, of class
      * ClassGlobalSource.
      */
     @Test
@@ -411,20 +415,20 @@ public class ClassGlobalSourceTest {
         ClassGlobalSource instance = new ClassGlobalSource();
         ClassSaving classToSave1 = new ClassSaving("class1", "class1", "class1");
         ClassSaving classToSave2 = new ClassSaving("class2", "class2", "class2");
-        instance.getClassCodeMap().put(classToSave1.getCode(),
+        instance.getIdentifierMap().put(classToSave1.getCode(),
                 classToSave1);
-        instance.getClassCodeMap().put(classToSave2.getCode(),
+        instance.getIdentifierMap().put(classToSave2.getCode(),
                 classToSave2);
-        instance.getClassTitleMap().put(classToSave2.getTitle(),
+        instance.getTypicalSearchMap().put(classToSave2.getTitle(),
                 classToSave2);
-        Class result = instance.enrollStudentUpdating(code, student);
+        Class result = instance.updatingRelatedElement(code, student);
 
-        ClassSaving codeClassSaving = instance.getClassCodeMap().get(code);
-        ClassSaving titleClassSaving = instance.getClassTitleMap().get(
+        ClassSaving codeClassSaving = instance.getIdentifierMap().get(code);
+        ClassSaving titleClassSaving = instance.getTypicalSearchMap().get(
                 codeClassSaving.getTitle());
 
         assertNotNull(result);
-        assertEquals(1, codeClassSaving.getStudentSet().size());
+        assertEquals(1, codeClassSaving.getRelatedElementSet().size());
         assertNull(titleClassSaving);
     }
 }

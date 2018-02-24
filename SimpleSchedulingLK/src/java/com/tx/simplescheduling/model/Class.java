@@ -5,7 +5,10 @@
  */
 package com.tx.simplescheduling.model;
 
-import javax.xml.bind.annotation.XmlElement;
+import com.tx.simplescheduling.model.param.ClassParam;
+import com.tx.simplescheduling.source.StudentGlobalSource;
+import java.util.Set;
+import java.util.TreeSet;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -13,7 +16,9 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Luis Kupferberg Ruiz
  */
 @XmlRootElement
-public class Class implements Comparable<Class> {
+public class Class extends GenericModel<StudentGlobalSource, 
+        com.tx.simplescheduling.model.Class, Student, ClassParam>
+        implements Comparable<com.tx.simplescheduling.model.Class> {
 
     protected String code;
     protected String title;
@@ -28,15 +33,14 @@ public class Class implements Comparable<Class> {
         this.description = description;
     }
 
-    public int compareTo(Class o) {
+    public int compareTo(com.tx.simplescheduling.model.Class o) {
         return this.getCode().compareTo(o.getCode());
     }
 
     public String getCode() {
         return code;
     }
-
-    @XmlElement
+    
     public void setCode(String code) {
         this.code = code;
     }
@@ -44,8 +48,7 @@ public class Class implements Comparable<Class> {
     public String getTitle() {
         return title;
     }
-
-    @XmlElement
+    
     public void setTitle(String title) {
         this.title = title;
     }
@@ -53,8 +56,7 @@ public class Class implements Comparable<Class> {
     public String getDescription() {
         return description;
     }
-
-    @XmlElement
+    
     public void setDescription(String description) {
         this.description = description;
     }
@@ -85,4 +87,38 @@ public class Class implements Comparable<Class> {
                 : this.code.equals(paramClass.code);
     }
 
+    @Override
+    public void setValues(ClassParam genericModel) {
+        
+    }
+
+    @Override
+    public Set<Student> getRelatedElementSet() {
+        return new TreeSet<Student>();
+    }
+
+    @Override
+    public Object getIdentifier() {
+        return code;
+    }
+
+    @Override
+    public Object getTypicalSearchMember() {
+        return title;
+    }
+
+    @Override
+    public Student createElement(Object identifier) {
+        return new Student((Integer) identifier, null, null);
+    }
+
+    @Override
+    public void setRelatedElementSet(Set relatedIdentifierSet) {
+        
+    }
+
+    @Override
+    public Class createSubInstance() {
+        return new Class();
+    }
 }
